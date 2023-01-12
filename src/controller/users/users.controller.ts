@@ -12,6 +12,16 @@ export class UsersController {
         return this.usersService.findAllUsers(req, res);
     }
 
+    @Get('/join-all-users')
+    findAllJoinUsers(@Req() req, @Res() res) {
+        return this.usersService.findAllJoinUsers(req, res);
+    }
+
+    @Get('/join-all-users-master')
+    findAllJoinUsersMaster(@Req() req, @Res() res) {
+        return this.usersService.findAllJoinUsersMaster(req, res);
+    }
+
     @Get('/:id')
     findOneUser(@Param() params, @Req() req, @Res() res) {
         return this.usersService.findOneUser(params.id, req, res)
@@ -21,5 +31,5 @@ export class UsersController {
     createUser(@Body() body, @Req() req, @Res() res) {
         return this.usersService.createUser(body, req, res);
     }
-    
+
 }
