@@ -16,4 +16,5 @@ export class UsersController {
     findOneUser(@Param() params, @Req() req, @Res() res) {
         return this.usersService.findOneUser(params.id, req, res)
     }
+    
 }
