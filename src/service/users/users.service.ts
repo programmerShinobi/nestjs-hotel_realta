@@ -2,35 +2,35 @@ import { HttpStatus, Injectable, Req, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';  
 import { Users } from 'entities/Users';
-import { timestamp } from 'rxjs';
+
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(Users)
         private userRepository: Repository<Users>
-        ) { }
+    ) { }
         
-        async findAllUsers(req:any, res:any): Promise<any>{
-            return await this.userRepository.find({ order: { userId: -1 } })
-            .then((result:any) => {
-                if (result) {
-                    res.status(HttpStatus.OK).send({
-                        message: "SUCCESS! Data displayed successfully",
-                        results: result
-                    });
-                } else {
-                    res.status(HttpStatus.NOT_FOUND).send({
-                        message: "FAILED! Data not found"
-                    })
-                }
-            }).catch((err:any) => {
-                res.status(HttpStatus.BAD_REQUEST).send({
-                    message: err.message,
-                    error: err.error
+    async findAllUsers(req:any, res:any): Promise<any>{
+        return await this.userRepository.find({ order: { userId: -1 } })
+        .then((result:any) => {
+            if (result) {
+                res.status(HttpStatus.OK).send({
+                    message: "SUCCESS! Data displayed successfully",
+                    results: result
                 });
+            } else {
+                res.status(HttpStatus.NOT_FOUND).send({
+                    message: "FAILED! Data not found"
+                })
+            }
+        }).catch((err:any) => {
+            res.status(HttpStatus.BAD_REQUEST).send({
+                message: err.message,
+                error: err.error
             });
-        }
+        });
+    }
 
     async findOneUser(id: number, req: any, res: any): Promise<any>{
         return await this.userRepository.findOne({ where: { userId: id } })
@@ -53,10 +53,10 @@ export class UsersService {
             });
     }
 
-    async createUser(body, req:any, res:any): Promise<any> {
+    async createUser(body:Users, req:any, res:any): Promise<any> {
         let now = Date();
         return await this.userRepository.save({
-            userFullName: body.user,
+            userFullName: body.userFullName,
             userType: body.userType,
             userCompanyName: body.userCompanyName,
             userEmail: body.userEmail,
@@ -78,6 +78,6 @@ export class UsersService {
                 message: err.message,
                 error: err.error
             })
-        })
+        });
     }
 }
