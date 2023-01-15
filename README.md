@@ -27,7 +27,7 @@ Repository ini berisikan mini project dari Code X Academy
 ### Contributors
 
 - [Rifqi](https://github.com/rifqiramdhani)
-- [Annisa Nuri Nabila](https://github.com/annisann)
+- [Annisa](https://github.com/annisann)
 - [Faqih](https://github.com/programmerShinobi)
 - Zul
 - Eugene
