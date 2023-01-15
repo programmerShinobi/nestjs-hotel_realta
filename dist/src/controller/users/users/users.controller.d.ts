@@ -1,4 +1,4 @@
-import { UsersService } from 'src/service/users/users.service';
+import { UsersService } from 'src/service/users/users/users.service';
 import { bodyUsersDto } from './users.dto';
 export declare class UsersController {
     private usersService;

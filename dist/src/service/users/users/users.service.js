@@ -16,7 +16,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const Users_1 = require("../../../entities/Users");
+const Users_1 = require("../../../../entities/Users");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -26,12 +26,10 @@ let UsersService = class UsersService {
             order: { userId: -1 }
         }).then((result) => {
             if (!result || result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             };
         }).catch((err) => {
@@ -47,12 +45,10 @@ let UsersService = class UsersService {
             relations: ['userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
         }).then((result) => {
             if (!result || result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             };
         }).catch((err) => {
@@ -79,12 +75,10 @@ let UsersService = class UsersService {
             ORDER BY user_id DESC
         `).then((result) => {
             if (!result || result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             };
         }).catch((err) => {
@@ -99,12 +93,10 @@ let UsersService = class UsersService {
             where: { userId: id }
         }).then((result) => {
             if (!result || result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             };
         }).catch((err) => {
@@ -125,10 +117,10 @@ let UsersService = class UsersService {
             userModifiedDate: now
         }).then((result) => {
             if (!result) {
-                throw new common_1.BadRequestException("Data insert failed");
+                throw new common_1.BadRequestException('Data insert failed');
             }
             return {
-                message: "Data inserted successfully",
+                message: 'Data inserted successfully',
                 results: result
             };
         }).catch((err) => {
@@ -149,11 +141,11 @@ let UsersService = class UsersService {
             userModifiedDate: now
         }).then(async (result) => {
             if (!result) {
-                throw new common_1.NotFoundException("Data update failed");
+                throw new common_1.BadRequestException('Data update failed');
             }
             let dataUpdated = await this.usersRepository.findOneBy({ userId: id });
             return {
-                message: "Data updated successfully",
+                message: 'Data updated successfully',
                 results: dataUpdated
             };
         }).catch((err) => {
@@ -164,17 +156,11 @@ let UsersService = class UsersService {
         });
     }
     async deleteUsers(id) {
-        if (Number(id)) {
-            let findId = await this.usersRepository.findOneBy({ userId: id });
-            if (!findId) {
-                throw new common_1.NotFoundException(`Data user with ID: ${id} not found`);
-            }
-        }
-        else {
-            throw new common_1.BadRequestException(`Data with ID: ${id} must be number`);
-        }
         return await this.usersRepository.delete(id)
             .then((result) => {
+            if (!result.raws || result == '') {
+                throw new common_1.BadRequestException('Data not found');
+            }
             return {
                 message: `Data deleted with ID : ${id} successfull`,
                 results: result

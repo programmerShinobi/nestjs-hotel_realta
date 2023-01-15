@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Delete, UsePipes} from '@nestjs/common';
-import { UsersService } from 'src/service/users/users.service';
+import { UsersService } from 'src/service/users/users/users.service'; 
 import { ValidationPipe } from '@nestjs/common';
 import { bodyUsersDto } from './users.dto'; // Data Transfer Object
 

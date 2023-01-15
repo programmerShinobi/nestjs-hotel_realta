@@ -2,8 +2,6 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Users } from 'entities/Users';
-import { forkJoin } from 'rxjs';
-import { join } from 'path';
 
 @Injectable()
 export class UsersService {
@@ -14,15 +12,13 @@ export class UsersService {
         
     async findAllUsers(): Promise<any>{
         return await this.usersRepository.find({
-            order: { userId: -1 }
+            order: { userId: -1 } // -1 => DESC || 1 => ASC
         }).then((result: any) => {
             if (!result|| result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             }
         }).catch((err: any) => {
@@ -39,12 +35,10 @@ export class UsersService {
             relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
         }).then((result: any) => {
             if (!result|| result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             }
         }).catch((err: any) => {
@@ -72,12 +66,10 @@ export class UsersService {
             ORDER BY user_id DESC
         `).then((result: any) => {
             if (!result|| result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             }
         }).catch((err: any) => {
@@ -93,12 +85,10 @@ export class UsersService {
             where: { userId: id }
         }).then((result: any) => {
             if (!result|| result == '') {
-                return {
-                    message: "Data not found"
-                };
+                throw new NotFoundException('Data not found');
             }
             return {
-                message: "Data displayed successfully",
+                message: 'Data displayed successfully',
                 results: result
             }
         }).catch((err: any) => {
@@ -120,10 +110,10 @@ export class UsersService {
             userModifiedDate: now // create date default : now
         }).then((result: any) => {
             if (!result) {
-                throw new BadRequestException("Data insert failed");
+                throw new BadRequestException('Data insert failed');
             }
             return {
-                message: "Data inserted successfully",
+                message: 'Data inserted successfully',
                 results: result
             }
         }).catch((err: any) => {
@@ -145,12 +135,12 @@ export class UsersService {
             userModifiedDate: now // create date default : now
         }).then(async (result: any) => {
             if (!result) {
-                throw new NotFoundException("Data update failed");
+                throw new BadRequestException('Data update failed');
             }
 
             let dataUpdated = await this.usersRepository.findOneBy({ userId: id });
             return {
-                message: "Data updated successfully",
+                message: 'Data updated successfully',
                 results: dataUpdated
             }
         }).catch((err: any) => {
@@ -162,25 +152,20 @@ export class UsersService {
     }
 
     async deleteUsers(id: number): Promise<any>{
-        if (Number(id)) {
-            let findId = await this.usersRepository.findOneBy({ userId: id })
-            if (!findId) {
-                throw new NotFoundException(`Data user with ID: ${id} not found`);
-            }        
-        } else {
-            throw new BadRequestException(`Data with ID: ${id} must be number`);
-        }
         return await this.usersRepository.delete(id)
-        .then((result: any) => {
-            return {
-                message: `Data deleted with ID : ${id} successfull`,
-                results: result
-            }
-        }).catch((err: any) => {
-            return {
-                message: err.message,
-                error: err.name
-            };
-        })
+            .then((result: any) => {
+                if (!result.raws || result == '') {
+                    throw new BadRequestException('Data not found')
+                }
+                return {
+                    message: `Data deleted with ID : ${id} successfull`,
+                    results: result
+                }
+            }).catch((err: any) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                };
+            });
     }
 }
