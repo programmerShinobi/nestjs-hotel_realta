@@ -14,7 +14,7 @@ export class UsersService {
         return await this.usersRepository.find({
             order: { userId: -1 } // -1 => DESC || 1 => ASC
         }).then((result: any) => {
-            if (!result|| result == '') {
+            if (!result) {
                 throw new NotFoundException('Data not found');
             }
             return {
@@ -34,7 +34,7 @@ export class UsersService {
             order: { userId: -1 },
             relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
         }).then((result: any) => {
-            if (!result|| result == '') {
+            if (!result) {
                 throw new NotFoundException('Data not found');
             }
             return {
@@ -65,7 +65,7 @@ export class UsersService {
             LEFT JOIN master.regions mr ON mr.region_code = mc.country_region_id
             ORDER BY user_id DESC
         `).then((result: any) => {
-            if (!result|| result == '') {
+            if (!result) {
                 throw new NotFoundException('Data not found');
             }
             return {
@@ -84,7 +84,7 @@ export class UsersService {
         return await this.usersRepository.findOne({
             where: { userId: id }
         }).then((result: any) => {
-            if (!result|| result == '') {
+            if (!result) {
                 throw new NotFoundException('Data not found');
             }
             return {
@@ -134,7 +134,7 @@ export class UsersService {
             userPhoneNumber: data.userPhoneNumber,
             userModifiedDate: now // create date default : now
         }).then(async (result: any) => {
-            if (!result) {
+            if (!result.affected) {
                 throw new BadRequestException('Data update failed');
             }
 
@@ -153,19 +153,20 @@ export class UsersService {
 
     async deleteUsers(id: number): Promise<any>{
         return await this.usersRepository.delete(id)
-            .then((result: any) => {
-                if (!result.raws || result == '') {
-                    throw new BadRequestException('Data not found')
-                }
+        .then((result: any) => {
+            if (!result.affected) {
+                throw new NotFoundException('Data not found');
+            } else {
                 return {
-                    message: `Data deleted with ID : ${id} successfull`,
-                    results: result
+                    message: `Data deleted with ID : ${id} successfully`
                 }
-            }).catch((err: any) => {
-                return {
-                    message: err.message,
-                    error: err.name
-                };
-            });
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        })
     }
+
 }

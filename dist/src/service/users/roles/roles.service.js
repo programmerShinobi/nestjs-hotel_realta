@@ -80,7 +80,7 @@ let RolesService = class RolesService {
         return await this.rolesRepository.save({
             roleName: data.roleName
         }).then((result) => {
-            if (!result.raws || result.raws == '') {
+            if (!result || result == '') {
                 throw new common_1.BadRequestException('Data insert failed');
             }
             return {
@@ -98,7 +98,7 @@ let RolesService = class RolesService {
         return await this.rolesRepository.update(id, {
             roleName: data.roleName
         }).then(async (result) => {
-            if (!result.raws || result.raws == '') {
+            if (!result.affected) {
                 throw new common_1.BadRequestException('Data update failed');
             }
             let dataUpdated = await this.rolesRepository.findOneBy({ roleId: id });
@@ -116,12 +116,11 @@ let RolesService = class RolesService {
     async deleteRoles(id) {
         return await this.rolesRepository.delete(id)
             .then((result) => {
-            if (!result.raws || result.raws == '') {
-                throw new common_1.BadRequestException('Data not found');
+            if (!result.affected) {
+                throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: 'Data deleted successfully',
-                results: result
+                message: `Data deleted with ID : ${id} successfully`
             };
         }).catch((err) => {
             return {

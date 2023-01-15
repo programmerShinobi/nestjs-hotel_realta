@@ -72,7 +72,7 @@ export class RolesService {
         return await this.rolesRepository.save({
             roleName: data.roleName
         }).then((result: any) => {
-            if (!result.raws || result.raws == '') {
+            if (!result || result == '') {
                 throw new BadRequestException('Data insert failed');
             }
             return {
@@ -91,7 +91,7 @@ export class RolesService {
         return await this.rolesRepository.update(id, {
             roleName: data.roleName
         }).then(async(result:any) => {
-            if (!result.raws || result.raws == '') {
+            if (!result.affected) {
                 throw new BadRequestException('Data update failed');
             }
 
@@ -111,12 +111,11 @@ export class RolesService {
     async deleteRoles(id: number): Promise<any>{
         return await this.rolesRepository.delete(id)
         .then((result:any) => {
-            if (!result.raws || result.raws == '') {
-                throw new BadRequestException('Data not found');
+            if (!result.affected) {
+                throw new NotFoundException('Data not found');
             }
             return {
-                message: 'Data deleted successfully',
-                results: result
+                message: `Data deleted with ID : ${id} successfully`
             }
         }).catch((err: any) => {
             return {

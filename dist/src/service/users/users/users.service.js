@@ -25,7 +25,7 @@ let UsersService = class UsersService {
         return await this.usersRepository.find({
             order: { userId: -1 }
         }).then((result) => {
-            if (!result || result == '') {
+            if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
@@ -44,7 +44,7 @@ let UsersService = class UsersService {
             order: { userId: -1 },
             relations: ['userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
         }).then((result) => {
-            if (!result || result == '') {
+            if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
@@ -74,7 +74,7 @@ let UsersService = class UsersService {
             LEFT JOIN master.regions mr ON mr.region_code = mc.country_region_id
             ORDER BY user_id DESC
         `).then((result) => {
-            if (!result || result == '') {
+            if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
@@ -92,7 +92,7 @@ let UsersService = class UsersService {
         return await this.usersRepository.findOne({
             where: { userId: id }
         }).then((result) => {
-            if (!result || result == '') {
+            if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
@@ -140,7 +140,7 @@ let UsersService = class UsersService {
             userPhoneNumber: data.userPhoneNumber,
             userModifiedDate: now
         }).then(async (result) => {
-            if (!result) {
+            if (!result.affected) {
                 throw new common_1.BadRequestException('Data update failed');
             }
             let dataUpdated = await this.usersRepository.findOneBy({ userId: id });
@@ -158,13 +158,14 @@ let UsersService = class UsersService {
     async deleteUsers(id) {
         return await this.usersRepository.delete(id)
             .then((result) => {
-            if (!result.raws || result == '') {
-                throw new common_1.BadRequestException('Data not found');
+            if (!result.affected) {
+                throw new common_1.NotFoundException('Data not found');
             }
-            return {
-                message: `Data deleted with ID : ${id} successfull`,
-                results: result
-            };
+            else {
+                return {
+                    message: `Data deleted with ID : ${id} successfully`
+                };
+            }
         }).catch((err) => {
             return {
                 message: err.message,
