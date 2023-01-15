@@ -2,10 +2,10 @@ import {
   Column,
   Entity,
   Index,
-  ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { CategoryGroup } from "./CategoryGroup";
+import { PolicyCategoryGroup } from "./PolicyCategoryGroup";
 
 @Index("poli_id_pk", ["poliId"], { unique: true })
 @Entity("policy", { schema: "master" })
@@ -27,6 +27,9 @@ export class Policy {
   })
   poliDescription: string | null;
 
-  @ManyToMany(() => CategoryGroup, (categoryGroup) => categoryGroup.policies)
-  categoryGroups: CategoryGroup[];
+  @OneToOne(
+    () => PolicyCategoryGroup,
+    (policyCategoryGroup) => policyCategoryGroup.pocaPoli
+  )
+  policyCategoryGroup: PolicyCategoryGroup;
 }

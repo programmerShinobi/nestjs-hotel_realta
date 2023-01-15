@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { Employee } from "./Employee";
 
-@Index("job_role_pkey", ["joroId"], { unique: true })
+@Index("pk_joro_id", ["joroId"], { unique: true })
 @Index("job_role_joro_name_key", ["joroName"], { unique: true })
 @Entity("job_role", { schema: "humanresource" })
 export class JobRole {
@@ -25,6 +25,7 @@ export class JobRole {
   @Column("timestamp without time zone", {
     name: "joro_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   joroModifiedDate: Date | null;
 

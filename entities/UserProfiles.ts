@@ -39,7 +39,7 @@ export class UserProfiles {
   })
   usproMaritalStatus: string | null;
 
-  @Column("character", { name: "uspro_gender_", nullable: true, length: 1 })
+  @Column("character", { name: "uspro_gender", nullable: true, length: 1 })
   usproGender: string | null;
 
   @ManyToOne(() => Address, (address) => address.userProfiles)

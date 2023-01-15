@@ -10,16 +10,11 @@ import { Department } from "./Department";
 import { Employee } from "./Employee";
 import { Shift } from "./Shift";
 
-@Index("employee_department_history_pkey", ["edhiEmpId", "edhiId"], {
-  unique: true,
-})
+@Index("pk_edhi_id", ["edhiId"], { unique: true })
 @Entity("employee_department_history", { schema: "humanresource" })
 export class EmployeeDepartmentHistory {
   @PrimaryGeneratedColumn({ type: "integer", name: "edhi_id" })
   edhiId: number;
-
-  @Column("integer", { primary: true, name: "edhi_emp_id" })
-  edhiEmpId: number;
 
   @Column("timestamp without time zone", {
     name: "edhi_start_date",
@@ -36,6 +31,7 @@ export class EmployeeDepartmentHistory {
   @Column("timestamp without time zone", {
     name: "edhi_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   edhiModifiedDate: Date | null;
 

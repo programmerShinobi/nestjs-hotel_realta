@@ -2,13 +2,11 @@ import {
   Column,
   Entity,
   Index,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Facilities } from "./Facilities";
-import { Policy } from "./Policy";
+import { PolicyCategoryGroup } from "./PolicyCategoryGroup";
 
 @Index("cagro_id_pk", ["cagroId"], { unique: true })
 @Index("category_group_cagro_name_key", ["cagroName"], { unique: true })
@@ -56,14 +54,9 @@ export class CategoryGroup {
   @OneToMany(() => Facilities, (facilities) => facilities.faciCagro)
   facilities: Facilities[];
 
-  @ManyToMany(() => Policy, (policy) => policy.categoryGroups)
-  @JoinTable({
-    name: "policy_category_group",
-    joinColumns: [{ name: "poca_cagro_id", referencedColumnName: "cagroId" }],
-    inverseJoinColumns: [
-      { name: "poca_poli_id", referencedColumnName: "poliId" },
-    ],
-    schema: "master",
-  })
-  policies: Policy[];
+  @OneToMany(
+    () => PolicyCategoryGroup,
+    (policyCategoryGroup) => policyCategoryGroup.pocaCagro
+  )
+  policyCategoryGroups: PolicyCategoryGroup[];
 }

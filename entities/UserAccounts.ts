@@ -1,15 +1,15 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Entitas } from "./Entitas";
+import { Entities } from "./Entities";
 import { Users } from "./Users";
 
 @Index("user_accounts_usac_account_number_key", ["usacAccountNumber"], {
   unique: true,
 })
-@Index("user_accounts_pk", ["usacEntitasId", "usacUserId"], { unique: true })
+@Index("user_accounts_pk", ["usacEntityId", "usacUserId"], { unique: true })
 @Entity("user_accounts", { schema: "payment" })
 export class UserAccounts {
-  @Column("integer", { primary: true, name: "usac_entitas_id" })
-  usacEntitasId: number;
+  @Column("integer", { primary: true, name: "usac_entity_id" })
+  usacEntityId: number;
 
   @Column("integer", { primary: true, name: "usac_user_id" })
   usacUserId: number;
@@ -41,15 +41,16 @@ export class UserAccounts {
   @Column("timestamp without time zone", {
     name: "usac_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   usacModifiedDate: Date | null;
 
-  @ManyToOne(() => Entitas, (entitas) => entitas.userAccounts, {
+  @ManyToOne(() => Entities, (entities) => entities.userAccounts, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "usac_entitas_id", referencedColumnName: "entitasId" }])
-  usacEntitas: Entitas;
+  @JoinColumn([{ name: "usac_entity_id", referencedColumnName: "entityId" }])
+  usacEntity: Entities;
 
   @ManyToOne(() => Users, (users) => users.userAccounts, {
     onDelete: "CASCADE",

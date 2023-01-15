@@ -47,6 +47,7 @@ export class PaymentTransaction {
   @Column("timestamp without time zone", {
     name: "patr_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   patrModifiedDate: Date | null;
 

@@ -4,8 +4,10 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { BookingOrderDetail } from "./BookingOrderDetail";
 import { Hotels } from "./Hotels";
 import { Users } from "./Users";
 
@@ -89,6 +91,12 @@ export class BookingOrders {
     length: 15,
   })
   boorStatus: string | null;
+
+  @OneToMany(
+    () => BookingOrderDetail,
+    (bookingOrderDetail) => bookingOrderDetail.borderBoor
+  )
+  bookingOrderDetails: BookingOrderDetail[];
 
   @ManyToOne(() => Hotels, (hotels) => hotels.bookingOrders, {
     onDelete: "CASCADE",

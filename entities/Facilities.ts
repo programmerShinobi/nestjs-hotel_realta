@@ -85,6 +85,7 @@ export class Facilities {
   @Column("timestamp without time zone", {
     name: "faci_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   faciModifiedDate: Date | null;
 

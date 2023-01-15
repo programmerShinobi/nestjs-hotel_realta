@@ -14,6 +14,6 @@ export class Members {
   })
   membDescription: string | null;
 
-  @OneToMany(() => UserMembers, (userMembers) => userMembers.usmeMembName2)
+  @OneToMany(() => UserMembers, (userMembers) => userMembers.usmeMembName)
   userMembers: UserMembers[];
 }

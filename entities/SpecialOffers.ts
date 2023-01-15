@@ -58,6 +58,7 @@ export class SpecialOffers {
   @Column("timestamp without time zone", {
     name: "spof_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   spofModifiedDate: Date | null;
 

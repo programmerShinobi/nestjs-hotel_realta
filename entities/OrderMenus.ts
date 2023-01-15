@@ -54,6 +54,7 @@ export class OrderMenus {
   @Column("timestamp without time zone", {
     name: "orme_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   ormeModifiedDate: Date | null;
 

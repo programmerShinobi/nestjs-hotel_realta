@@ -1,6 +1,9 @@
-import { Body, Controller, Get, Param, Post, Req, Res} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Delete, UsePipes} from '@nestjs/common';
 import { UsersService } from 'src/service/users/users.service';
+import { ValidationPipe } from '@nestjs/common';
+import { bodyUsersDto } from './users.dto'; // Data Transfer Object
 
+@UsePipes(new ValidationPipe())
 @Controller('users')
 export class UsersController {
     constructor(
@@ -8,28 +11,37 @@ export class UsersController {
     ) { }
 
     @Get()
-    findAllUsers(@Req() req, @Res() res) {
-        return this.usersService.findAllUsers(req, res);
+    findAllUsers() {
+        return this.usersService.findAllUsers();
     }
 
-    @Get('/join-all-users')
-    findAllJoinUsers(@Req() req, @Res() res) {
-        return this.usersService.findAllJoinUsers(req, res);
+    @Get('join-all-users')
+    findAllJoinUsers() {
+        return this.usersService.findAllJoinUsers();
     }
 
-    @Get('/join-all-users-master')
-    findAllJoinUsersMaster(@Req() req, @Res() res) {
-        return this.usersService.findAllJoinUsersMaster(req, res);
+    @Get('join-all-users-master')
+    findAllJoinUsersMaster() {
+        return this.usersService.findAllJoinUsersMaster();
     }
 
-    @Get('/:id')
-    findOneUser(@Param() params, @Req() req, @Res() res) {
-        return this.usersService.findOneUser(params.id, req, res)
+    @Get(':id')
+    findOneUser(@Param() params) {
+        return this.usersService.findOneUser(params.id)
     }
-    
+
     @Post()
-    createUser(@Body() body, @Req() req, @Res() res) {
-        return this.usersService.createUser(body, req, res);
+    createUsers(@Body() body: bodyUsersDto) {
+        return this.usersService.createUsers(body);
     }
 
+    @Put(':id')
+    updateUsers(@Param() params, @Body() body: bodyUsersDto) {
+        return this.usersService.updateUsers(params.id, body)
+    }
+
+    @Delete(':id')
+    deleteUsers(@Param() params) {
+        return this.usersService.deleteUsers(params.id);
+    }
 }

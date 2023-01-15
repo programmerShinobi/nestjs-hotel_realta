@@ -42,6 +42,7 @@ export class PriceItems {
   @Column("timestamp without time zone", {
     name: "prit_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   pritModifiedDate: Date | null;
 

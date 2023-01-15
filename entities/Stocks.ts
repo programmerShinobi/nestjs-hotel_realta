@@ -63,6 +63,7 @@ export class Stocks {
   @Column("timestamp without time zone", {
     name: "stock_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   stockModifiedDate: Date | null;
 

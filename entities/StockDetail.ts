@@ -13,12 +13,9 @@ import { Stocks } from "./Stocks";
 @Index("stock_detail_stod_barcode_number_key", ["stodBarcodeNumber"], {
   unique: true,
 })
-@Index("stod_id_pk", ["stodId", "stodStockId"], { unique: true })
+@Index("stod_id_pk", ["stodId"], { unique: true })
 @Entity("stock_detail", { schema: "purchasing" })
 export class StockDetail {
-  @Column("integer", { primary: true, name: "stod_stock_id" })
-  stodStockId: number;
-
   @PrimaryGeneratedColumn({ type: "integer", name: "stod_id" })
   stodId: number;
 

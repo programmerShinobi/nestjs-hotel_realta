@@ -45,6 +45,7 @@ export class Hotels {
   @Column("timestamp without time zone", {
     name: "hotel_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   hotelModifiedDate: Date | null;
 

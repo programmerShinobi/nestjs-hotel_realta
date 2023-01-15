@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Users } from "./Users";
 
-@Index("pk_uspa_user_id", ["uspaUserId"], { unique: true })
+@Index("user_password_pkey", ["uspaUserId"], { unique: true })
 @Entity("user_password", { schema: "users" })
 export class UserPassword {
   @PrimaryGeneratedColumn({ type: "integer", name: "uspa_user_id" })

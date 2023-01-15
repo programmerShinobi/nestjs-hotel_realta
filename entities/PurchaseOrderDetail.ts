@@ -8,12 +8,9 @@ import {
 } from "typeorm";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 
-@Index("pode_id_pk", ["podeId", "podePoheId"], { unique: true })
+@Index("pode_id_pk", ["podeId"], { unique: true })
 @Entity("purchase_order_detail", { schema: "purchasing" })
 export class PurchaseOrderDetail {
-  @Column("integer", { primary: true, name: "pode_pohe_id" })
-  podePoheId: number;
-
   @PrimaryGeneratedColumn({ type: "integer", name: "pode_id" })
   podeId: number;
 
@@ -38,6 +35,7 @@ export class PurchaseOrderDetail {
   @Column("timestamp without time zone", {
     name: "pode_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   podeModifiedDate: Date | null;
 

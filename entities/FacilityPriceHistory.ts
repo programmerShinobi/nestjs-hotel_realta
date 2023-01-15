@@ -9,12 +9,9 @@ import {
 import { Facilities } from "./Facilities";
 import { Users } from "./Users";
 
-@Index("facility_price_history_pk", ["faphFaciId", "faphId"], { unique: true })
+@Index("facility_price_history_pk", ["faphId"], { unique: true })
 @Entity("facility_price_history", { schema: "hotel" })
 export class FacilityPriceHistory {
-  @Column("integer", { primary: true, name: "faph_faci_id" })
-  faphFaciId: number;
-
   @PrimaryGeneratedColumn({ type: "integer", name: "faph_id" })
   faphId: number;
 

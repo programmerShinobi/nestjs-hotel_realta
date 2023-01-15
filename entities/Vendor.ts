@@ -20,11 +20,11 @@ export class Vendor {
   })
   vendorName: string | null;
 
-  @Column("boolean", { name: "vendor_active", nullable: true })
-  vendorActive: boolean | null;
+  @Column("integer", { name: "vendor_active", nullable: true })
+  vendorActive: number | null;
 
-  @Column("boolean", { name: "vendor_priority", nullable: true })
-  vendorPriority: boolean | null;
+  @Column("integer", { name: "vendor_priority", nullable: true })
+  vendorPriority: number | null;
 
   @Column("timestamp without time zone", {
     name: "vendor_register_date",
@@ -42,6 +42,7 @@ export class Vendor {
   @Column("timestamp without time zone", {
     name: "vendor_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   vendorModifiedDate: Date | null;
 

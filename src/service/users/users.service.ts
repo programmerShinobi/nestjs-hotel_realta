@@ -1,67 +1,62 @@
-import { HttpStatus, Injectable, Req, Res } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm';  
+import { Repository } from 'typeorm'
 import { Users } from 'entities/Users';
-
+import { forkJoin } from 'rxjs';
+import { join } from 'path';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(Users)
-        private userRepository: Repository<Users>
+        private usersRepository: Repository<Users>
     ) { }
         
-    async findAllUsers(req:any, res:any): Promise<any>{
-        return await this.userRepository.find({ order: { userId: -1 } })
-        .then((result:any) => {
-            if (result) {
-                res.status(HttpStatus.OK).send({
-                    message: "SUCCESS! Data displayed successfully",
-                    results: result
-                });
-            } else {
-                res.status(HttpStatus.NOT_FOUND).send({
-                    message: "FAILED! Data not found"
-                })
+    async findAllUsers(): Promise<any>{
+        return await this.usersRepository.find({
+            order: { userId: -1 }
+        }).then((result: any) => {
+            if (!result|| result == '') {
+                return {
+                    message: "Data not found"
+                };
             }
-        }).catch((err:any) => {
-            res.status(HttpStatus.BAD_REQUEST).send({
+            return {
+                message: "Data displayed successfully",
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
                 message: err.message,
-                error: err.error
-            });
+                error: err.name
+            };
         });
     }
 
-    async findAllJoinUsers(req: any, res: any): Promise<any>{
-        return await this.userRepository.query(`
-            SELECT * FROM users.users uuu
-            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
-            LEFT JOIN users.roles ur ON ur.role_id = uur.usro_role_id
-            LEFT JOIN users.user_bonus_points uubp ON uubp.ubpo_user_id = uuu.user_id
-            LEFT JOIN users.user_password uup ON uup.uspa_user_id = uuu.user_id
-            LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
-            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-        `).then((result: any) => {
-            if (result) {
-                res.status(HttpStatus.OK).send({
-                    message: "Data displayed successfully",
-                    results: result
-                });
-            } else {
-                res.status(HttpStatus.NOT_FOUND).send({
+    async findAllJoinUsers(): Promise<any>{
+        return await this.usersRepository.find({
+            order: { userId: -1 },
+            relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
+        }).then((result: any) => {
+            if (!result|| result == '') {
+                return {
                     message: "Data not found"
-                });
+                };
+            }
+            return {
+                message: "Data displayed successfully",
+                results: result
             }
         }).catch((err: any) => {
-            res.status(HttpStatus.BAD_REQUEST).send({
+            return {
                 message: err.message,
-                error: err.error
-            })
-        })
+                error: err.name
+            };
+        });
     }
 
-    async findAllJoinUsersMaster(req: any, res: any): Promise<any> {
-        return await this.userRepository.query(`
+    async findAllJoinUsersMaster(): Promise<any> {
+        return await this.usersRepository.query(`
             SELECT * FROM users.users uuu
             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
             LEFT JOIN users.roles ur ON ur.role_id = uur.usro_role_id
@@ -74,71 +69,118 @@ export class UsersService {
             LEFT JOIN master.provinces mp ON mp.prov_id = ma.addr_prov_id
             LEFT JOIN master.country mc ON mc.country_id = mp.prov_country_id
             LEFT JOIN master.regions mr ON mr.region_code = mc.country_region_id
+            ORDER BY user_id DESC
         `).then((result: any) => {
-            if (result) {
-                res.status(HttpStatus.OK).send({
-                    message: "Data displayed successfully",
-                    results: result
-                });
-            } else {
-                res.status(HttpStatus.NOT_FOUND).send({
+            if (!result|| result == '') {
+                return {
                     message: "Data not found"
-                });
+                };
             }
-        }).catch((err) => {
-            res.status(HttpStatus.BAD_REQUEST).send({
-                message: err.message,
-                error: err.error
-            });
-        });
-    }
-
-    async findOneUser(id: number, req: any, res: any): Promise<any>{
-        return await this.userRepository.findOne({ where: { userId: id } })
-            .then((result:any) => {
-                if (result) {
-                    res.status(HttpStatus.OK).send({
-                        message: "SUCCESS! Data displayed successfully",
-                        result: result
-                    });
-                } else {
-                    res.status(HttpStatus.NOT_FOUND).send({
-                        message: "FAILED! Data not found"
-                    });
-                }
-            }).catch((err:any) => {
-                res.status(HttpStatus.BAD_REQUEST).send({
-                    message: err.message,
-                    error: err.error
-                });
-            });
-    }
-
-    async createUser(body:Users, req:any, res:any): Promise<any> {
-        let now = Date();
-        return await this.userRepository.save({
-            userFullName: body.userFullName,
-            userType: body.userType,
-            userCompanyName: body.userCompanyName,
-            userEmail: body.userEmail,
-            userPhoneNumber: body.userPhoneNumber,
-            userModifiedDate: now
-        }).then((result: any) => {
-            if (result) {
-                res.status(HttpStatus.OK).send({
-                    message: "SUCCESS! Data inserted successfully",
-                    result: result
-                });
-            } else {
-                res.status(HttpStatus.NOT_ACCEPTABLE).send({
-                    message: "FAILED! Data insert invalid"
-                });
+            return {
+                message: "Data displayed successfully",
+                results: result
             }
         }).catch((err: any) => {
-            res.status(HttpStatus.NOT_ACCEPTABLE).send({
+            return {
                 message: err.message,
-                error: err.error
-            })
+                error: err.name
+            };
         });
+    }
+
+    async findOneUser(id: number): Promise<any>{
+        return await this.usersRepository.findOne({
+            where: { userId: id }
+        }).then((result: any) => {
+            if (!result|| result == '') {
+                return {
+                    message: "Data not found"
+                };
+            }
+            return {
+                message: "Data displayed successfully",
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+
+    async createUsers(data: Users): Promise<any> {
+        let now = new Date();
+        return await this.usersRepository.save({
+            userFullName: data.userFullName,
+            userType: data.userType,
+            userCompanyName: data.userCompanyName,
+            userEmail: data.userEmail,
+            userPhoneNumber: data.userPhoneNumber,
+            userModifiedDate: now // create date default : now
+        }).then((result: any) => {
+            if (!result) {
+                throw new BadRequestException("Data insert failed");
+            }
+            return {
+                message: "Data inserted successfully",
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+
+    async updateUsers(id: number, data: Users): Promise<any>{        
+        let now = new Date();
+        return await this.usersRepository.update(id, {
+            userFullName: data.userFullName,
+            userType: data.userType,
+            userCompanyName: data.userCompanyName,
+            userEmail: data.userEmail,
+            userPhoneNumber: data.userPhoneNumber,
+            userModifiedDate: now // create date default : now
+        }).then(async (result: any) => {
+            if (!result) {
+                throw new NotFoundException("Data update failed");
+            }
+
+            let dataUpdated = await this.usersRepository.findOneBy({ userId: id });
+            return {
+                message: "Data updated successfully",
+                results: dataUpdated
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+
+    async deleteUsers(id: number): Promise<any>{
+        if (Number(id)) {
+            let findId = await this.usersRepository.findOneBy({ userId: id })
+            if (!findId) {
+                throw new NotFoundException(`Data user with ID: ${id} not found`);
+            }        
+        } else {
+            throw new BadRequestException(`Data with ID: ${id} must be number`);
+        }
+        return await this.usersRepository.delete(id)
+        .then((result: any) => {
+            return {
+                message: `Data deleted with ID : ${id} successfull`,
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        })
     }
 }

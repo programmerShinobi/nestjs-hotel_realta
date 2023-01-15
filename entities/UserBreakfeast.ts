@@ -1,17 +1,13 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { BookingOrderDetail } from "./BookingOrderDetail";
 
-@Index("pk_borde_modified_id", ["usbrBordeId", "usbrModifiedDate"], {
-  unique: true,
-})
+@Index("pk_borde_modified_id", ["usbrModifiedDate"], { unique: true })
 @Entity("user_breakfeast", { schema: "booking" })
 export class UserBreakfeast {
-  @Column("integer", { primary: true, name: "usbr_borde_id" })
-  usbrBordeId: number;
-
   @Column("timestamp without time zone", {
     primary: true,
     name: "usbr_modified_date",
+    default: () => "now()",
   })
   usbrModifiedDate: Date;
 

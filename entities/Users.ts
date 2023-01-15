@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   Index,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -13,10 +12,11 @@ import { HotelReviews } from "./HotelReviews";
 import { OrderMenus } from "./OrderMenus";
 import { PaymentTransaction } from "./PaymentTransaction";
 import { UserAccounts } from "./UserAccounts";
+import { UserBonusPoints } from "./UserBonusPoints";
 import { UserMembers } from "./UserMembers";
 import { UserPassword } from "./UserPassword";
 import { UserProfiles } from "./UserProfiles";
-import { Roles } from "./Roles";
+import { UserRoles } from "./UserRoles";
 import { WorkOrders } from "./WorkOrders";
 
 @Index("pk_user_id", ["userId"], { unique: true })
@@ -65,6 +65,7 @@ export class Users {
   @Column("timestamp without time zone", {
     name: "user_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   userModifiedDate: Date | null;
 
@@ -92,8 +93,14 @@ export class Users {
   @OneToMany(() => UserAccounts, (userAccounts) => userAccounts.usacUser)
   userAccounts: UserAccounts[];
 
-  @OneToMany(() => UserMembers, (userMembers) => userMembers.usmeUser)
-  userMembers: UserMembers[];
+  @OneToMany(
+    () => UserBonusPoints,
+    (userBonusPoints) => userBonusPoints.ubpoUser
+  )
+  userBonusPoints: UserBonusPoints[];
+
+  @OneToOne(() => UserMembers, (userMembers) => userMembers.usmeUser)
+  userMembers: UserMembers;
 
   @OneToOne(() => UserPassword, (userPassword) => userPassword.uspaUser)
   userPassword: UserPassword;
@@ -101,8 +108,8 @@ export class Users {
   @OneToMany(() => UserProfiles, (userProfiles) => userProfiles.usproUser)
   userProfiles: UserProfiles[];
 
-  @ManyToMany(() => Roles, (roles) => roles.users)
-  roles: Roles[];
+  @OneToOne(() => UserRoles, (userRoles) => userRoles.usroUser)
+  userRoles: UserRoles;
 
   @OneToMany(() => WorkOrders, (workOrders) => workOrders.woroUser)
   workOrders: WorkOrders[];

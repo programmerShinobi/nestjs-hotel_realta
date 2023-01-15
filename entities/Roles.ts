@@ -2,11 +2,10 @@ import {
   Column,
   Entity,
   Index,
-  JoinTable,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Users } from "./Users";
+import { UserRoles } from "./UserRoles";
 
 @Index("pk_role_id", ["roleId"], { unique: true })
 @Entity("roles", { schema: "users" })
@@ -21,14 +20,6 @@ export class Roles {
   })
   roleName: string | null;
 
-  @ManyToMany(() => Users, (users) => users.roles)
-  @JoinTable({
-    name: "user_roles",
-    joinColumns: [{ name: "usro_role_id", referencedColumnName: "roleId" }],
-    inverseJoinColumns: [
-      { name: "usro_user_id", referencedColumnName: "userId" },
-    ],
-    schema: "users",
-  })
-  users: Users[];
+  @OneToMany(() => UserRoles, (userRoles) => userRoles.usroRole)
+  userRoles: UserRoles[];
 }

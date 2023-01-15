@@ -8,20 +8,14 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Facilities } from "./Facilities";
+import { BookingOrders } from "./BookingOrders";
 import { BookingOrderDetailExtra } from "./BookingOrderDetailExtra";
 import { SpecialOfferCoupons } from "./SpecialOfferCoupons";
 import { UserBreakfeast } from "./UserBreakfeast";
 
-@Index("pk_boor_borde_id", ["bordeId", "borderBoorId"], { unique: true })
-@Index("booking_order_detail_borde_id_key", ["bordeId"], { unique: true })
-@Index("booking_order_detail_border_boor_id_key", ["borderBoorId"], {
-  unique: true,
-})
+@Index("pk_boor_borde_id", ["bordeId"], { unique: true })
 @Entity("booking_order_detail", { schema: "booking" })
 export class BookingOrderDetail {
-  @Column("integer", { primary: true, name: "border_boor_id" })
-  borderBoorId: number;
-
   @PrimaryGeneratedColumn({ type: "integer", name: "borde_id" })
   bordeId: number;
 
@@ -64,6 +58,14 @@ export class BookingOrderDetail {
   })
   @JoinColumn([{ name: "borde_faci_id", referencedColumnName: "faciId" }])
   bordeFaci: Facilities;
+
+  @ManyToOne(
+    () => BookingOrders,
+    (bookingOrders) => bookingOrders.bookingOrderDetails,
+    { onDelete: "CASCADE", onUpdate: "CASCADE" }
+  )
+  @JoinColumn([{ name: "border_boor_id", referencedColumnName: "boorId" }])
+  borderBoor: BookingOrders;
 
   @OneToMany(
     () => BookingOrderDetailExtra,

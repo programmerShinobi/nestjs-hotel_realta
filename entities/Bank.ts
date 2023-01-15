@@ -1,13 +1,13 @@
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
-import { Entitas } from "./Entitas";
+import { Entities } from "./Entities";
 
 @Index("bank_bank_code_key", ["bankCode"], { unique: true })
-@Index("bank_pkey", ["bankEntitasId"], { unique: true })
+@Index("bank_pkey", ["bankEntityId"], { unique: true })
 @Index("bank_bank_name_key", ["bankName"], { unique: true })
 @Entity("bank", { schema: "payment" })
 export class Bank {
-  @Column("integer", { primary: true, name: "bank_entitas_id" })
-  bankEntitasId: number;
+  @Column("integer", { primary: true, name: "bank_entity_id" })
+  bankEntityId: number;
 
   @Column("character varying", {
     name: "bank_code",
@@ -28,13 +28,14 @@ export class Bank {
   @Column("timestamp without time zone", {
     name: "bank_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   bankModifiedDate: Date | null;
 
-  @OneToOne(() => Entitas, (entitas) => entitas.bank, {
+  @OneToOne(() => Entities, (entities) => entities.bank, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "bank_entitas_id", referencedColumnName: "entitasId" }])
-  bankEntitas: Entitas;
+  @JoinColumn([{ name: "bank_entity_id", referencedColumnName: "entityId" }])
+  bankEntity: Entities;
 }

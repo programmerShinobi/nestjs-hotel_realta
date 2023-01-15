@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { EmployeeDepartmentHistory } from "./EmployeeDepartmentHistory";
 
-@Index("department_pkey", ["deptId"], { unique: true })
+@Index("pk_dept_id", ["deptId"], { unique: true })
 @Entity("department", { schema: "humanresource" })
 export class Department {
   @PrimaryGeneratedColumn({ type: "integer", name: "dept_id" })
@@ -23,6 +23,7 @@ export class Department {
   @Column("timestamp without time zone", {
     name: "dept_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   deptModifiedDate: Date | null;
 

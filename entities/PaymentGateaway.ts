@@ -1,13 +1,13 @@
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
-import { Entitas } from "./Entitas";
+import { Entities } from "./Entities";
 
 @Index("payment_gateaway_paga_code_key", ["pagaCode"], { unique: true })
-@Index("payment_gateaway_pkey", ["pagaEntitasId"], { unique: true })
+@Index("payment_gateaway_pkey", ["pagaEntityId"], { unique: true })
 @Index("payment_gateaway_paga_name_key", ["pagaName"], { unique: true })
 @Entity("payment_gateaway", { schema: "payment" })
 export class PaymentGateaway {
-  @Column("integer", { primary: true, name: "paga_entitas_id" })
-  pagaEntitasId: number;
+  @Column("integer", { primary: true, name: "paga_entity_id" })
+  pagaEntityId: number;
 
   @Column("character varying", {
     name: "paga_code",
@@ -28,13 +28,14 @@ export class PaymentGateaway {
   @Column("timestamp without time zone", {
     name: "paga_modified_date",
     nullable: true,
+    default: () => "now()",
   })
   pagaModifiedDate: Date | null;
 
-  @OneToOne(() => Entitas, (entitas) => entitas.paymentGateaway, {
+  @OneToOne(() => Entities, (entities) => entities.paymentGateaway, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn([{ name: "paga_entitas_id", referencedColumnName: "entitasId" }])
-  pagaEntitas: Entitas;
+  @JoinColumn([{ name: "paga_entity_id", referencedColumnName: "entityId" }])
+  pagaEntity: Entities;
 }

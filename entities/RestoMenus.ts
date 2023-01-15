@@ -11,13 +11,9 @@ import { OrderMenuDetail } from "./OrderMenuDetail";
 import { RestoMenuPhotos } from "./RestoMenuPhotos";
 import { Facilities } from "./Facilities";
 
-@Index("pk_resto_menus", ["remeFaciId", "remeId"], { unique: true })
-@Index("resto_menus_reme_id_key", ["remeId"], { unique: true })
+@Index("pk_resto_menus", ["remeId"], { unique: true })
 @Entity("resto_menus", { schema: "resto" })
 export class RestoMenus {
-  @Column("integer", { primary: true, name: "reme_faci_id" })
-  remeFaciId: number;
-
   @PrimaryGeneratedColumn({ type: "integer", name: "reme_id" })
   remeId: number;
 

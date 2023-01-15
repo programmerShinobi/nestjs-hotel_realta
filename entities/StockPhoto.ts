@@ -28,8 +28,8 @@ export class StockPhoto {
   })
   sphoPhotoFilename: string | null;
 
-  @Column("boolean", { name: "spho_primary", nullable: true })
-  sphoPrimary: boolean | null;
+  @Column("integer", { name: "spho_primary", nullable: true })
+  sphoPrimary: number | null;
 
   @Column("character varying", {
     name: "spho_url",
