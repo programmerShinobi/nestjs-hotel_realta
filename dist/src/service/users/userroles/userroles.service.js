@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const UserRoles_1 = require("../../../../entities/UserRoles");
+const bad_request_exception_1 = require("@nestjs/common/exceptions/bad-request.exception");
 let UserrolesService = class UserrolesService {
     constructor(userRolesRepository) {
         this.userRolesRepository = userRolesRepository;
@@ -30,6 +31,37 @@ let UserrolesService = class UserrolesService {
             }
             return {
                 messsage: 'Data displayed successfully',
+                results: result
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async findAllJoinUserRoles() {
+        return this.userRolesRepository.find({
+            order: { usroUserId: -1 },
+            relations: ['usroRole', 'usroUser']
+        });
+    }
+    async findOneUserRoles(id) {
+        return this.userRolesRepository.findOne({
+            where: { usroUserId: id },
+            relations: ['usroRole', 'usroUser']
+        });
+    }
+    async createUserRoles(data) {
+        return this.userRolesRepository.save({
+            usroUserId: data.usroUserId,
+            usroRole: data.usroRole,
+        }).then((result) => {
+            if (!result) {
+                throw new bad_request_exception_1.BadRequestException('Data insert failed');
+            }
+            return {
+                message: 'Data inserted successfully',
                 results: result
             };
         }).catch((err) => {
