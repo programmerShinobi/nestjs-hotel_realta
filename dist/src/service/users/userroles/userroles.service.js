@@ -44,12 +44,33 @@ let UserrolesService = class UserrolesService {
         return this.userRolesRepository.find({
             order: { usroUserId: -1 },
             relations: ['usroRole', 'usroUser']
+        }).then((result) => {
+            if (!result) {
+                throw new common_1.NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data displayed successfully',
+                results: result
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
         });
     }
     async findOneUserRoles(id) {
         return this.userRolesRepository.findOne({
             where: { usroUserId: id },
             relations: ['usroRole', 'usroUser']
+        }).then((result) => {
+            if (!result) {
+                throw new common_1.NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data displayed successfully',
+                results: result
+            };
         });
     }
     async createUserRoles(data) {

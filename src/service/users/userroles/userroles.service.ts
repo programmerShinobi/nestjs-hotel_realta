@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserRoles } from 'entities/UserRoles';
@@ -34,13 +34,34 @@ export class UserrolesService {
         return this.userRolesRepository.find({
             order: { usroUserId: -1 },
             relations: ['usroRole', 'usroUser']
-        })
+        }).then((result: any) => {
+            if (!result) {
+                throw new NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data displayed successfully',
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
     }
 
     async findOneUserRoles(id: number): Promise<any>{
         return this.userRolesRepository.findOne({
             where: { usroUserId: id },
             relations: ['usroRole', 'usroUser']
+        }).then((result: any) => {
+            if (!result) {
+                throw new NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data displayed successfully',
+                results: result
+            }
         })
     }
 
