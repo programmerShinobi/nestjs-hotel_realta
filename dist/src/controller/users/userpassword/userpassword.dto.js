@@ -15,16 +15,12 @@ class bodyUserPasswordDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Number)
-], bodyUserPasswordDto.prototype, "uspaUserId", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsStrongPassword)(),
     __metadata("design:type", String)
 ], bodyUserPasswordDto.prototype, "uspaPasswordhash", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Object)
-], bodyUserPasswordDto.prototype, "uspaUser", void 0);
+    __metadata("design:type", Number)
+], bodyUserPasswordDto.prototype, "uspaUserId", void 0);
 exports.bodyUserPasswordDto = bodyUserPasswordDto;
 //# sourceMappingURL=userpassword.dto.js.map

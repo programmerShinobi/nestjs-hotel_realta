@@ -82,7 +82,6 @@ let UserpasswordService = class UserpasswordService {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
         return await this.userPasswordRepository.save({
-            uspaUserId: data.uspaUserId,
             uspaPasswordhash: hashedPassword,
             uspaPasswordsalt: 'bcrypt'
         }).then((result) => {
