@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserbonuspointsController = void 0;
 const common_1 = require("@nestjs/common");
 const userbonuspoints_service_1 = require("../../../service/users/userbonuspoints/userbonuspoints.service");
+const userbonuspoints_dto_1 = require("./userbonuspoints.dto");
 let UserbonuspointsController = class UserbonuspointsController {
     constructor(userBonusPointsService) {
         this.userBonusPointsService = userBonusPointsService;
@@ -27,6 +28,9 @@ let UserbonuspointsController = class UserbonuspointsController {
     }
     findOneUserBonusPoints(params) {
         return this.userBonusPointsService.findOneUserBonusPoints(params.id);
+    }
+    createUserBonusPoints(body) {
+        return this.userBonusPointsService.createUserBonusPoints(body);
     }
 };
 __decorate([
@@ -48,7 +52,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserbonuspointsController.prototype, "findOneUserBonusPoints", null);
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [userbonuspoints_dto_1.bodyUserBonusPoints]),
+    __metadata("design:returntype", void 0)
+], UserbonuspointsController.prototype, "createUserBonusPoints", null);
 UserbonuspointsController = __decorate([
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('userbonuspoints'),
     __metadata("design:paramtypes", [userbonuspoints_service_1.UserbonuspointsService])
 ], UserbonuspointsController);

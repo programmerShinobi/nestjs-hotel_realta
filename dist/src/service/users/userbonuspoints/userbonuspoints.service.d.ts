@@ -6,4 +6,11 @@ export declare class UserbonuspointsService {
     findAllUserBonusPoints(): Promise<any>;
     findAllJoinUserBonusPoints(): Promise<any>;
     findOneUserBonusPoints(id: number): Promise<any>;
+    createUserBonusPoints(data: UserBonusPoints): Promise<{
+        message: string;
+        results: any;
+    } | {
+        message: any;
+        error: any;
+    }>;
 }

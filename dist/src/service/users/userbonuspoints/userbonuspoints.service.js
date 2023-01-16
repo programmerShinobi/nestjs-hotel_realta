@@ -60,7 +60,8 @@ let UserbonuspointsService = class UserbonuspointsService {
     }
     async findOneUserBonusPoints(id) {
         return await this.userBonusRepository.findOne({
-            where: { ubpoId: id }
+            where: { ubpoId: id },
+            relations: { ubpoUser: true }
         }).then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
@@ -68,6 +69,27 @@ let UserbonuspointsService = class UserbonuspointsService {
             return {
                 message: 'Data displayed successfully',
                 resutls: result
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async createUserBonusPoints(data) {
+        const now = new Date();
+        return await this.userBonusRepository.save({
+            ubpoTotalPoints: data.ubpoTotalPoints,
+            ubpoBonusType: data.ubpoBonusType,
+            ubpoCreatedOn: now
+        }).then((result) => {
+            if (!result) {
+                throw new common_1.NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data inserted successfully',
+                results: result
             };
         }).catch((err) => {
             return {
