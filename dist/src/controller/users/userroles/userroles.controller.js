@@ -33,6 +33,12 @@ let UserrolesController = class UserrolesController {
     createUserRoles(body) {
         return this.userRolesService.createUserRoles(body);
     }
+    updateUserRoles(params, body) {
+        return this.userRolesService.updateUserRoles(params.id, body);
+    }
+    deleteUserRoles(params) {
+        return this.userRolesService.deleteUserRoles(params.id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -60,6 +66,21 @@ __decorate([
     __metadata("design:paramtypes", [userroles_dto_1.bodyUserRolesDto]),
     __metadata("design:returntype", void 0)
 ], UserrolesController.prototype, "createUserRoles", null);
+__decorate([
+    (0, decorators_1.Put)(':id'),
+    __param(0, (0, decorators_1.Param)()),
+    __param(1, (0, decorators_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, userroles_dto_1.bodyUserRolesDto]),
+    __metadata("design:returntype", void 0)
+], UserrolesController.prototype, "updateUserRoles", null);
+__decorate([
+    (0, decorators_1.Delete)(':id'),
+    __param(0, (0, decorators_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserrolesController.prototype, "deleteUserRoles", null);
 UserrolesController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('userroles'),

@@ -71,6 +71,45 @@ let UserrolesService = class UserrolesService {
             };
         });
     }
+    async updateUserRoles(id, data) {
+        return this.userRolesRepository.update(id, {
+            usroUserId: data.usroUserId,
+            usroRole: data.usroRole
+        }).then(async (result) => {
+            if (!result.affected) {
+                throw new bad_request_exception_1.BadRequestException('Data update failed');
+            }
+            let updateData = await this.userRolesRepository.findOne({
+                where: { usroUserId: id },
+                relations: ['usroRole', 'usroUser']
+            });
+            return {
+                message: 'Data updated successfully',
+                results: updateData
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async deleteUserRoles(id) {
+        return await this.userRolesRepository.delete(id)
+            .then((result) => {
+            if (!result.affected) {
+                throw new bad_request_exception_1.BadRequestException('Data delete failed');
+            }
+            return {
+                message: `Data deleted with ID : ${id} successfully`
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
 };
 UserrolesService = __decorate([
     (0, common_1.Injectable)(),

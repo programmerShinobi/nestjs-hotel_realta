@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserRoles } from 'entities/UserRoles';
@@ -62,6 +62,47 @@ export class UserrolesService {
                 error: err.name
             }
         });
+    }
+
+    async updateUserRoles(id: number, data: UserRoles): Promise<any>{
+        return this.userRolesRepository.update(id, {
+            usroUserId: data.usroUserId,
+            usroRole: data.usroRole
+        }).then(async (result: any) => {
+            if (!result.affected) {
+                throw new BadRequestException('Data update failed');
+            }
+            let updateData = await this.userRolesRepository.findOne({
+                where: { usroUserId: id },
+                relations: ['usroRole', 'usroUser']
+            });
+            return {
+                message: 'Data updated successfully',
+                results: updateData
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
+    }
+
+    async deleteUserRoles(id: number): Promise<any> {
+        return await this.userRolesRepository.delete(id)
+            .then((result: any) => {
+                if (!result.affected) {
+                    throw new BadRequestException('Data delete failed');
+                }
+                return {
+                    message: `Data deleted with ID : ${id} successfully`
+                }
+            }).catch((err: any) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                }
+            });
     }
 
 }

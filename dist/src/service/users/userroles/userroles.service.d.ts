@@ -7,4 +7,6 @@ export declare class UserrolesService {
     findAllJoinUserRoles(): Promise<any>;
     findOneUserRoles(id: number): Promise<any>;
     createUserRoles(data: UserRoles): Promise<any>;
+    updateUserRoles(id: number, data: UserRoles): Promise<any>;
+    deleteUserRoles(id: number): Promise<any>;
 }

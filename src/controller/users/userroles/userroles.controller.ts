@@ -30,4 +30,13 @@ export class UserrolesController {
         return this.userRolesService.createUserRoles(body);        
     }
 
+    @Put(':id')
+    updateUserRoles(@Param() params, @Body() body: bodyUserRolesDto) {
+        return this.userRolesService.updateUserRoles(params.id, body)
+    }
+
+    @Delete(':id')
+    deleteUserRoles(@Param() params) {
+        return this.userRolesService.deleteUserRoles(params.id)
+    }
 }
