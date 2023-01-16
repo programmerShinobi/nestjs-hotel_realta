@@ -1,6 +1,5 @@
 import { Controller, Get, Param, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Body, Post } from '@nestjs/common/decorators';
-import { UserPassword } from 'entities/UserPassword';
 import { AuthService } from 'src/service/users/auth/auth.service';
 import { UserpasswordService } from 'src/service/users/userpassword/userpassword.service';
 import { bodyLoginDto } from './auth.dto';

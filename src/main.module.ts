@@ -13,7 +13,7 @@ import { GlobalModule } from './module/global.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE,
       entities: ['dist/entities/**/*{.ts,.js}'],
-      // autoLoadEntities: true,
+      autoLoadEntities: true,
       synchronize: false,
     }),
     GlobalModule,
