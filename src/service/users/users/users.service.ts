@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Users } from 'entities/Users';
+import { UserPassword } from 'entities/UserPassword';
 
 @Injectable()
 export class UsersService {
@@ -168,5 +169,10 @@ export class UsersService {
             };
         })
     }
+
+    async findEmail(email: any): Promise<any>{
+        return await this.usersRepository.findOneBy({ userEmail: email });
+    }
+
 
 }

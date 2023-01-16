@@ -74,7 +74,6 @@ export class UserpasswordService {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
         return await this.userPasswordRepository.save({
-            // uspaUserId: data.uspaUserId,
             uspaPasswordhash: hashedPassword,
             uspaPasswordsalt: 'bcrypt'
         }).then((result: any) => {
@@ -90,6 +89,14 @@ export class UserpasswordService {
                 message: err.message,
                 error: err.name
             }
+        });
+    }
+
+    async findPassword(id: number): Promise<any>{
+        return await this.userPasswordRepository.findOne({
+            where: { uspaUserId: id }
+        }).then((result: any) => {
+            return result.uspaPasswordhash
         });
     }
 }

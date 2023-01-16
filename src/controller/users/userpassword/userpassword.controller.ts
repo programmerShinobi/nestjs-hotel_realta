@@ -28,4 +28,9 @@ export class UserpasswordController {
     createUserPassword(@Body() body: bodyUserPasswordDto) {
         return this.userPasswordService.createUserPassword(body);
     }
+
+    @Get('findPassword/:id')
+    findPassword(@Param() params) {
+        return this.userPasswordService.findPassword(params.id);
+    }
 }

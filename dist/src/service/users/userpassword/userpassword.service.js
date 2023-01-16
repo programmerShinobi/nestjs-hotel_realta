@@ -99,6 +99,13 @@ let UserpasswordService = class UserpasswordService {
             };
         });
     }
+    async findPassword(id) {
+        return await this.userPasswordRepository.findOne({
+            where: { uspaUserId: id }
+        }).then((result) => {
+            return result.uspaPasswordhash;
+        });
+    }
 };
 UserpasswordService = __decorate([
     (0, common_1.Injectable)(),

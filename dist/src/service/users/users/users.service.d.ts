@@ -10,4 +10,5 @@ export declare class UsersService {
     createUsers(data: Users): Promise<any>;
     updateUsers(id: number, data: Users): Promise<any>;
     deleteUsers(id: number): Promise<any>;
+    findEmail(email: any): Promise<any>;
 }

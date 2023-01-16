@@ -173,6 +173,9 @@ let UsersService = class UsersService {
             };
         });
     }
+    async findEmail(email) {
+        return await this.usersRepository.findOneBy({ userEmail: email });
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),

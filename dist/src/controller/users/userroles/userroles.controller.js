@@ -17,6 +17,8 @@ const common_1 = require("@nestjs/common");
 const decorators_1 = require("@nestjs/common/decorators");
 const userroles_service_1 = require("../../../service/users/userroles/userroles.service");
 const userroles_dto_1 = require("./userroles.dto");
+const decorators_2 = require("@nestjs/common/decorators");
+const auth_service_1 = require("../../../service/users/auth/auth.service");
 let UserrolesController = class UserrolesController {
     constructor(userRolesService) {
         this.userRolesService = userRolesService;
@@ -82,6 +84,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserrolesController.prototype, "deleteUserRoles", null);
 UserrolesController = __decorate([
+    (0, decorators_2.UseGuards)(auth_service_1.AuthService),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('userroles'),
     __metadata("design:paramtypes", [userroles_service_1.UserrolesService])

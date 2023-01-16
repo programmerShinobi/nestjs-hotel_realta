@@ -2,7 +2,10 @@ import { Controller, Get, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Body, Delete, Param, Post, Put } from '@nestjs/common/decorators';
 import { UserrolesService } from 'src/service/users/userroles/userroles.service';
 import { bodyUserRolesDto } from './userroles.dto';
+import { UseGuards } from '@nestjs/common/decorators';
+import { AuthService } from 'src/service/users/auth/auth.service';
 
+@UseGuards(AuthService)
 @UsePipes(new ValidationPipe())
 @Controller('userroles')
 export class UserrolesController {

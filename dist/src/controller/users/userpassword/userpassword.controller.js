@@ -32,6 +32,9 @@ let UserpasswordController = class UserpasswordController {
     createUserPassword(body) {
         return this.userPasswordService.createUserPassword(body);
     }
+    findPassword(params) {
+        return this.userPasswordService.findPassword(params.id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -59,6 +62,13 @@ __decorate([
     __metadata("design:paramtypes", [userpassword_dto_1.bodyUserPasswordDto]),
     __metadata("design:returntype", void 0)
 ], UserpasswordController.prototype, "createUserPassword", null);
+__decorate([
+    (0, common_1.Get)('findPassword/:id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserpasswordController.prototype, "findPassword", null);
 UserpasswordController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('userpassword'),

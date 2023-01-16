@@ -7,4 +7,5 @@ export declare class UserpasswordController {
     findAllJoinUserPassword(): Promise<any>;
     findOneUserPassword(params: any): Promise<any>;
     createUserPassword(body: bodyUserPasswordDto): Promise<any>;
+    findPassword(params: any): Promise<any>;
 }
