@@ -7,5 +7,7 @@ export declare class UserpasswordService {
     findAllJoinUserPassword(): Promise<any>;
     findOneUserPassword(id: number): Promise<any>;
     createUserPassword(data: UserPassword): Promise<any>;
+    updateUserPassword(id: number, data: UserPassword): Promise<any>;
+    deleteUserPassword(id: number): Promise<any>;
     findPassword(id: number): Promise<any>;
 }

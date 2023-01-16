@@ -92,6 +92,46 @@ export class UserpasswordService {
         });
     }
 
+    async updateUserPassword(id: number, data: UserPassword): Promise<any>{
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
+        return this.userPasswordRepository.update(id, {
+            uspaPasswordhash: hashedPassword,
+            uspaPasswordsalt: 'bcrypt'
+        }).then(async (result: any) => {
+            if (!result) {
+                throw new BadRequestException('Data update failed');
+            }
+            const updateData = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+            return {
+                message: 'Data updated successfully',
+                results: updateData
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                name: err.name
+            }
+        });
+    }
+
+    async deleteUserPassword(id: number): Promise<any>{
+        return await this.userPasswordRepository.delete(id)
+        .then((result: any) => {
+            if (!result.affected) {
+                throw new NotFoundException('Data not found');
+            }     
+            return {
+                message: `Data deleted with ID : ${id} successfully`
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        })
+    }
+
     async findPassword(id: number): Promise<any>{
         return await this.userPasswordRepository.findOne({
             where: { uspaUserId: id }

@@ -1,4 +1,4 @@
-import { Body, Controller, UsePipes, ValidationPipe, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, UsePipes, ValidationPipe, Get, Param, Post, Put, Delete } from '@nestjs/common';
 import { UserpasswordService } from 'src/service/users/userpassword/userpassword.service';
 import { bodyUserPasswordDto } from './userpassword.dto';
 
@@ -27,6 +27,16 @@ export class UserpasswordController {
     @Post()
     createUserPassword(@Body() body: bodyUserPasswordDto) {
         return this.userPasswordService.createUserPassword(body);
+    }
+
+    @Put(':id')
+    updateUserPassword(@Param() params, @Body() body: bodyUserPasswordDto) {
+        return this.userPasswordService.updateUserPassword(params.id, body);
+    }
+
+    @Delete(':id')
+    deleteUserPassword(@Param() params) {
+        return this.userPasswordService.deleteUserPassword(params.id);
     }
 
     @Get('findPassword/:id')
