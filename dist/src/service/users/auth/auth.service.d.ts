@@ -5,14 +5,6 @@ export declare class AuthService implements CanActivate {
     private userRepository;
     constructor(userRepository: Repository<Users>);
     findEmail(email: string): Promise<any>;
-    login(data: any): Promise<{
-        message: string;
-        userdata: {
-            userEmail: any;
-            userFullName: any;
-            userPhoneNumber: any;
-        };
-        _token: string;
-    }>;
+    login(data: any): Promise<any>;
     canActivate(context: ExecutionContext): Promise<boolean>;
 }

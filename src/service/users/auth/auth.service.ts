@@ -13,8 +13,9 @@ export class AuthService implements CanActivate{
     ) { }
 
     async findEmail(email: string): Promise<any>{
-        return await this.userRepository.findOneBy({ userEmail: email }
-        ).then((result: any) => {
+        return await this.userRepository.findOneBy({
+            userEmail: email
+        }).then((result: any) => {
             return result
         }).catch((err: any) => {
             return {
@@ -24,54 +25,59 @@ export class AuthService implements CanActivate{
         });
     }
 
-    async login(data: any) {
-        const users = await this.findEmail(data.userEmail);        
-        if (users.userEmail == data.userEmail) {
-            const IdUser = await this.userRepository.findOneBy({
-                userEmail: users.userEmail
-            }).then((result: any) => {
-                return result.userId
-            }).catch((err: any) => {
-                return err
-            });
-
-            const passwordUser = await this.userRepository.findOne({
-                where: { userId: IdUser },
-                relations: { userPassword: true }
-            }).then((result: any) => {
-                return result.userPassword.uspaPasswordhash
-            }).catch((err: any) => {
-                return {
-                    message: err.message,
-                    error: err.name
+    async login(data: any): Promise<any> {
+        return await this.findEmail(data.userEmail).then(async (users) => {
+            if (users.userEmail == data.userEmail) {
+                const IdUser = await this.userRepository.findOneBy({
+                    userEmail: users.userEmail
+                }).then((result: any) => {
+                    return result.userId
+                }).catch((err: any) => {
+                    return err
+                });
+    
+                const passwordUser = await this.userRepository.findOne({
+                    where: { userId: IdUser },
+                    relations: { userPassword: true }
+                }).then((result: any) => {
+                    return result.userPassword.uspaPasswordhash
+                }).catch((err: any) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    }
+                });
+    
+                const payload = {
+                    userEmail: users.userEmail,
+                    userFullName: users.userFullName,
+                    userPhoneNumber: users.userPhoneNumber
                 }
-            });
-
-            const payload = {
-                userEmail: users.userEmail,
-                userFullName: users.userFullName,
-                userPhoneNumber: users.userPhoneNumber
-            }
-
-            if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                const token = await jwt.sign(
-                    payload,
-                    process.env.SECRET_KEY,
-                    { expiresIn: '3m' }
-                );           
-                
-                return {
-                    message: 'Login successfully',
-                    userdata: payload,
-                    _token: token
+    
+                if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                    const token = await jwt.sign(
+                        payload,
+                        process.env.SECRET_KEY,
+                        { expiresIn: '3m' }
+                    );           
+                    
+                    return {
+                        message: 'Login successfully',
+                        userdata: payload,
+                        _token: token
+                    }
+                } else {
+                    throw new BadRequestException('Password Invalid');
                 }
             } else {
-                throw new BadRequestException('Password Invalid');
+                throw new BadRequestException('Email invalid');
+            }   
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
             }
-        } else {
-            throw new BadRequestException('Email invalid');
-            
-        }   
+        })       
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

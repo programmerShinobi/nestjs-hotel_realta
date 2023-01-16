@@ -24,7 +24,9 @@ let AuthService = class AuthService {
         this.userRepository = userRepository;
     }
     async findEmail(email) {
-        return await this.userRepository.findOneBy({ userEmail: email }).then((result) => {
+        return await this.userRepository.findOneBy({
+            userEmail: email
+        }).then((result) => {
             return result;
         }).catch((err) => {
             return {
@@ -34,46 +36,52 @@ let AuthService = class AuthService {
         });
     }
     async login(data) {
-        const users = await this.findEmail(data.userEmail);
-        if (users.userEmail == data.userEmail) {
-            const IdUser = await this.userRepository.findOneBy({
-                userEmail: users.userEmail
-            }).then((result) => {
-                return result.userId;
-            }).catch((err) => {
-                return err;
-            });
-            const passwordUser = await this.userRepository.findOne({
-                where: { userId: IdUser },
-                relations: { userPassword: true }
-            }).then((result) => {
-                return result.userPassword.uspaPasswordhash;
-            }).catch((err) => {
-                return {
-                    message: err.message,
-                    error: err.name
+        return await this.findEmail(data.userEmail).then(async (users) => {
+            if (users.userEmail == data.userEmail) {
+                const IdUser = await this.userRepository.findOneBy({
+                    userEmail: users.userEmail
+                }).then((result) => {
+                    return result.userId;
+                }).catch((err) => {
+                    return err;
+                });
+                const passwordUser = await this.userRepository.findOne({
+                    where: { userId: IdUser },
+                    relations: { userPassword: true }
+                }).then((result) => {
+                    return result.userPassword.uspaPasswordhash;
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                const payload = {
+                    userEmail: users.userEmail,
+                    userFullName: users.userFullName,
+                    userPhoneNumber: users.userPhoneNumber
                 };
-            });
-            const payload = {
-                userEmail: users.userEmail,
-                userFullName: users.userFullName,
-                userPhoneNumber: users.userPhoneNumber
-            };
-            if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
-                return {
-                    message: 'Login successfully',
-                    userdata: payload,
-                    _token: token
-                };
+                if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                    const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
+                    return {
+                        message: 'Login successfully',
+                        userdata: payload,
+                        _token: token
+                    };
+                }
+                else {
+                    throw new common_1.BadRequestException('Password Invalid');
+                }
             }
             else {
-                throw new common_1.BadRequestException('Password Invalid');
+                throw new common_1.BadRequestException('Email invalid');
             }
-        }
-        else {
-            throw new common_1.BadRequestException('Email invalid');
-        }
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
