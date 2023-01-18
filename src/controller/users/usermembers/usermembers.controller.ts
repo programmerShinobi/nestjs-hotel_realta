@@ -1,5 +1,5 @@
 import { Controller, ValidationPipe } from '@nestjs/common';
-import { Body, Get, Param, Post, UsePipes } from '@nestjs/common/decorators';
+import { Body, Delete, Get, Param, Post, Put, UsePipes } from '@nestjs/common/decorators';
 import { UsermembersService } from 'src/service/users/usermembers/usermembers.service';
 import { bodyUserMembersDto } from './usermembers.dto';
 
@@ -28,5 +28,15 @@ export class UsermembersController {
     @Post()
     createUserMembers(@Body() body: bodyUserMembersDto) {
         return this.userMembersService.createUserMembers(body);
+    }
+
+    @Put(':id')
+    updateUserMembers(@Param() params, @Body() body:bodyUserMembersDto) {
+        return this.userMembersService.updateUserMembers(params.id, body);
+    }
+
+    @Delete(':id')
+    deleteUserMembers(@Param() params) {
+        return this.userMembersService.deleteUserMembers(params.id);
     }
 }

@@ -36,6 +36,9 @@ let UsersController = class UsersController {
     createUsers(body) {
         return this.usersService.createUsers(body);
     }
+    createUsersAndUserPassword(body1, body2) {
+        return this.usersService.createUsersAndUserPassword(body1, body2);
+    }
     updateUsers(params, body) {
         return this.usersService.updateUsers(params.id, body);
     }
@@ -75,6 +78,14 @@ __decorate([
     __metadata("design:paramtypes", [users_dto_1.bodyUsersDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createUsers", null);
+__decorate([
+    (0, common_1.Post)('createWithPassword'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "createUsersAndUserPassword", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)()),

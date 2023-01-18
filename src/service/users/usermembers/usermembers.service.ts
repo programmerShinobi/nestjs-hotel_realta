@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserMembers } from 'entities/UserMembers';
+import { throwError } from 'rxjs';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -91,6 +92,61 @@ export class UsermembersService {
                 error: err.name
             }
         });
+    }
+
+    async updateUserMembers(id: number, data: any): Promise<any>{
+        const now = new Date();
+        return await this.userMembersRepository.update(id, {
+            usmeUserId: data.usmeUserId,
+            usmeMembName: data.usmeMembName,
+            usmePromoteDate: now,
+            usmePoints: data.usmePoints,
+            usmeType: data.usmeType
+        }).then((result: any) => {
+            if (!result) {
+                throw new BadRequestException('Data insert failed');
+            }
+            return this.userMembersRepository.find({
+                relations:  ['usmeUser','usmeMembName'],
+                where: { usmeUserId: id }
+            }).then((resultUpdated: any) => {
+                if (!resultUpdated) {
+                    throw new NotFoundException('Data not found updated')
+                }
+                return {
+                message: 'Data updated successfully',
+                results: resultUpdated
+            }
+            }).catch((err: any) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                }
+            });
+            
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
+    }
+
+    async deleteUserMembers(id: any): Promise<any>{
+        return await this.userMembersRepository.delete(id)
+            .then((result: any) => {
+                if (!result.affected) {
+                    throw new NotFoundException('Data not found');
+                }
+                return {
+                    message: `Data deleted with ID : ${id} successfully`
+                }
+            }).catch((err: any) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                }
+            });
     }
 
 }

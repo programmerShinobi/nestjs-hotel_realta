@@ -7,4 +7,6 @@ export declare class UsermembersService {
     findAllJoinUserMembers(): Promise<any>;
     findOneUserMembers(id: number): Promise<any>;
     createUserMembers(data: any): Promise<any>;
+    updateUserMembers(id: number, data: any): Promise<any>;
+    deleteUserMembers(id: any): Promise<any>;
 }

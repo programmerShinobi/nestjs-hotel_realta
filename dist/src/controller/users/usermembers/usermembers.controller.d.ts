@@ -7,4 +7,6 @@ export declare class UsermembersController {
     findAllJoinUserMembers(): Promise<any>;
     findOneUserMembers(params: any): Promise<any>;
     createUserMembers(body: bodyUserMembersDto): Promise<any>;
+    updateUserMembers(params: any, body: bodyUserMembersDto): Promise<any>;
+    deleteUserMembers(params: any): Promise<any>;
 }

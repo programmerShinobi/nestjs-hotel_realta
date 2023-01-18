@@ -8,6 +8,13 @@ export declare class UsersController {
     findAllJoinUsersMaster(): Promise<any>;
     findOneUser(params: any): Promise<any>;
     createUsers(body: bodyUsersDto): Promise<any>;
+    createUsersAndUserPassword(body1: any, body2: any): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
     updateUsers(params: any, body: bodyUsersDto): Promise<any>;
     deleteUsers(params: any): Promise<any>;
 }

@@ -33,6 +33,12 @@ let UsermembersController = class UsermembersController {
     createUserMembers(body) {
         return this.userMembersService.createUserMembers(body);
     }
+    updateUserMembers(params, body) {
+        return this.userMembersService.updateUserMembers(params.id, body);
+    }
+    deleteUserMembers(params) {
+        return this.userMembersService.deleteUserMembers(params.id);
+    }
 };
 __decorate([
     (0, decorators_1.Get)(),
@@ -60,6 +66,21 @@ __decorate([
     __metadata("design:paramtypes", [usermembers_dto_1.bodyUserMembersDto]),
     __metadata("design:returntype", void 0)
 ], UsermembersController.prototype, "createUserMembers", null);
+__decorate([
+    (0, decorators_1.Put)(':id'),
+    __param(0, (0, decorators_1.Param)()),
+    __param(1, (0, decorators_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, usermembers_dto_1.bodyUserMembersDto]),
+    __metadata("design:returntype", void 0)
+], UsermembersController.prototype, "updateUserMembers", null);
+__decorate([
+    (0, decorators_1.Delete)(':id'),
+    __param(0, (0, decorators_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsermembersController.prototype, "deleteUserMembers", null);
 UsermembersController = __decorate([
     (0, decorators_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('usermembers'),

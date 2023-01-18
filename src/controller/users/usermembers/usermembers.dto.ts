@@ -1,28 +1,27 @@
 import { IsDecimal, IsEmpty, IsEnum, IsNotEmpty, IsNumber } from "class-validator";
 
-enum Type{
+enum Type {
     default = 'default',
     expired = 'expired',
 }
 
-enum Name{
+enum Name {
     SILVER = 'SILVER',
     GOLD = 'GOLD',
     VIP = 'VIP',
     WIZARD = 'WIZARD'
 }
 
-export class bodyUserMembersDto{
+export class bodyUserMembersDto {
     @IsNotEmpty()
     @IsEnum(Name)
     usmeMembName: string;
 
-    
     @IsNotEmpty()
     @IsNumber()
     usmePoints: number;
     usmeUserId: number;
-    
+
     @IsNotEmpty()
     @IsEnum(Type)
     usmeType: string;

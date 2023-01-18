@@ -35,6 +35,11 @@ export class UsersController {
         return this.usersService.createUsers(body);
     }
 
+    @Post('createWithPassword')
+    createUsersAndUserPassword(@Body() body1, @Body() body2) {
+        return this.usersService.createUsersAndUserPassword(body1, body2);
+    }
+
     @Put(':id')
     updateUsers(@Param() params, @Body() body: bodyUsersDto) {
         return this.usersService.updateUsers(params.id, body)

@@ -100,6 +100,58 @@ let UsermembersService = class UsermembersService {
             };
         });
     }
+    async updateUserMembers(id, data) {
+        const now = new Date();
+        return await this.userMembersRepository.update(id, {
+            usmeUserId: data.usmeUserId,
+            usmeMembName: data.usmeMembName,
+            usmePromoteDate: now,
+            usmePoints: data.usmePoints,
+            usmeType: data.usmeType
+        }).then((result) => {
+            if (!result) {
+                throw new common_1.BadRequestException('Data insert failed');
+            }
+            return this.userMembersRepository.find({
+                relations: ['usmeUser', 'usmeMembName'],
+                where: { usmeUserId: id }
+            }).then((resultUpdated) => {
+                if (!resultUpdated) {
+                    throw new common_1.NotFoundException('Data not found updated');
+                }
+                return {
+                    message: 'Data updated successfully',
+                    results: resultUpdated
+                };
+            }).catch((err) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                };
+            });
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async deleteUserMembers(id) {
+        return await this.userMembersRepository.delete(id)
+            .then((result) => {
+            if (!result.affected) {
+                throw new common_1.NotFoundException('Data not found');
+            }
+            return {
+                message: `Data deleted with ID : ${id} successfully`
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
 };
 UsermembersService = __decorate([
     (0, common_1.Injectable)(),
