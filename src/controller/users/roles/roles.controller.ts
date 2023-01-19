@@ -5,7 +5,7 @@ import { bodyRolesDto } from './roles.dto';
 import { UseGuards } from '@nestjs/common/decorators';
 import { AuthService } from 'src/service/users/auth/auth.service';
 
-@UseGuards(AuthService)
+// @UseGuards(AuthService)
 @UsePipes(new ValidationPipe())
 @Controller('roles')
 export class RolesController {

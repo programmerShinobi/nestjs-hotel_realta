@@ -54,25 +54,6 @@ let UsersService = class UsersService {
         });
     }
     async findAllJoinUsers() {
-        return await this.usersRepository.find({
-            order: { userId: -1 },
-            relations: ['userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
-        }).then((result) => {
-            if (!result) {
-                throw new common_1.NotFoundException('Data not found');
-            }
-            return {
-                message: 'Data displayed successfully',
-                results: result
-            };
-        }).catch((err) => {
-            return {
-                message: err.message,
-                error: err.name
-            };
-        });
-    }
-    async findAllJoinUsersMaster() {
         return await this.usersRepository.query(`
             SELECT * FROM users.users uuu
             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
@@ -82,10 +63,6 @@ let UsersService = class UsersService {
             LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
             LEFT JOIN master.members mm ON mm.memb_name = uum.usme_memb_name
             LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-            LEFT JOIN master.address ma ON ma.addr_id = uups.uspro_addr_id
-            LEFT JOIN master.provinces mp ON mp.prov_id = ma.addr_prov_id
-            LEFT JOIN master.country mc ON mc.country_id = mp.prov_country_id
-            LEFT JOIN master.regions mr ON mr.region_code = mc.country_region_id
             ORDER BY user_id DESC
         `).then((result) => {
             if (!result) {
@@ -229,6 +206,7 @@ let UsersService = class UsersService {
                     };
                 });
                 const userRoles = new UserRoles_1.UserRoles();
+                userRoles.usroUserId = dataUserRoles.usroUserId;
                 userRoles.usroRole = dataUserRoles.usroRole;
                 savedUserRoles = await transactionalEntityManager.save(userRoles)
                     .then((result) => {
@@ -276,6 +254,7 @@ let UsersService = class UsersService {
                     };
                 });
                 const userMembers = new UserMembers_1.UserMembers();
+                userMembers.usmeUserId = dataUserMembers.usmeUserId;
                 userMembers.usmeMembName = dataUserMembers.usmeMembName;
                 userMembers.usmePromoteDate = new Date();
                 userMembers.usmePoints = dataUserMembers.usmePoints;
@@ -314,7 +293,7 @@ let UsersService = class UsersService {
             });
             return {
                 message: 'Data inserted successfully',
-                allResults: { savedUser, savedUserPassword },
+                allResults: { savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints },
             };
         }
         catch (error) {

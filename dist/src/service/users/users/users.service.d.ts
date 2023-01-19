@@ -17,7 +17,6 @@ export declare class UsersService {
     constructor(usersRepository: Repository<Users>, userRolesRepository: Repository<UserRoles>, userPasswordRepository: Repository<UserPassword>, userBonusPoints: Repository<UserBonusPoints>, userMembers: Repository<UserMembers>, userProfiles: Repository<UserProfiles>, connection: Connection);
     findAllUsers(): Promise<any>;
     findAllJoinUsers(): Promise<any>;
-    findAllJoinUsersMaster(): Promise<any>;
     findOneUser(id: number): Promise<any>;
     createUsers(data: Users): Promise<any>;
     createUsersAndUserPassword(data1: Users, data2: UserPassword): Promise<{
@@ -31,7 +30,11 @@ export declare class UsersService {
         message: string;
         allResults: {
             savedUser: any;
+            savedUserRoles: any;
             savedUserPassword: any;
+            savedUserProfiles: any;
+            savedUserMembers: any;
+            savedUserBonusPoints: any;
         };
     }>;
     updateUsers(id: number, data: Users): Promise<any>;

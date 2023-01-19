@@ -5,6 +5,7 @@ import { Roles } from 'entities/Roles';
 import { UserBonusPoints } from 'entities/UserBonusPoints';
 import { UserMembers } from 'entities/UserMembers';
 import { UserPassword } from 'entities/UserPassword';
+import { UserProfiles } from 'entities/UserProfiles';
 import { UserRoles } from 'entities/UserRoles';
 import { Users } from 'entities/Users';
 import { DepartmentController } from 'src/controller/humanresource/department/department.controller';
@@ -25,7 +26,7 @@ import { UserrolesService } from 'src/service/users/userroles/userroles.service'
 import { UsersService } from 'src/service/users/users/users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Department, Users, Roles, UserRoles, UserPassword, UserBonusPoints, UserMembers])],
+  imports: [TypeOrmModule.forFeature([Department, Users, Roles, UserRoles, UserPassword, UserBonusPoints, UserMembers, UserProfiles])],
   controllers: [DepartmentController, UsersController, RolesController, UserrolesController, UserpasswordController, AuthController, UserbonuspointsController, UsermembersController],
   providers: [DepartmentService, UsersService, RolesService, UserrolesService, UserpasswordService, AuthService, UserbonuspointsService, UsermembersService],
 })

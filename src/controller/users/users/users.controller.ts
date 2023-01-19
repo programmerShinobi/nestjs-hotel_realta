@@ -20,11 +20,6 @@ export class UsersController {
         return this.usersService.findAllJoinUsers();
     }
 
-    @Get('join-all-users-master')
-    findAllJoinUsersMaster() {
-        return this.usersService.findAllJoinUsersMaster();
-    }
-
     @Get(':id')
     findOneUser(@Param() params) {
         return this.usersService.findOneUser(params.id)
@@ -35,13 +30,32 @@ export class UsersController {
         return this.usersService.createUsers(body);
     }
 
-    @Post('createWithPassword')
-    createUsersAndUserPassword(@Body() body1, @Body() body2) {
-        return this.usersService.createUsersAndUserPassword(body1, body2);
+    // @Post('createWithPassword')
+    // createUsersAndUserPassword(@Body() body1, @Body() body2) {
+    //     return this.usersService.createUsersAndUserPassword(body1, body2);
+    // }
+
+    @Post('createUsersAndAllJoin')
+    createUsersAndAllJoin(
+        @Body() body1,
+        @Body() body2,
+        @Body() body3,
+        @Body() body4,
+        @Body() body5,
+        @Body() body6,
+    ) {
+        return this.usersService.createUsersAndAllJoin(
+            body1,
+            body2,
+            body3,
+            body4,
+            body5,
+            body6,
+        );
     }
 
     @Put(':id')
-    updateUsers(@Param() params, @Body() body: bodyUsersDto) {
+    updateUsers(@Param() params, @Body() body: bodyUsersDto): Promise<any> {
         return this.usersService.updateUsers(params.id, body)
     }
 

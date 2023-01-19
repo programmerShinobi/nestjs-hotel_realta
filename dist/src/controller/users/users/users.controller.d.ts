@@ -5,14 +5,17 @@ export declare class UsersController {
     constructor(usersService: UsersService);
     findAllUsers(): Promise<any>;
     findAllJoinUsers(): Promise<any>;
-    findAllJoinUsersMaster(): Promise<any>;
     findOneUser(params: any): Promise<any>;
     createUsers(body: bodyUsersDto): Promise<any>;
-    createUsersAndUserPassword(body1: any, body2: any): Promise<{
+    createUsersAndAllJoin(body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
         message: string;
         allResults: {
             savedUser: any;
+            savedUserRoles: any;
             savedUserPassword: any;
+            savedUserProfiles: any;
+            savedUserMembers: any;
+            savedUserBonusPoints: any;
         };
     }>;
     updateUsers(params: any, body: bodyUsersDto): Promise<any>;

@@ -57,27 +57,27 @@ export class UsersService {
         });
     }
 
-    async findAllJoinUsers(): Promise<any>{
-        return await this.usersRepository.find({
-            order: { userId: -1 },
-            relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
-        }).then((result: any) => {
-            if (!result) {
-                throw new NotFoundException('Data not found');
-            }
-            return {
-                message: 'Data displayed successfully',
-                results: result
-            }
-        }).catch((err: any) => {
-            return {
-                message: err.message,
-                error: err.name
-            };
-        });
-    }
+    // async findAllJoinUsers(): Promise<any>{
+    //     return await this.usersRepository.find({
+    //         order: { userId: -1 },
+    //         relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
+    //     }).then((result: any) => {
+    //         if (!result) {
+    //             throw new NotFoundException('Data not found');
+    //         }
+    //         return {
+    //             message: 'Data displayed successfully',
+    //             results: result
+    //         }
+    //     }).catch((err: any) => {
+    //         return {
+    //             message: err.message,
+    //             error: err.name
+    //         };
+    //     });
+    // }
 
-    async findAllJoinUsersMaster(): Promise<any> {
+    async findAllJoinUsers(): Promise<any> {
         return await this.usersRepository.query(`
             SELECT * FROM users.users uuu
             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
@@ -87,10 +87,6 @@ export class UsersService {
             LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
             LEFT JOIN master.members mm ON mm.memb_name = uum.usme_memb_name
             LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-            LEFT JOIN master.address ma ON ma.addr_id = uups.uspro_addr_id
-            LEFT JOIN master.provinces mp ON mp.prov_id = ma.addr_prov_id
-            LEFT JOIN master.country mc ON mc.country_id = mp.prov_country_id
-            LEFT JOIN master.regions mr ON mr.region_code = mc.country_region_id
             ORDER BY user_id DESC
         `).then((result: any) => {
             if (!result) {
@@ -248,6 +244,7 @@ export class UsersService {
                     });
                 
                 const userRoles = new UserRoles();
+                userRoles.usroUserId = dataUserRoles.usroUserId;
                 userRoles.usroRole = dataUserRoles.usroRole;
                 savedUserRoles = await transactionalEntityManager.save(userRoles)
                     .then((result: any) => {
@@ -298,6 +295,7 @@ export class UsersService {
                     });
 
                 const userMembers = new UserMembers();
+                userMembers.usmeUserId = dataUserMembers.usmeUserId;
                 userMembers.usmeMembName = dataUserMembers.usmeMembName;
                 userMembers.usmePromoteDate = new Date();
                 userMembers.usmePoints = dataUserMembers.usmePoints;
@@ -337,14 +335,13 @@ export class UsersService {
             });
             return {
                 message: 'Data inserted successfully',
-                allResults: { savedUser, savedUserPassword },
+                allResults: { savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints },
             };
 
         } catch (error) {
             throw error;
         }
     }
-    
 
     async updateUsers(id: number, data: Users): Promise<any>{        
         let now = new Date();
