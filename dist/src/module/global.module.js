@@ -23,6 +23,7 @@ const roles_controller_1 = require("../controller/users/roles/roles.controller")
 const userbonuspoints_controller_1 = require("../controller/users/userbonuspoints/userbonuspoints.controller");
 const usermembers_controller_1 = require("../controller/users/usermembers/usermembers.controller");
 const userpassword_controller_1 = require("../controller/users/userpassword/userpassword.controller");
+const userprofiles_controller_1 = require("../controller/users/userprofiles/userprofiles.controller");
 const userroles_controller_1 = require("../controller/users/userroles/userroles.controller");
 const users_controller_1 = require("../controller/users/users/users.controller");
 const department_service_1 = require("../service/humanresource/department/department.service");
@@ -31,6 +32,7 @@ const roles_service_1 = require("../service/users/roles/roles.service");
 const userbonuspoints_service_1 = require("../service/users/userbonuspoints/userbonuspoints.service");
 const usermembers_service_1 = require("../service/users/usermembers/usermembers.service");
 const userpassword_service_1 = require("../service/users/userpassword/userpassword.service");
+const userprofiles_service_1 = require("../service/users/userprofiles/userprofiles.service");
 const userroles_service_1 = require("../service/users/userroles/userroles.service");
 const users_service_1 = require("../service/users/users/users.service");
 let GlobalModule = class GlobalModule {
@@ -38,8 +40,8 @@ let GlobalModule = class GlobalModule {
 GlobalModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([Department_1.Department, Users_1.Users, Roles_1.Roles, UserRoles_1.UserRoles, UserPassword_1.UserPassword, UserBonusPoints_1.UserBonusPoints, UserMembers_1.UserMembers, UserProfiles_1.UserProfiles])],
-        controllers: [department_controller_1.DepartmentController, users_controller_1.UsersController, roles_controller_1.RolesController, userroles_controller_1.UserrolesController, userpassword_controller_1.UserpasswordController, auth_controller_1.AuthController, userbonuspoints_controller_1.UserbonuspointsController, usermembers_controller_1.UsermembersController],
-        providers: [department_service_1.DepartmentService, users_service_1.UsersService, roles_service_1.RolesService, userroles_service_1.UserrolesService, userpassword_service_1.UserpasswordService, auth_service_1.AuthService, userbonuspoints_service_1.UserbonuspointsService, usermembers_service_1.UsermembersService],
+        controllers: [department_controller_1.DepartmentController, users_controller_1.UsersController, roles_controller_1.RolesController, userroles_controller_1.UserrolesController, userpassword_controller_1.UserpasswordController, auth_controller_1.AuthController, userbonuspoints_controller_1.UserbonuspointsController, usermembers_controller_1.UsermembersController, userprofiles_controller_1.UserprofilesController],
+        providers: [department_service_1.DepartmentService, users_service_1.UsersService, roles_service_1.RolesService, userroles_service_1.UserrolesService, userpassword_service_1.UserpasswordService, auth_service_1.AuthService, userbonuspoints_service_1.UserbonuspointsService, usermembers_service_1.UsermembersService, userprofiles_service_1.UserprofilesService],
     })
 ], GlobalModule);
 exports.GlobalModule = GlobalModule;
