@@ -110,9 +110,12 @@ let AuthService = class AuthService {
                 savedUser = await transactionalEntityManager.save(user)
                     .then((result) => {
                     if (!result) {
-                        throw new common_1.BadRequestException('Data users insert failed');
+                        throw new Error();
                     }
-                    return result;
+                    return {
+                        message: 'Success',
+                        results: result
+                    };
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -127,9 +130,12 @@ let AuthService = class AuthService {
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
                     .then((result) => {
                     if (!result) {
-                        throw new common_1.BadRequestException('Data insert failed');
+                        throw new Error();
                     }
-                    return result;
+                    return {
+                        message: 'Success',
+                        results: result
+                    };
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -137,18 +143,24 @@ let AuthService = class AuthService {
                     };
                 });
             });
-            if (!savedUser && !savedUserPassword) {
-                throw new common_1.BadRequestException('Data insert failed');
+            if (!savedUser) {
+                throw Error('Failed, email already exists');
+            }
+            else if (!savedUserPassword) {
+                throw Error('Failed, password is not strong enough');
             }
             else {
                 return {
-                    message: 'Register successfully',
-                    allResults: { savedUser, savedUserPassword },
+                    result: { savedUser, savedUserPassword },
                 };
             }
         }
         catch (err) {
-            throw err;
+            return {
+                error: err.name,
+                message: err.message,
+                detailMessage: err.toString(),
+            };
         }
     }
 };

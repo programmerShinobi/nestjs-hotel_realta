@@ -5,6 +5,8 @@ import { Users } from 'entities/Users';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { UserPassword } from 'entities/UserPassword';
+import { throwError } from 'rxjs';
+import { ValidationError } from 'class-validator';
 
 @Injectable()
 export class AuthService implements CanActivate{
@@ -110,9 +112,12 @@ export class AuthService implements CanActivate{
                 savedUser = await transactionalEntityManager.save(user)
                 .then((result: any) => {
                     if (!result) {
-                        throw new BadRequestException('Data users insert failed');
+                        throw new Error();
                     }
-                    return result;
+                    return {
+                        message: 'Success',
+                        results: result
+                    }
                 }).catch((err: any) => {
                     return {
                         message: err.message,
@@ -128,9 +133,12 @@ export class AuthService implements CanActivate{
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
                 .then((result: any) => {
                     if (!result) {
-                        throw new BadRequestException('Data insert failed');
+                        throw new Error();
                     }
-                    return result
+                    return {
+                        message: 'Success',
+                        results: result
+                    }
                 }).catch((err: any) => {
                     return {
                         message: err.message,
@@ -139,16 +147,21 @@ export class AuthService implements CanActivate{
                 });
 
             });
-            if (!savedUser && !savedUserPassword) {
-                throw new BadRequestException('Data insert failed')
+            if (!savedUser) {
+                throw Error('Failed, email already exists')
+            } else if ( !savedUserPassword) {
+                throw Error('Failed, password is not strong enough')
             } else {
                 return {
-                    message: 'Register successfully',
-                    allResults: { savedUser, savedUserPassword },
+                    result: { savedUser, savedUserPassword },
                 };
             }
         } catch (err) {
-        throw err;
+            return {
+            error: err.name,
+            message: err.message,
+            detailMessage: err.toString(),
+        };
         }
     }
     

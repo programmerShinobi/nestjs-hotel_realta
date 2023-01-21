@@ -9,10 +9,17 @@ export declare class AuthController {
     findEmail(params: any): Promise<any>;
     login(body: bodyLoginDto): Promise<any>;
     register(body1: bodyRegister1Dto, body2: bodyRegister2Dto): Promise<{
-        message: string;
-        allResults: {
+        result: {
             savedUser: any;
             savedUserPassword: any;
         };
+        error?: undefined;
+        message?: undefined;
+        detailMessage?: undefined;
+    } | {
+        error: any;
+        message: any;
+        detailMessage: any;
+        result?: undefined;
     }>;
 }
