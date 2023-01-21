@@ -32,6 +32,9 @@ let AuthController = class AuthController {
     login(body) {
         return this.authService.login(body);
     }
+    register(body1, body2) {
+        return this.authService.register(body1, body2);
+    }
 };
 __decorate([
     (0, common_1.Get)('password/:id'),
@@ -54,6 +57,14 @@ __decorate([
     __metadata("design:paramtypes", [auth_dto_1.bodyLoginDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, decorators_1.Post)('register'),
+    __param(0, (0, decorators_1.Body)()),
+    __param(1, (0, decorators_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "register", null);
 AuthController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('auth'),

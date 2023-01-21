@@ -4,12 +4,17 @@ import { Repository } from 'typeorm';
 import { Users } from 'entities/Users';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
+import { UserPassword } from 'entities/UserPassword';
 
 @Injectable()
 export class AuthService implements CanActivate{
     constructor(
         @InjectRepository(Users)
-        private userRepository: Repository<Users>
+        private userRepository: Repository<Users>,
+
+        @InjectRepository(UserPassword)
+        private userPasswordRepository: Repository<UserPassword>
+
     ) { }
 
     async findEmail(email: string): Promise<any>{
@@ -89,6 +94,60 @@ export class AuthService implements CanActivate{
             return true;
         } catch (error) {
             return false;
+        }
+    }
+
+       async register (data1: Users, data2: UserPassword) {
+        const manager = this.userRepository.manager;
+        try {
+            let savedUser;
+            let savedUserPassword; 
+            await manager.transaction(async (transactionalEntityManager) => {
+                const user = new Users();
+                user.userFullName = data1.userFullName;
+                user.userEmail = data1.userEmail;
+                user.userModifiedDate = new Date();
+                savedUser = await transactionalEntityManager.save(user)
+                .then((result: any) => {
+                    if (!result) {
+                        throw new BadRequestException('Data users insert failed');
+                    }
+                    return result;
+                }).catch((err: any) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(data2.uspaPasswordhash,salt);
+                const userPassword = new UserPassword();
+                userPassword.uspaPasswordhash = hashedPassword;
+                userPassword.uspaPasswordsalt = 'bcrypt';
+                savedUserPassword = await transactionalEntityManager.save(userPassword)
+                .then((result: any) => {
+                    if (!result) {
+                        throw new BadRequestException('Data insert failed');
+                    }
+                    return {
+                        message: 'Register successfully',
+                        results: result
+                    }
+                }).catch((err: any) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    }
+                });
+
+            });
+        return {
+            message: 'Register successfully',
+            allResults: { savedUser, savedUserPassword },
+        };
+        } catch (err) {
+        throw err;
         }
     }
     

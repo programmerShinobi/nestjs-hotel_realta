@@ -8,4 +8,11 @@ export declare class AuthController {
     findPassword(params: any): Promise<any>;
     findEmail(params: any): Promise<any>;
     login(body: bodyLoginDto): Promise<any>;
+    register(body1: any, body2: any): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
 }

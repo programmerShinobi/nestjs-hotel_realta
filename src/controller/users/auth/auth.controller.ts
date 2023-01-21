@@ -19,13 +19,16 @@ export class AuthController {
 
     @Get('email/:email')
     findEmail(@Param() params) {
-        return this.authService.findEmail(params.email)
+        return this.authService.findEmail(params.email);
     }
 
     @Post('login')
     login(@Body() body: bodyLoginDto) {
-        return  this.authService.login(body)
+        return this.authService.login(body);
     }
-    
 
+    @Post('register')
+    register(@Body() body1, @Body() body2) {
+        return this.authService.register(body1, body2);
+    }
 }

@@ -19,9 +19,11 @@ const typeorm_2 = require("typeorm");
 const Users_1 = require("../../../../entities/Users");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const UserPassword_1 = require("../../../../entities/UserPassword");
 let AuthService = class AuthService {
-    constructor(userRepository) {
+    constructor(userRepository, userPasswordRepository) {
         this.userRepository = userRepository;
+        this.userPasswordRepository = userPasswordRepository;
     }
     async findEmail(email) {
         return await this.userRepository.findOneBy({
@@ -95,11 +97,65 @@ let AuthService = class AuthService {
             return false;
         }
     }
+    async register(data1, data2) {
+        const manager = this.userRepository.manager;
+        try {
+            let savedUser;
+            let savedUserPassword;
+            await manager.transaction(async (transactionalEntityManager) => {
+                const user = new Users_1.Users();
+                user.userFullName = data1.userFullName;
+                user.userEmail = data1.userEmail;
+                user.userModifiedDate = new Date();
+                savedUser = await transactionalEntityManager.save(user)
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data users insert failed');
+                    }
+                    return result;
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(data2.uspaPasswordhash, salt);
+                const userPassword = new UserPassword_1.UserPassword();
+                userPassword.uspaPasswordhash = hashedPassword;
+                userPassword.uspaPasswordsalt = 'bcrypt';
+                savedUserPassword = await transactionalEntityManager.save(userPassword)
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data insert failed');
+                    }
+                    return {
+                        message: 'Register successfully',
+                        results: result
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+            });
+            return {
+                message: 'Register successfully',
+                allResults: { savedUser, savedUserPassword },
+            };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(Users_1.Users)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(UserPassword_1.UserPassword)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

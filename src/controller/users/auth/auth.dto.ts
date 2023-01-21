@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty, IsStrongPassword } from "class-validator";
 
 export class bodyLoginDto{
     @IsNotEmpty()
@@ -7,4 +7,17 @@ export class bodyLoginDto{
 
     @IsNotEmpty()
     userPassword: string;
+}
+
+export class bodyRegisterDto{
+    @IsNotEmpty()
+    @IsEmail()
+    userEmail: string;
+
+    @IsNotEmpty()
+    @IsStrongPassword()
+    uspaPasswordhash: string;
+
+    @IsNotEmpty()
+    userFullName: string;
 }
