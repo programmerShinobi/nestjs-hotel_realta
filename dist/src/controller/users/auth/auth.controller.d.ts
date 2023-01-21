@@ -1,6 +1,6 @@
 import { AuthService } from 'src/service/users/auth/auth.service';
 import { UserpasswordService } from 'src/service/users/userpassword/userpassword.service';
-import { bodyLoginDto } from './auth.dto';
+import { bodyLoginDto, bodyRegister1Dto, bodyRegister2Dto } from './auth.dto';
 export declare class AuthController {
     private userpasswordService;
     private authService;
@@ -8,7 +8,7 @@ export declare class AuthController {
     findPassword(params: any): Promise<any>;
     findEmail(params: any): Promise<any>;
     login(body: bodyLoginDto): Promise<any>;
-    register(body1: any, body2: any): Promise<{
+    register(body1: bodyRegister1Dto, body2: bodyRegister2Dto): Promise<{
         message: string;
         allResults: {
             savedUser: any;

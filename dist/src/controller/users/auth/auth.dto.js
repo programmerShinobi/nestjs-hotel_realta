@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bodyRegisterDto = exports.bodyLoginDto = void 0;
+exports.bodyRegister2Dto = exports.bodyRegister1Dto = exports.bodyLoginDto = void 0;
 const class_validator_1 = require("class-validator");
 class bodyLoginDto {
 }
@@ -23,21 +23,32 @@ __decorate([
     __metadata("design:type", String)
 ], bodyLoginDto.prototype, "userPassword", void 0);
 exports.bodyLoginDto = bodyLoginDto;
-class bodyRegisterDto {
+class bodyRegister1Dto {
 }
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], bodyRegister1Dto.prototype, "userFullName", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], bodyRegisterDto.prototype, "userEmail", void 0);
+], bodyRegister1Dto.prototype, "userEmail", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", Object)
+], bodyRegister1Dto.prototype, "userPassword", void 0);
+exports.bodyRegister1Dto = bodyRegister1Dto;
+class bodyRegister2Dto {
+}
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsStrongPassword)(),
     __metadata("design:type", String)
-], bodyRegisterDto.prototype, "uspaPasswordhash", void 0);
+], bodyRegister2Dto.prototype, "uspaPasswordhash", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], bodyRegisterDto.prototype, "userFullName", void 0);
-exports.bodyRegisterDto = bodyRegisterDto;
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", Number)
+], bodyRegister2Dto.prototype, "uspaUserId", void 0);
+exports.bodyRegister2Dto = bodyRegister2Dto;
 //# sourceMappingURL=auth.dto.js.map

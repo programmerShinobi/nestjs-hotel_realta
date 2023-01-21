@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsStrongPassword } from "class-validator";
+import { IsEmail, IsEmpty, IsNotEmpty, IsStrongPassword } from "class-validator";
 
 export class bodyLoginDto{
     @IsNotEmpty()
@@ -7,17 +7,44 @@ export class bodyLoginDto{
 
     @IsNotEmpty()
     userPassword: string;
+
 }
 
-export class bodyRegisterDto{
+export class bodyRegister1Dto{
+    @IsNotEmpty()
+    userFullName: string;
+    
     @IsNotEmpty()
     @IsEmail()
     userEmail: string;
+    
+    @IsEmpty()
+    userPassword: any; 
+    userId: any; 
+    userType: any; 
+    userCompanyName: any;
+    userPhoneNumber: any;
+    userModifiedDate: Date;
+    bookingOrders: any;
+    facilityPriceHistories: any;
+    hotelReviews: any;
+    orderMenus: any;
+    paymentTransactions: any; 
+    userAccounts: any;
+    userBonusPoints: any;
+    userMembers: any;
+    userProfiles: any; 
+    userRoles: any;
+    workOrders: any;
+}
 
+export class bodyRegister2Dto{
     @IsNotEmpty()
     @IsStrongPassword()
     uspaPasswordhash: string;
-
-    @IsNotEmpty()
-    userFullName: string;
+    
+    @IsEmpty()
+    uspaUserId: number;
+    uspaPasswordsalt: string
+    uspaUser: any;
 }

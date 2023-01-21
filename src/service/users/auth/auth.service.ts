@@ -130,10 +130,7 @@ export class AuthService implements CanActivate{
                     if (!result) {
                         throw new BadRequestException('Data insert failed');
                     }
-                    return {
-                        message: 'Register successfully',
-                        results: result
-                    }
+                    return result
                 }).catch((err: any) => {
                     return {
                         message: err.message,
@@ -142,10 +139,14 @@ export class AuthService implements CanActivate{
                 });
 
             });
-        return {
-            message: 'Register successfully',
-            allResults: { savedUser, savedUserPassword },
-        };
+            if (!savedUser && !savedUserPassword) {
+                throw new BadRequestException('Data insert failed')
+            } else {
+                return {
+                    message: 'Register successfully',
+                    allResults: { savedUser, savedUserPassword },
+                };
+            }
         } catch (err) {
         throw err;
         }

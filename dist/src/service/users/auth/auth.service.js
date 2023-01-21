@@ -129,10 +129,7 @@ let AuthService = class AuthService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data insert failed');
                     }
-                    return {
-                        message: 'Register successfully',
-                        results: result
-                    };
+                    return result;
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -140,10 +137,15 @@ let AuthService = class AuthService {
                     };
                 });
             });
-            return {
-                message: 'Register successfully',
-                allResults: { savedUser, savedUserPassword },
-            };
+            if (!savedUser && !savedUserPassword) {
+                throw new common_1.BadRequestException('Data insert failed');
+            }
+            else {
+                return {
+                    message: 'Register successfully',
+                    allResults: { savedUser, savedUserPassword },
+                };
+            }
         }
         catch (err) {
             throw err;

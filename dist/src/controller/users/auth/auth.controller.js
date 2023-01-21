@@ -62,7 +62,7 @@ __decorate([
     __param(0, (0, decorators_1.Body)()),
     __param(1, (0, decorators_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [auth_dto_1.bodyRegister1Dto, auth_dto_1.bodyRegister2Dto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 AuthController = __decorate([
