@@ -19,8 +19,8 @@ export class bodyRegister1Dto{
     userEmail: string;
     
     @IsEmpty()
+    userId: number; 
     userPassword: any; 
-    userId: any; 
     userType: any; 
     userCompanyName: any;
     userPhoneNumber: any;

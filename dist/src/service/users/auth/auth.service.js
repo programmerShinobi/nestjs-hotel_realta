@@ -98,10 +98,11 @@ let AuthService = class AuthService {
         }
     }
     async register(data1, data2) {
-        const manager = this.userRepository.manager;
+        const manager = this.userPasswordRepository.manager;
         try {
             let savedUser;
             let savedUserPassword;
+            let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users_1.Users();
                 user.userFullName = data1.userFullName;
@@ -112,6 +113,7 @@ let AuthService = class AuthService {
                     if (!result) {
                         throw new Error();
                     }
+                    IDuser = result.userId;
                     return {
                         message: 'Success',
                         results: result
@@ -127,6 +129,7 @@ let AuthService = class AuthService {
                 const userPassword = new UserPassword_1.UserPassword();
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
+                userPassword.uspaUserId = IDuser;
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
                     .then((result) => {
                     if (!result) {
@@ -149,17 +152,22 @@ let AuthService = class AuthService {
             else if (!savedUserPassword) {
                 throw Error('Failed, password is not strong enough');
             }
+            else if (!savedUser && !savedUserPassword) {
+                throw Error('Failed, email already exists and password is not strong enough');
+            }
             else {
                 return {
-                    result: { savedUser, savedUserPassword },
+                    savedUser, savedUserPassword
                 };
             }
         }
         catch (err) {
+            this.userRepository.query(`
+                users.roles, users.users, users.user_members, users.user_profiles, users.user_roles, users.user_password, users.user_bonus_points restart identity cascade;
+            `);
             return {
                 error: err.name,
-                message: err.message,
-                detailMessage: err.toString(),
+                message: err.message
             };
         }
     }

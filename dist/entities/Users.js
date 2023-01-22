@@ -57,6 +57,7 @@ __decorate([
     (0, typeorm_1.Column)("character varying", {
         name: "user_email",
         nullable: true,
+        unique: true,
         length: 256,
     }),
     __metadata("design:type", String)
@@ -127,6 +128,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Users.prototype, "workOrders", void 0);
 Users = __decorate([
+    (0, typeorm_1.Index)("u_user_email", ["userEmail"], { unique: true }),
     (0, typeorm_1.Index)("pk_user_id", ["userId"], { unique: true }),
     (0, typeorm_1.Index)("u_user_phone_number", ["userPhoneNumber"], { unique: true }),
     (0, typeorm_1.Entity)("users", { schema: "users" })

@@ -1,17 +1,10 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { Users } from "./Users";
 
 @Index("user_password_pkey", ["uspaUserId"], { unique: true })
 @Entity("user_password", { schema: "users" })
 export class UserPassword {
-  @PrimaryGeneratedColumn({ type: "integer", name: "uspa_user_id" })
+  @Column("integer", { primary: true, name: "uspa_user_id" })
   uspaUserId: number;
 
   @Column("character varying", {

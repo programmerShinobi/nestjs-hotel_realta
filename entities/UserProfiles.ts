@@ -1,18 +1,11 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Address } from "./Address";
 import { Users } from "./Users";
 
 @Index("pk_uspro_id", ["usproId"], { unique: true })
 @Entity("user_profiles", { schema: "users" })
 export class UserProfiles {
-  @PrimaryGeneratedColumn({ type: "integer", name: "uspro_id" })
+  @Column("integer", { primary: true, name: "uspro_id" })
   usproId: number;
 
   @Column("character varying", {

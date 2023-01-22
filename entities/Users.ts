@@ -19,6 +19,7 @@ import { UserProfiles } from "./UserProfiles";
 import { UserRoles } from "./UserRoles";
 import { WorkOrders } from "./WorkOrders";
 
+@Index("u_user_email", ["userEmail"], { unique: true })
 @Index("pk_user_id", ["userId"], { unique: true })
 @Index("u_user_phone_number", ["userPhoneNumber"], { unique: true })
 @Entity("users", { schema: "users" })
@@ -50,6 +51,7 @@ export class Users {
   @Column("character varying", {
     name: "user_email",
     nullable: true,
+    unique: true,
     length: 256,
   })
   userEmail: string | null;

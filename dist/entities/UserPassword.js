@@ -15,7 +15,7 @@ const Users_1 = require("./Users");
 let UserPassword = class UserPassword {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "uspa_user_id" }),
+    (0, typeorm_1.Column)("integer", { primary: true, name: "uspa_user_id" }),
     __metadata("design:type", Number)
 ], UserPassword.prototype, "uspaUserId", void 0);
 __decorate([

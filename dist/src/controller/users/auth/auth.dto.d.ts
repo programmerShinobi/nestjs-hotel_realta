@@ -5,8 +5,8 @@ export declare class bodyLoginDto {
 export declare class bodyRegister1Dto {
     userFullName: string;
     userEmail: string;
+    userId: number;
     userPassword: any;
-    userId: any;
     userType: any;
     userCompanyName: any;
     userPhoneNumber: any;
