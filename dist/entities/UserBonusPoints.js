@@ -15,7 +15,7 @@ const Users_1 = require("./Users");
 let UserBonusPoints = class UserBonusPoints {
 };
 __decorate([
-    (0, typeorm_1.Column)("integer", { primary: true, name: "ubpo_id" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "ubpo_id" }),
     __metadata("design:type", Number)
 ], UserBonusPoints.prototype, "ubpoId", void 0);
 __decorate([

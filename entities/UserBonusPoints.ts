@@ -1,10 +1,17 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Users } from "./Users";
 
 @Index("user_bonus_points_pkey", ["ubpoId"], { unique: true })
 @Entity("user_bonus_points", { schema: "users" })
 export class UserBonusPoints {
-  @Column("integer", { primary: true, name: "ubpo_id" })
+  @PrimaryGeneratedColumn({ type: "integer", name: "ubpo_id" })
   ubpoId: number;
 
   @Column("integer", { name: "ubpo_total_points", nullable: true })
