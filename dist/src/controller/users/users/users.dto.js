@@ -44,8 +44,8 @@ __decorate([
 ], bodyUsersDto.prototype, "userPhoneNumber", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Date)
-], bodyUsersDto.prototype, "userModifiedDate", void 0);
+    __metadata("design:type", Number)
+], bodyUsersDto.prototype, "userIsverified", void 0);
 exports.bodyUsersDto = bodyUsersDto;
 class detailUsersDto {
 }

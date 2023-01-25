@@ -5,6 +5,8 @@ import { Users } from 'entities/Users';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { UserPassword } from 'entities/UserPassword';
+// import {nodemailer} from 'nodemailer';
+
 import { throwError } from 'rxjs';
 import { ValidationError } from 'class-validator';
 
@@ -148,6 +150,38 @@ export class AuthService implements CanActivate{
                         error: err.name
                     }
                 });
+
+                // const nodemailer = require("nodemailer");
+                // // Generate test SMTP service account from ethereal.email
+                // // Only needed if you don't have a real mail account for testing
+                // // let testAccount = await nodemailer.createTestAccount();
+
+                // // create reusable transporter object using the default SMTP transport
+                // let transporter = nodemailer.createTransport({
+                //     host: "smtp.ethereal.email",
+                //     port: 465,
+                //     secure: true, // true for 465, false for other ports
+                //     auth: {
+                //     user: 'shinobibootcamp@gmail.com', // generated ethereal user
+                //     pass: 'Faqih_12195', // generated ethereal password
+                //     },
+                // });
+
+                // // send mail with defined transport object
+                // let info = await transporter.sendMail({
+                //     from: '"Fred Foo 👻" <shinobibootcamp@gmail.com>', // sender address
+                //     to: " shinobiprogrammer@gmail.com", // list of receivers
+                //     subject: "Hello ✔", // Subject line
+                //     text: "Hello world?", // plain text body
+                //     html: "<b>Hello world?</b>", // html body
+                // });
+
+                // console.log("Message sent: %s", info.messageId);
+                // // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+                // // Preview only available when sending through an Ethereal account
+                // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                // // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
             });
             // if (!savedUser) {

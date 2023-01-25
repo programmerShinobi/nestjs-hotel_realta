@@ -72,6 +72,10 @@ __decorate([
     __metadata("design:type", String)
 ], Users.prototype, "userPhoneNumber", void 0);
 __decorate([
+    (0, typeorm_1.Column)("integer", { name: "user_isverified", nullable: true }),
+    __metadata("design:type", Number)
+], Users.prototype, "userIsverified", void 0);
+__decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
         name: "user_modified_date",
         nullable: true,

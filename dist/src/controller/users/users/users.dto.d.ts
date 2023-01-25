@@ -5,6 +5,7 @@ export declare class bodyUsersDto {
     userType: string;
     userEmail: string;
     userPhoneNumber: string;
+    userIsverified: number;
     userModifiedDate: Date;
     bookingOrders: any;
     facilityPriceHistories: any;

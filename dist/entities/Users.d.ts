@@ -17,6 +17,7 @@ export declare class Users {
     userCompanyName: string | null;
     userEmail: string | null;
     userPhoneNumber: string | null;
+    userIsverified: number | null;
     userModifiedDate: Date | null;
     bookingOrders: BookingOrders[];
     facilityPriceHistories: FacilityPriceHistory[];

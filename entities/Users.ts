@@ -18,7 +18,6 @@ import { UserPassword } from "./UserPassword";
 import { UserProfiles } from "./UserProfiles";
 import { UserRoles } from "./UserRoles";
 import { WorkOrders } from "./WorkOrders";
-
 @Index("u_user_email", ["userEmail"], { unique: true })
 @Index("pk_user_id", ["userId"], { unique: true })
 @Index("u_user_phone_number", ["userPhoneNumber"], { unique: true })
@@ -63,6 +62,9 @@ export class Users {
     length: 25,
   })
   userPhoneNumber: string | null;
+
+  @Column("integer", { name: "user_isverified", nullable: true })
+  userIsverified: number | null;
 
   @Column("timestamp without time zone", {
     name: "user_modified_date",

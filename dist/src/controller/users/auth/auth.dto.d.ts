@@ -6,6 +6,7 @@ export declare class bodyRegister1Dto {
     userFullName: string;
     userEmail: string;
     userId: number;
+    userIsverified: number;
     userPassword: any;
     userType: any;
     userCompanyName: any;

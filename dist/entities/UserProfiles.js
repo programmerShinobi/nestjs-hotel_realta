@@ -16,7 +16,7 @@ const Users_1 = require("./Users");
 let UserProfiles = class UserProfiles {
 };
 __decorate([
-    (0, typeorm_1.Column)("integer", { primary: true, name: "uspro_id" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "uspro_id" }),
     __metadata("design:type", Number)
 ], UserProfiles.prototype, "usproId", void 0);
 __decorate([

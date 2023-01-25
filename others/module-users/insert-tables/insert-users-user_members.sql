@@ -1,0 +1,184 @@
+INSERT INTO users.user_members
+(
+	usme_user_id,
+	usme_memb_name, -- SILVER / GOLD / VIP / WIZARD
+	usme_promote_date,
+	usme_points,
+	usme_type -- default / expired
+) 
+VALUES
+(
+    1,
+    'WIZARD',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        2,
+        'WIZARD',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            3,
+            'WIZARD',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    4,
+    'VIP',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        5,
+        'VIP',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            6,
+            'VIP',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    7,
+    'GOLD',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        8,
+        'GOLD',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            9,
+            'GOLD',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    10,
+    'SILVER',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        11,
+        'SILVER',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            12,
+            'SILVER',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    13,
+    'WIZARD',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        14,
+        'WIZARD',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            15,
+            'WIZARD',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    16,
+    'VIP',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        17,
+        'VIP',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            18,
+            'VIP',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    19,
+    'GOLD',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        20,
+        'GOLD',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            21,
+            'GOLD',
+            '2023/01/01',
+            10,
+            'default'
+        ),
+
+(
+    22,
+    'SILVER',
+    '2023/01/01',
+    12,
+    'default'
+),
+    (
+        23,
+        'SILVER',
+        '2023/01/01',
+        11,
+        'default'
+    ),
+        (
+            24,
+            'SILVER',
+            '2023/01/01',
+            10,
+            'default'
+        )

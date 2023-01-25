@@ -30,6 +30,7 @@ export class bodyUsersDto {
     userPhoneNumber: string;   
 
     @IsEmpty()
+    userIsverified: number;
     userModifiedDate: Date;
     bookingOrders: any;
     facilityPriceHistories: any;

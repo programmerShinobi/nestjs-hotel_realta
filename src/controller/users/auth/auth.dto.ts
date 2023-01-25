@@ -20,6 +20,7 @@ export class bodyRegister1Dto{
     
     @IsEmpty()
     userId: number; 
+    userIsverified: number;
     userPassword: any; 
     userType: any; 
     userCompanyName: any;
