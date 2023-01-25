@@ -222,6 +222,7 @@ export class UsersService {
             let savedUserMembers;
             let savedUserProfiles;
 
+            let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const users = new Users();
                 users.userFullName = dataUsers.userFullName;
@@ -235,6 +236,7 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data users insert failed');
                         }
+                        IDuser = result.userId;
                         return result;
                     }).catch((err: any) => {
                         return {
@@ -244,7 +246,7 @@ export class UsersService {
                     });
                 
                 const userRoles = new UserRoles();
-                userRoles.usroUserId = dataUserRoles.usroUserId;
+                userRoles.usroUserId = IDuser;
                 userRoles.usroRole = dataUserRoles.usroRole;
                 savedUserRoles = await transactionalEntityManager.save(userRoles)
                     .then((result: any) => {
@@ -262,6 +264,7 @@ export class UsersService {
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
                 const userPassword = new UserPassword();
+                userPassword.uspaUserId = IDuser;
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
@@ -278,6 +281,7 @@ export class UsersService {
                     });
                 
                 const userBonusPoints = new UserBonusPoints();
+                userBonusPoints.ubpoUser = IDuser;
                 userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
                 userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
                 userBonusPoints.ubpoCreateOn = new Date();
@@ -295,7 +299,7 @@ export class UsersService {
                     });
 
                 const userMembers = new UserMembers();
-                userMembers.usmeUserId = dataUserMembers.usmeUserId;
+                userMembers.usmeUserId = IDuser;
                 userMembers.usmeMembName = dataUserMembers.usmeMembName;
                 userMembers.usmePromoteDate = new Date();
                 userMembers.usmePoints = dataUserMembers.usmePoints;
@@ -314,6 +318,7 @@ export class UsersService {
                     });
 
                 const userProfiles = new UserProfiles();
+                userProfiles.usproUser = IDuser;
                 userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
                 userProfiles.usproBirth = dataUserProfiles.usproBirth;
                 userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
