@@ -116,7 +116,6 @@ CREATE TABLE users.users(
 	user_company_name VARCHAR(255),
 	user_email VARCHAR(256),
 	user_phone_number VARCHAR(25),
-	user_isverified INT DEFAULT NULL,
 	user_modified_date TIMESTAMP DEFAULT now(),
 	CONSTRAINT pk_user_id PRIMARY KEY (user_id),
 	CONSTRAINT u_user_phone_number UNIQUE (user_phone_number),

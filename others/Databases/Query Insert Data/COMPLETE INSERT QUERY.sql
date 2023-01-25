@@ -170,7 +170,6 @@ user_type,
 user_company_name,
 user_email,
 user_phone_number,
-user_isverified,
 user_modified_date
 ) VALUES 
 (
@@ -179,7 +178,6 @@ user_modified_date
 'muhtiTravel',
 'faqihpratamamuhti@gmail.com',
 '+6281212499837',
-1,
 '2023/01/08 03:00:00'
 ), 
 (
@@ -188,7 +186,6 @@ user_modified_date
 'MuhtiCorporate',
 'fadlipratamamuhti@gmail.com',
 '+6289342968303',
-1,
 '2023/01/08 02:00:00'
 ), 
 (
@@ -197,7 +194,6 @@ user_modified_date
 'muhtiIndividual',
 'firlyisnaenimuhti@gmail.com',
 '+6283920429405',
-1,
 '2023/01/07 01:00:00'
 ), 
 (
@@ -206,7 +202,6 @@ user_modified_date
 'muhtiTravel',
 'fitryamuhti@gmail.com',
 '+6285830596205',
-1,
 '2023/01/06 00:00:00'
 ), 
 (
@@ -215,7 +210,6 @@ user_modified_date
 'shinobiCorporate',
 'uzumakinaruto@gmail.com',
 '+6284320985945',
-1,
 '2023/01/05 23:00:00'
 ), 
 (
@@ -224,7 +218,6 @@ user_modified_date
 'shinobiIndividual',
 'uchihasasuke@gmail.com',
 '+6286565748375',
-1,
 '2023/01/04 22:00:00'
 ), 
 (
@@ -233,7 +226,6 @@ user_modified_date
 'shinobiTravel',
 'orochimaru@gmail.com',
 '+6281029384756',
-1,
 '2023/01/03 21:00:00'
 ), 
 (
@@ -242,7 +234,6 @@ user_modified_date
 'shinobiCorporate',
 'kakashihatake@gmail.com',
 '+6288745095382',
-1,
 '2023/01/02 20:00:00'
 ), 
 (
@@ -251,7 +242,6 @@ user_modified_date
 'shinobiIndividual',
 'uchihaitachi@gmail.com',
 '+6288473994839',
-1,
 '2023/01/01 19:00:00'
 ), 
 (
@@ -260,7 +250,6 @@ user_modified_date
 'shinobiTravel',
 'senjutsunade@gmail.com',
 '+62846392058396',
-1,
 '2023/01/02 18:00:00'
 ), 
 (
@@ -269,7 +258,6 @@ user_modified_date
 'shinobiCorporate',
 'uzumakinagato@gmail.com',
 '+6284590567834',
-1,
 '2023/01/03 17:00:00'
 ), 
 (
@@ -278,7 +266,6 @@ user_modified_date
 'shinobiIndividual',
 'uchihaobito@gmail.com',
 '+6281212495467',
-1,
 '2023/01/04 16:00:00'
 ), 
 (
@@ -287,7 +274,6 @@ user_modified_date
 'shinobiTravel',
 'sai@gmail.com',
 '+6281211234837',
-1,
 '2023/01/05 15:00:00'
 ), 
 (
@@ -296,7 +282,6 @@ user_modified_date
 'shinobiCorporate',
 'yahiko@gmail.com',
 '+6281234499837',
-1,
 '2023/01/06 14:00:00'
 ), 
 (
@@ -305,7 +290,6 @@ user_modified_date
 'shinobiIndividual',
 'hoshigakikisame@gmail.com',
 '+6281214321837',
-1,
 '2023/01/07 13:00:00'
 ), 
 (
@@ -314,7 +298,6 @@ user_modified_date
 'shinobiTravel',
 'jiraiya@gmail.com',
 '+6281212497654',
-1,
 '2023/01/08 12:00:00'
 ), 
 (
@@ -323,7 +306,6 @@ user_modified_date
 'shinobiCorporate',
 'senjutobirama@gmail.com',
 '+6284538798967',
-1,
 '2023/01/07 11:00:00'
 ), 
 (
@@ -332,7 +314,6 @@ user_modified_date
 'shinobiIndividual',
 'uchihashisui@gmail.com',
 '+6281456799837',
-1,
 '2023/01/06 10:00:00'
 ), 
 (
@@ -341,7 +322,6 @@ user_modified_date
 'shinobiTravel',
 'yakushikabuto@gmail.com',
 '+6285634344526',
-1,
 '2023/01/05 09:00:00'
 ), 
 (
@@ -350,7 +330,6 @@ user_modified_date
 'shinobiCorporate',
 'namikazeminato@gmail.com',
 '+62812124934627',
-1,
 '2023/01/04 08:00:00'
 ), 
 (
@@ -359,7 +338,6 @@ user_modified_date
 'shinobiIndividual',
 'lee@gmail.com',
 '+62835462897685',
-1,
 '2023/01/03 07:00:00'
 ), 
 (
@@ -368,7 +346,6 @@ user_modified_date
 'shinobiTravel',
 'momochizabuza@gmail.com',
 '+6285634123456',
-1,
 '2023/01/05 09:00:00'
 ), 
 (
@@ -377,7 +354,6 @@ user_modified_date
 'shinobiCorporate',
 'senjuhashirama@gmail.com',
 '+62812124912345',
-1,
 '2023/01/04 08:00:00'
 ), 
 (
@@ -386,7 +362,6 @@ user_modified_date
 'shinobiIndividual',
 'hyuuganeji@gmail.com',
 '+62835462899837',
-1,
 '2023/01/03 07:00:00'
 );
 
