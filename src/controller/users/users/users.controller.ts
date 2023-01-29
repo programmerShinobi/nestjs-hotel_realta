@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Delete, UsePipes} from '@nestjs/common';
 import { UsersService } from 'src/service/users/users/users.service'; 
 import { ValidationPipe } from '@nestjs/common';
-import { bodyUsersDto } from './users.dto'; // Data Transfer Object
+import { bodyUpdateUsersDto, bodyUsersDto } from './users.dto'; // Data Transfer Object
 
 @UsePipes(new ValidationPipe())
 @Controller('users')
@@ -56,7 +56,7 @@ export class UsersController {
     }
 
     @Put(':id')
-    updateUsers(@Param() params, @Body() body: bodyUsersDto): Promise<any> {
+    updateUsers(@Param() params, @Body() body: bodyUpdateUsersDto): Promise<any> {
         return this.usersService.updateUsers(params.id, body)
     }
 

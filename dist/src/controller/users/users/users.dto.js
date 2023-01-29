@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsersDto = exports.detailUsersDto = exports.bodyUsersDto = void 0;
+exports.deleteUsersDto = exports.detailUsersDto = exports.bodyUpdateUsersDto = exports.bodyUsersDto = void 0;
 const class_validator_1 = require("class-validator");
 var Role;
 (function (Role) {
@@ -47,6 +47,32 @@ __decorate([
     __metadata("design:type", Number)
 ], bodyUsersDto.prototype, "userIsverified", void 0);
 exports.bodyUsersDto = bodyUsersDto;
+class bodyUpdateUsersDto {
+}
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], bodyUpdateUsersDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(Role),
+    __metadata("design:type", String)
+], bodyUpdateUsersDto.prototype, "userType", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], bodyUpdateUsersDto.prototype, "userEmail", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsPhoneNumber)(),
+    __metadata("design:type", String)
+], bodyUpdateUsersDto.prototype, "userPhoneNumber", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", Number)
+], bodyUpdateUsersDto.prototype, "userIsverified", void 0);
+exports.bodyUpdateUsersDto = bodyUpdateUsersDto;
 class detailUsersDto {
 }
 __decorate([

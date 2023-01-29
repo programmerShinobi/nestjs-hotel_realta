@@ -12,8 +12,45 @@ export class bodyUsersDto {
     @IsEmpty()
     // @IsNumber()
     userId: number;
+    
+    @IsNotEmpty()
+    userFullName: string;
+    userCompanyName: string;
 
     @IsNotEmpty()
+    @IsEnum(Role)
+    userType: string;
+
+    @IsNotEmpty()
+    @IsEmail()
+    userEmail: string;
+
+    @IsNotEmpty()
+    @IsPhoneNumber()
+    userPhoneNumber: string;   
+
+    @IsEmpty()
+    userIsverified: number;
+    userModifiedDate: Date;
+    bookingOrders: any;
+    facilityPriceHistories: any;
+    hotelReviews: any;
+    orderMenus: any;
+    paymentTransactions: any; 
+    userAccounts: any;
+    userBonusPoints: any;
+    userMembers: any;
+    userPassword: any; 
+    userProfiles: any; 
+    userRoles: any;
+    workOrders: any;
+}
+
+export class bodyUpdateUsersDto {
+    
+    
+    @IsNotEmpty()
+    userId: number;
     userFullName: string;
     userCompanyName: string;
 

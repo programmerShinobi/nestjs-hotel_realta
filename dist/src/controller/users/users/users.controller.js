@@ -86,7 +86,7 @@ __decorate([
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, users_dto_1.bodyUsersDto]),
+    __metadata("design:paramtypes", [Object, users_dto_1.bodyUpdateUsersDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUsers", null);
 __decorate([
