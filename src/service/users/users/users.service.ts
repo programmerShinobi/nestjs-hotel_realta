@@ -436,7 +436,7 @@ export class UsersService {
     }
     
     async updateAllJoinToUsers(
-        id: any,
+        id: number,
         dataUsers: Users,
         dataUserRoles: UserRoles,
         dataUserPassword: UserPassword,
@@ -532,7 +532,7 @@ export class UsersService {
                 // userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
                 // userBonusPoints.ubpoCreateOn = new Date();
                 // updatedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
-                updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints, { ubpoUser: id },
+                updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints, { ubpoId: id },
                 {
                     ubpoTotalPoints: dataUserBonusPoints.ubpoTotalPoints,
                     ubpoBonusType: dataUserBonusPoints.ubpoBonusType,
@@ -542,7 +542,7 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userBonusPoints update failed');
                         }
-                        let dataUserBonusPointsUpdated = this.userBonusPointsRepository.findOneBy({ ubpoUser: id });
+                        let dataUserBonusPointsUpdated = this.userBonusPointsRepository.findOneBy({ ubpoId: id });
                         return dataUserBonusPointsUpdated;
                     }).catch((err: any) => {
                         return {
@@ -583,7 +583,7 @@ export class UsersService {
                 // userProfiles.usproGender = dataUserProfiles.usproGender;
                 // userProfiles.usproAddr = dataUserProfiles.usproAddr;
                 // updatedUserProfiles = await transactionalEntityManager.save(userProfiles)
-                updatedUserProfiles = await transactionalEntityManager.update(UserProfiles, { usproUser: id },
+                updatedUserProfiles = await transactionalEntityManager.update(UserProfiles, { usproId: id },
                     {
                         usproNationalId : dataUserProfiles.usproNationalId,
                         usproBirth : dataUserProfiles.usproBirth,
@@ -596,7 +596,7 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userProfiles update failed');
                         }
-                        let dataUserProfilesUpdated = this.userProfilesRepository.findOneBy({ usproUser: id });
+                        let dataUserProfilesUpdated = this.userProfilesRepository.findOneBy({ usproId: id });
                         return dataUserProfilesUpdated;
                     }).catch((err: any) => {
                         return {

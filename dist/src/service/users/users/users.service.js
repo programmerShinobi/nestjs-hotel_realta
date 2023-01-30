@@ -451,7 +451,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints_1.UserBonusPoints, { ubpoUser: id }, {
+                updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints_1.UserBonusPoints, { ubpoId: id }, {
                     ubpoTotalPoints: dataUserBonusPoints.ubpoTotalPoints,
                     ubpoBonusType: dataUserBonusPoints.ubpoBonusType,
                     ubpoCreateOn: new Date()
@@ -460,7 +460,7 @@ let UsersService = class UsersService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userBonusPoints update failed');
                     }
-                    let dataUserBonusPointsUpdated = this.userBonusPointsRepository.findOneBy({ ubpoUser: id });
+                    let dataUserBonusPointsUpdated = this.userBonusPointsRepository.findOneBy({ ubpoId: id });
                     return dataUserBonusPointsUpdated;
                 }).catch((err) => {
                     return {
@@ -486,7 +486,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                updatedUserProfiles = await transactionalEntityManager.update(UserProfiles_1.UserProfiles, { usproUser: id }, {
+                updatedUserProfiles = await transactionalEntityManager.update(UserProfiles_1.UserProfiles, { usproId: id }, {
                     usproNationalId: dataUserProfiles.usproNationalId,
                     usproBirth: dataUserProfiles.usproBirth,
                     usproJobTitle: dataUserProfiles.usproJobTitle,
@@ -498,7 +498,7 @@ let UsersService = class UsersService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userProfiles update failed');
                     }
-                    let dataUserProfilesUpdated = this.userProfilesRepository.findOneBy({ usproUser: id });
+                    let dataUserProfilesUpdated = this.userProfilesRepository.findOneBy({ usproId: id });
                     return dataUserProfilesUpdated;
                 }).catch((err) => {
                     return {

@@ -45,7 +45,7 @@ export declare class UsersService {
         };
     }>;
     updateUsers(id: any, data: Users): Promise<any>;
-    updateAllJoinToUsers(id: any, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
+    updateAllJoinToUsers(id: number, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {
             updatedUser: any;
