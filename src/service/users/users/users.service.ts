@@ -445,24 +445,33 @@ export class UsersService {
         dataUserProfiles: UserProfiles
     ) {
         const manager = this.usersRepository.manager;
+        let updatedUser;
+        let updatedUserRoles;
+        let updatedUserPassword;
+        let updatedUserBonusPoints;
+        let updatedUserMembers;
+        let updatedUserProfiles;
         try {
-            let updatedUser;
-            let updatedUserRoles;
-            let updatedUserPassword;
-            let updatedUserBonusPoints;
-            let updatedUserMembers;
-            let updatedUserProfiles;
 
             await manager.transaction(async (transactionalEntityManager) => {
-                const users = await this.usersRepository.findOneBy({ userId: id });
-                users.userId = dataUsers.userId;
-                users.userFullName = dataUsers.userFullName;
-                users.userType = dataUsers.userType;
-                users.userCompanyName = dataUsers.userCompanyName;
-                users.userEmail = dataUsers.userEmail;
-                users.userPhoneNumber = dataUsers.userPhoneNumber;
-                users.userModifiedDate = new Date();
-                updatedUser = await transactionalEntityManager.save(users)
+                // const users = await this.usersRepository.findOneBy({ userId: id });
+                // users.userId = dataUsers.userId;
+                // users.userFullName = dataUsers.userFullName;
+                // users.userType = dataUsers.userType;
+                // users.userCompanyName = dataUsers.userCompanyName;
+                // users.userEmail = dataUsers.userEmail;
+                // users.userPhoneNumber = dataUsers.userPhoneNumber;
+                // users.userModifiedDate = new Date();
+                // updatedUser = await transactionalEntityManager.save(users)
+                updatedUser = await transactionalEntityManager.update(Users, { userId: id },
+                    {
+                        userFullName : dataUsers.userFullName,
+                        userType : dataUsers.userType,
+                        userCompanyName : dataUsers.userCompanyName,
+                        userEmail : dataUsers.userEmail,
+                        userPhoneNumber : dataUsers.userPhoneNumber,
+                        userModifiedDate : new Date()
+                    })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data users update failed');
@@ -474,9 +483,13 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                const userRoles = await this.userRolesRepository.findOneBy({ usroUserId: id });
-                userRoles.usroRole = dataUserRoles.usroRole;
-                updatedUserRoles = await transactionalEntityManager.save(userRoles)
+                // const userRoles = await this.userRolesRepository.findOneBy({ usroUserId: id });
+                // userRoles.usroRole = dataUserRoles.usroRole;
+                // updatedUserRoles = await transactionalEntityManager.save(userRoles)
+                updatedUserRoles = await transactionalEntityManager.update(UserRoles, { usroUserId: id },
+                    {
+                        usroRole : dataUserRoles.usroRole
+                    })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data userRoles update failed');
@@ -491,10 +504,15 @@ export class UsersService {
                 
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
-                const userPassword = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
-                userPassword.uspaPasswordhash = hashedPassword;
-                userPassword.uspaPasswordsalt = 'bcrypt';
-                updatedUserPassword = await transactionalEntityManager.save(userPassword)
+                // const userPassword = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                // userPassword.uspaPasswordhash = hashedPassword;
+                // userPassword.uspaPasswordsalt = 'bcrypt';
+                // updatedUserPassword = await transactionalEntityManager.save(userPassword)
+                updatedUserRoles = await transactionalEntityManager.update(UserPassword, { uspaUserId: id },
+                    {
+                        uspaPasswordhash :hashedPassword,
+                        uspaPasswordsalt : 'bcrypt'
+                    })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data userPassword update failed');
@@ -506,11 +524,17 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                const userBonusPoints = await this.userBonusPointsRepository.findOneBy({ ubpoUser: id });
-                userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
-                userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
-                userBonusPoints.ubpoCreateOn = new Date();
-                updatedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                // const userBonusPoints = await transactionalEntityManager.update(UserBonusPoints{ ubpoUser: id });
+                // userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
+                // userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
+                // userBonusPoints.ubpoCreateOn = new Date();
+                // updatedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints, { ubpoUser: id },
+                {
+                    ubpoTotalPoints: dataUserBonusPoints.ubpoTotalPoints,
+                    ubpoBonusType: dataUserBonusPoints.ubpoBonusType,
+                    ubpoCreateOn: new Date()
+                })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data userBonusPoints update failed');
@@ -522,12 +546,19 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                const userMembers = await this.userMembersRepository.findOneBy({ usmeUserId: id });
-                userMembers.usmeMembName = dataUserMembers.usmeMembName;
-                userMembers.usmePromoteDate = new Date();
-                userMembers.usmePoints = dataUserMembers.usmePoints;
-                userMembers.usmeType = dataUserMembers.usmeType
-                updatedUserMembers = await transactionalEntityManager.save(userMembers)
+                // const userMembers = await this.userMembersRepository.findOneBy({ usmeUserId: id });
+                // userMembers.usmeMembName = dataUserMembers.usmeMembName;
+                // userMembers.usmePromoteDate = new Date();
+                // userMembers.usmePoints = dataUserMembers.usmePoints;
+                // userMembers.usmeType = dataUserMembers.usmeType
+                // updatedUserMembers = await transactionalEntityManager.save(userMembers)
+                updatedUserMembers = await transactionalEntityManager.update(UserMembers, { usmeUserId: id },
+                    {
+                        usmeMembName : dataUserMembers.usmeMembName,
+                        usmePromoteDate : new Date(),
+                        usmePoints : dataUserMembers.usmePoints,
+                        usmeType : dataUserMembers.usmeType
+                    })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data userMembers update failed');
@@ -539,14 +570,23 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                const userProfiles = await this.userProfilesRepository.findOneBy({ usproUser: id });
-                userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
-                userProfiles.usproBirth = dataUserProfiles.usproBirth;
-                userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
-                userProfiles.usproMaritalStatus = dataUserProfiles.usproMaritalStatus;
-                userProfiles.usproGender = dataUserProfiles.usproGender;
-                userProfiles.usproAddr = dataUserProfiles.usproAddr;
-                updatedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                // const userProfiles = await this.userProfilesRepository.findOneBy({ usproUser: id });
+                // userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
+                // userProfiles.usproBirth = dataUserProfiles.usproBirth;
+                // userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
+                // userProfiles.usproMaritalStatus = dataUserProfiles.usproMaritalStatus;
+                // userProfiles.usproGender = dataUserProfiles.usproGender;
+                // userProfiles.usproAddr = dataUserProfiles.usproAddr;
+                // updatedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                updatedUserProfiles = await transactionalEntityManager.update(UserProfiles, { usproUser: id },
+                    {
+                        usproNationalId : dataUserProfiles.usproNationalId,
+                        usproBirth : dataUserProfiles.usproBirth,
+                        usproJobTitle : dataUserProfiles.usproJobTitle,
+                        usproMaritalStatus : dataUserProfiles.usproMaritalStatus,
+                        usproGender : dataUserProfiles.usproGender,
+                        usproAddr : dataUserProfiles.usproAddr,
+                    })
                     .then((result: any) => {
                         if (!result) {
                             throw new BadRequestException('Data userProfiles update failed');
