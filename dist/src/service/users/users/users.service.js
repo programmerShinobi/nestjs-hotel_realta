@@ -397,9 +397,8 @@ let UsersService = class UsersService {
             let updatedUserBonusPoints;
             let updatedUserMembers;
             let updatedUserProfiles;
-            let IDuser = id;
             await manager.transaction(async (transactionalEntityManager) => {
-                const users = await this.usersRepository.findOne({ where: { userId: id } });
+                const users = await this.usersRepository.findOneBy({ userId: id });
                 users.userId = dataUsers.userId;
                 users.userFullName = dataUsers.userFullName;
                 users.userType = dataUsers.userType;
@@ -412,7 +411,6 @@ let UsersService = class UsersService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data users update failed');
                     }
-                    IDuser = result.userId;
                     return result;
                 }).catch((err) => {
                     return {
@@ -420,7 +418,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                const userRoles = await this.userRolesRepository.findOne({ where: { usroUserId: id } });
+                const userRoles = await this.userRolesRepository.findOneBy({ usroUserId: id });
                 userRoles.usroRole = dataUserRoles.usroRole;
                 updatedUserRoles = await transactionalEntityManager.save(userRoles)
                     .then((result) => {
@@ -436,7 +434,7 @@ let UsersService = class UsersService {
                 });
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
-                const userPassword = await this.userPasswordRepository.findOne({ where: { uspaUserId: id } });
+                const userPassword = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
                 updatedUserPassword = await transactionalEntityManager.save(userPassword)
@@ -451,7 +449,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                const userBonusPoints = await this.userBonusPointsRepository.findOne({ where: { ubpoUser: id } });
+                const userBonusPoints = await this.userBonusPointsRepository.findOneBy({ ubpoUser: id });
                 userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
                 userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
                 userBonusPoints.ubpoCreateOn = new Date();
@@ -467,7 +465,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                const userMembers = await this.userMembersRepository.findOne({ where: { usmeUserId: id } });
+                const userMembers = await this.userMembersRepository.findOneBy({ usmeUserId: id });
                 userMembers.usmeMembName = dataUserMembers.usmeMembName;
                 userMembers.usmePromoteDate = new Date();
                 userMembers.usmePoints = dataUserMembers.usmePoints;
@@ -484,7 +482,7 @@ let UsersService = class UsersService {
                         error: err.name
                     };
                 });
-                const userProfiles = await this.userProfilesRepository.findOne({ where: { usproUser: id } });
+                const userProfiles = await this.userProfilesRepository.findOneBy({ usproUser: id });
                 userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
                 userProfiles.usproBirth = dataUserProfiles.usproBirth;
                 userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
