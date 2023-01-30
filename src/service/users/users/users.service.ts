@@ -495,7 +495,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userRoles update failed');
                         }
-                        return result;
+                        let dataUserRolesUpdated = this.userRolesRepository.findOneBy({ usroUserId: id });
+                        return dataUserRolesUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,
@@ -518,7 +519,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userPassword update failed');
                         }
-                        return result;
+                        let dataUserPasswordUpdated = this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                        return dataUserPasswordUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,
@@ -540,7 +542,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userBonusPoints update failed');
                         }
-                        return result;
+                        let dataUserBonusPointsUpdated = this.userBonusPointsRepository.findOneBy({ ubpoUser: id });
+                        return dataUserBonusPointsUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,
@@ -564,7 +567,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userMembers update failed');
                         }
-                        return result;
+                        let dataUserMembersUpdated = this.userMembersRepository.findOneBy({ usmeUserId: id });
+                        return dataUserMembersUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,
@@ -592,7 +596,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data userProfiles update failed');
                         }
-                        return result;
+                        let dataUserProfilesUpdated = this.userProfilesRepository.findOneBy({ usproUser: id });
+                        return dataUserProfilesUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,
