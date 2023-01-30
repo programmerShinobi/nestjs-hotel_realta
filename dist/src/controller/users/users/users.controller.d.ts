@@ -19,5 +19,16 @@ export declare class UsersController {
         };
     }>;
     updateUsers(params: any, body: bodyUpdateUsersDto): Promise<any>;
+    updateUsersAndAllJoin(params: any, body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
+        message: string;
+        allResults: {
+            updatedUser: any;
+            updatedUserRoles: any;
+            updatedUserPassword: any;
+            updatedUserProfiles: any;
+            updatedUserMembers: any;
+            updatedUserBonusPoints: any;
+        };
+    }>;
     deleteUsers(params: any): Promise<any>;
 }

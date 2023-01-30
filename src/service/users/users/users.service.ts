@@ -25,13 +25,13 @@ export class UsersService {
         private userPasswordRepository: Repository<UserPassword>,
         
         @InjectRepository(UserBonusPoints)
-        private userBonusPoints: Repository<UserBonusPoints>,
+        private userBonusPointsRepository: Repository<UserBonusPoints>,
 
         @InjectRepository(UserMembers)
-        private userMembers: Repository<UserMembers>,
+        private userMembersRepository: Repository<UserMembers>,
         
         @InjectRepository(UserProfiles)
-        private userProfiles: Repository<UserProfiles>,
+        private userProfilesRepository: Repository<UserProfiles>,
         
         @InjectConnection()
         private readonly connection: Connection,
@@ -348,7 +348,7 @@ export class UsersService {
         }
     }
 
-    async updateUsers(id: number, data: Users): Promise<any>{        
+    async updateUsers(id: any, data: Users): Promise<any>{        
         let now = new Date();
         return await this.usersRepository.update(id, {
             userFullName: data.userFullName,
@@ -373,6 +373,146 @@ export class UsersService {
                 error: err.name
             };
         });
+    }
+    
+    async updateUsersAndAllJoin(
+        id: any,
+        dataUsers: Users,
+        dataUserRoles: UserRoles,
+        dataUserPassword: UserPassword,
+        dataUserBonusPoints: UserBonusPoints,
+        dataUserMembers: UserMembers,
+        dataUserProfiles: UserProfiles
+    ) {
+        const manager = this.usersRepository.manager;
+        try {
+            let updatedUser;
+            let updatedUserRoles;
+            let updatedUserPassword;
+            let updatedUserBonusPoints;
+            let updatedUserMembers;
+            let updatedUserProfiles;
+
+            let IDuser = id;
+            await manager.transaction(async (transactionalEntityManager) => {
+                const users = await this.usersRepository.findOne({where: { userId: id }});
+                users.userId = dataUsers.userId;
+                users.userFullName = dataUsers.userFullName;
+                users.userType = dataUsers.userType;
+                users.userCompanyName = dataUsers.userCompanyName;
+                users.userEmail = dataUsers.userEmail;
+                users.userPhoneNumber = dataUsers.userPhoneNumber;
+                users.userModifiedDate = new Date();
+                updatedUser = await transactionalEntityManager.save(users)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data users update failed');
+                        }
+                        IDuser = result.userId;
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+                
+                const userRoles = await this.userRolesRepository.findOne({ where: { usroUserId: id} });
+                userRoles.usroRole = dataUserRoles.usroRole;
+                updatedUserRoles = await transactionalEntityManager.save(userRoles)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userRoles update failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+                
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
+                const userPassword = await this.userPasswordRepository.findOne({ where: { uspaUserId: id} });
+                userPassword.uspaPasswordhash = hashedPassword;
+                userPassword.uspaPasswordsalt = 'bcrypt';
+                updatedUserPassword = await transactionalEntityManager.save(userPassword)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userPassword update failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+                
+                const userBonusPoints = await this.userBonusPointsRepository.findOne({ where: { ubpoUser: id} });
+                userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
+                userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
+                userBonusPoints.ubpoCreateOn = new Date();
+                updatedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userBonusPoints update failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+
+                const userMembers = await this.userMembersRepository.findOne({ where: { usmeUserId: id} });
+                userMembers.usmeMembName = dataUserMembers.usmeMembName;
+                userMembers.usmePromoteDate = new Date();
+                userMembers.usmePoints = dataUserMembers.usmePoints;
+                userMembers.usmeType = dataUserMembers.usmeType
+                updatedUserMembers = await transactionalEntityManager.save(userMembers)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userMembers update failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+
+                const userProfiles = await this.userProfilesRepository.findOne({ where: { usproUser: id} });
+                userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
+                userProfiles.usproBirth = dataUserProfiles.usproBirth;
+                userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
+                userProfiles.usproMaritalStatus = dataUserProfiles.usproMaritalStatus;
+                userProfiles.usproGender = dataUserProfiles.usproGender;
+                userProfiles.usproAddr = dataUserProfiles.usproAddr;
+                updatedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userProfiles update failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+            });
+            return {
+                message: 'Data inserted successfully',
+                allResults: { updatedUser, updatedUserRoles, updatedUserPassword, updatedUserProfiles, updatedUserMembers, updatedUserBonusPoints },
+            };
+
+        } catch (error) {
+            throw error;
+        }
     }
 
     async deleteUsers(id: number): Promise<any>{

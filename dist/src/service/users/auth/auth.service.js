@@ -68,7 +68,7 @@ let AuthService = class AuthService {
                     return {
                         message: 'Login successfully',
                         userdata: payload,
-                        _token: token
+                        token: token
                     };
                 }
                 else {

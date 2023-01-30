@@ -10,11 +10,11 @@ export declare class UsersService {
     private usersRepository;
     private userRolesRepository;
     private userPasswordRepository;
-    private userBonusPoints;
-    private userMembers;
-    private userProfiles;
+    private userBonusPointsRepository;
+    private userMembersRepository;
+    private userProfilesRepository;
     private readonly connection;
-    constructor(usersRepository: Repository<Users>, userRolesRepository: Repository<UserRoles>, userPasswordRepository: Repository<UserPassword>, userBonusPoints: Repository<UserBonusPoints>, userMembers: Repository<UserMembers>, userProfiles: Repository<UserProfiles>, connection: Connection);
+    constructor(usersRepository: Repository<Users>, userRolesRepository: Repository<UserRoles>, userPasswordRepository: Repository<UserPassword>, userBonusPointsRepository: Repository<UserBonusPoints>, userMembersRepository: Repository<UserMembers>, userProfilesRepository: Repository<UserProfiles>, connection: Connection);
     findAllUsers(): Promise<any>;
     findAllJoinUsers(): Promise<any>;
     findOneUser(id: number): Promise<any>;
@@ -37,7 +37,18 @@ export declare class UsersService {
             savedUserBonusPoints: any;
         };
     }>;
-    updateUsers(id: number, data: Users): Promise<any>;
+    updateUsers(id: any, data: Users): Promise<any>;
+    updateUsersAndAllJoin(id: any, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
+        message: string;
+        allResults: {
+            updatedUser: any;
+            updatedUserRoles: any;
+            updatedUserPassword: any;
+            updatedUserProfiles: any;
+            updatedUserMembers: any;
+            updatedUserBonusPoints: any;
+        };
+    }>;
     deleteUsers(id: number): Promise<any>;
     findEmail(email: any): Promise<any>;
 }

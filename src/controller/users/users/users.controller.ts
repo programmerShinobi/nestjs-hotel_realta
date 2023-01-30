@@ -60,6 +60,27 @@ export class UsersController {
         return this.usersService.updateUsers(params.id, body)
     }
 
+    @Put('updateUsersAndAllJoin/:id')
+    updateUsersAndAllJoin(
+        @Param() params,
+        @Body() body1,
+        @Body() body2,
+        @Body() body3,
+        @Body() body4,
+        @Body() body5,
+        @Body() body6,
+    ) {
+        return this.usersService.updateUsersAndAllJoin(
+            params.id,
+            body1,
+            body2,
+            body3,
+            body4,
+            body5,
+            body6,
+        );
+    }
+
     @Delete(':id')
     deleteUsers(@Param() params) {
         return this.usersService.deleteUsers(params.id);

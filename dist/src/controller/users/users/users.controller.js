@@ -39,6 +39,9 @@ let UsersController = class UsersController {
     updateUsers(params, body) {
         return this.usersService.updateUsers(params.id, body);
     }
+    updateUsersAndAllJoin(params, body1, body2, body3, body4, body5, body6) {
+        return this.usersService.updateUsersAndAllJoin(params.id, body1, body2, body3, body4, body5, body6);
+    }
     deleteUsers(params) {
         return this.usersService.deleteUsers(params.id);
     }
@@ -89,6 +92,19 @@ __decorate([
     __metadata("design:paramtypes", [Object, users_dto_1.bodyUpdateUsersDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateUsers", null);
+__decorate([
+    (0, common_1.Put)('updateUsersAndAllJoin/:id'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)()),
+    __param(3, (0, common_1.Body)()),
+    __param(4, (0, common_1.Body)()),
+    __param(5, (0, common_1.Body)()),
+    __param(6, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "updateUsersAndAllJoin", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)()),
