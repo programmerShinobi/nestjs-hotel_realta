@@ -57,26 +57,6 @@ export class UsersService {
         });
     }
 
-    // async findAllJoinUsers(): Promise<any>{
-    //     return await this.usersRepository.find({
-    //         order: { userId: -1 },
-    //         relations: [ 'userRoles', 'userPassword', 'userBonusPoints', 'userMembers', 'userProfiles']
-    //     }).then((result: any) => {
-    //         if (!result) {
-    //             throw new NotFoundException('Data not found');
-    //         }
-    //         return {
-    //             message: 'Data displayed successfully',
-    //             results: result
-    //         }
-    //     }).catch((err: any) => {
-    //         return {
-    //             message: err.message,
-    //             error: err.name
-    //         };
-    //     });
-    // }
-
     async findAllJoinUsers(): Promise<any> {
         return await this.usersRepository.query(`
             SELECT * FROM users.users uuu
@@ -454,15 +434,6 @@ export class UsersService {
         try {
 
             await manager.transaction(async (transactionalEntityManager) => {
-                // const users = await this.usersRepository.findOneBy({ userId: id });
-                // users.userId = dataUsers.userId;
-                // users.userFullName = dataUsers.userFullName;
-                // users.userType = dataUsers.userType;
-                // users.userCompanyName = dataUsers.userCompanyName;
-                // users.userEmail = dataUsers.userEmail;
-                // users.userPhoneNumber = dataUsers.userPhoneNumber;
-                // users.userModifiedDate = new Date();
-                // updatedUser = await transactionalEntityManager.save(users)
                 updatedUser = await transactionalEntityManager.update(Users, { userId: id },
                     {
                         userFullName : dataUsers.userFullName,
@@ -484,9 +455,7 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                // const userRoles = await this.userRolesRepository.findOneBy({ usroUserId: id });
-                // userRoles.usroRole = dataUserRoles.usroRole;
-                // updatedUserRoles = await transactionalEntityManager.save(userRoles)
+                
                 updatedUserRoles = await transactionalEntityManager.update(UserRoles, { usroUserId: id },
                     {
                         usroRole : dataUserRoles.usroRole
@@ -506,10 +475,6 @@ export class UsersService {
                 
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
-                // const userPassword = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
-                // userPassword.uspaPasswordhash = hashedPassword;
-                // userPassword.uspaPasswordsalt = 'bcrypt';
-                // updatedUserPassword = await transactionalEntityManager.save(userPassword)
                 updatedUserRoles = await transactionalEntityManager.update(UserPassword, { uspaUserId: id },
                     {
                         uspaPasswordhash :hashedPassword,
@@ -527,11 +492,7 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                // const userBonusPoints = await transactionalEntityManager.update(UserBonusPoints{ ubpoUser: id });
-                // userBonusPoints.ubpoTotalPoints = dataUserBonusPoints.ubpoTotalPoints;
-                // userBonusPoints.ubpoBonusType = dataUserBonusPoints.ubpoBonusType;
-                // userBonusPoints.ubpoCreateOn = new Date();
-                // updatedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                
                 updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints, { ubpoId: id },
                 {
                     ubpoTotalPoints: dataUserBonusPoints.ubpoTotalPoints,
@@ -550,12 +511,7 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                // const userMembers = await this.userMembersRepository.findOneBy({ usmeUserId: id });
-                // userMembers.usmeMembName = dataUserMembers.usmeMembName;
-                // userMembers.usmePromoteDate = new Date();
-                // userMembers.usmePoints = dataUserMembers.usmePoints;
-                // userMembers.usmeType = dataUserMembers.usmeType
-                // updatedUserMembers = await transactionalEntityManager.save(userMembers)
+                
                 updatedUserMembers = await transactionalEntityManager.update(UserMembers, { usmeUserId: id },
                     {
                         usmeMembName : dataUserMembers.usmeMembName,
@@ -575,14 +531,7 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                // const userProfiles = await this.userProfilesRepository.findOneBy({ usproUser: id });
-                // userProfiles.usproNationalId = dataUserProfiles.usproNationalId;
-                // userProfiles.usproBirth = dataUserProfiles.usproBirth;
-                // userProfiles.usproJobTitle = dataUserProfiles.usproJobTitle;
-                // userProfiles.usproMaritalStatus = dataUserProfiles.usproMaritalStatus;
-                // userProfiles.usproGender = dataUserProfiles.usproGender;
-                // userProfiles.usproAddr = dataUserProfiles.usproAddr;
-                // updatedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                
                 updatedUserProfiles = await transactionalEntityManager.update(UserProfiles, { usproId: id },
                     {
                         usproNationalId : dataUserProfiles.usproNationalId,
