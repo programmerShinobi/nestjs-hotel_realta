@@ -121,11 +121,12 @@ let UsersService = class UsersService {
             };
         });
     }
-    async createUsersAndUserPassword(data1, data2) {
+    async createUserWithPassword(data1, data2) {
         const manager = this.usersRepository.manager;
         try {
             let savedUser;
             let savedUserPassword;
+            let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users_1.Users();
                 user.userFullName = data1.userFullName;
@@ -139,6 +140,7 @@ let UsersService = class UsersService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data users insert failed');
                     }
+                    IDuser = result.userId;
                     return result;
                 }).catch((err) => {
                     return {
@@ -149,6 +151,7 @@ let UsersService = class UsersService {
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(data2.uspaPasswordhash, salt);
                 const userPassword = new UserPassword_1.UserPassword();
+                userPassword.uspaUserId = IDuser;
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
@@ -176,7 +179,62 @@ let UsersService = class UsersService {
             throw err;
         }
     }
-    async createUsersAndAllJoin(dataUsers, dataUserRoles, dataUserPassword, dataUserBonusPoints, dataUserMembers, dataUserProfiles) {
+    async updateUserWithPassword(id, data1, data2) {
+        const manager = this.usersRepository.manager;
+        try {
+            let savedUser;
+            let savedUserPassword;
+            await manager.transaction(async (transactionalEntityManager) => {
+                const user = await this.usersRepository.findOneBy({ userId: id });
+                user.userFullName = data1.userFullName;
+                user.userType = data1.userType;
+                user.userCompanyName = data1.userCompanyName;
+                user.userEmail = data1.userEmail;
+                user.userPhoneNumber = data1.userPhoneNumber;
+                user.userModifiedDate = new Date();
+                savedUser = await transactionalEntityManager.save(user)
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data users update failed');
+                    }
+                    return result;
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(data2.uspaPasswordhash, salt);
+                const userPassword = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                userPassword.uspaPasswordhash = hashedPassword;
+                userPassword.uspaPasswordsalt = 'bcrypt';
+                savedUserPassword = await transactionalEntityManager.save(userPassword)
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data update failed');
+                    }
+                    return {
+                        message: 'Data updated successfully',
+                        results: result
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+            });
+            return {
+                message: 'Data inserted successfully',
+                allResults: { savedUser, savedUserPassword },
+            };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async createAllJoinToUsers(dataUsers, dataUserRoles, dataUserPassword, dataUserBonusPoints, dataUserMembers, dataUserProfiles) {
         const manager = this.usersRepository.manager;
         try {
             let savedUser;
@@ -330,7 +388,7 @@ let UsersService = class UsersService {
             };
         });
     }
-    async updateUsersAndAllJoin(id, dataUsers, dataUserRoles, dataUserPassword, dataUserBonusPoints, dataUserMembers, dataUserProfiles) {
+    async updateAllJoinToUsers(id, dataUsers, dataUserRoles, dataUserPassword, dataUserBonusPoints, dataUserMembers, dataUserProfiles) {
         const manager = this.usersRepository.manager;
         try {
             let updatedUser;

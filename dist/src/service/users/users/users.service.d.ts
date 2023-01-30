@@ -19,14 +19,21 @@ export declare class UsersService {
     findAllJoinUsers(): Promise<any>;
     findOneUser(id: number): Promise<any>;
     createUsers(data: Users): Promise<any>;
-    createUsersAndUserPassword(data1: Users, data2: UserPassword): Promise<{
+    createUserWithPassword(data1: Users, data2: UserPassword): Promise<{
         message: string;
         allResults: {
             savedUser: any;
             savedUserPassword: any;
         };
     }>;
-    createUsersAndAllJoin(dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
+    updateUserWithPassword(id: number, data1: Users, data2: UserPassword): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
+    createAllJoinToUsers(dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {
             savedUser: any;
@@ -38,7 +45,7 @@ export declare class UsersService {
         };
     }>;
     updateUsers(id: any, data: Users): Promise<any>;
-    updateUsersAndAllJoin(id: any, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
+    updateAllJoinToUsers(id: any, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {
             updatedUser: any;

@@ -15,7 +15,7 @@ export class UsersController {
         return this.usersService.findAllUsers();
     }
 
-    @Get('join-all-users')
+    @Get('findAllJoinUsers')
     findAllJoinUsers() {
         return this.usersService.findAllJoinUsers();
     }
@@ -31,13 +31,18 @@ export class UsersController {
         return this.usersService.createUsers(body);
     }
 
-    // @Post('createWithPassword')
-    // createUsersAndUserPassword(@Body() body1, @Body() body2) {
-    //     return this.usersService.createUsersAndUserPassword(body1, body2);
-    // }
+    @Post('createUserWithPassword')
+    createUserWithPassword(@Body() body1, @Body() body2) {
+        return this.usersService.createUserWithPassword(body1, body2);
+    }
 
-    @Post('createUsersAndAllJoin')
-    createUsersAndAllJoin(
+    @Put('updateUserWithPassword/:id')
+    updateUserWithPassword(@Param() params,@Body() body1, @Body() body2) {
+        return this.usersService.updateUserWithPassword(params.id,body1, body2);
+    }
+
+    @Post('createAllJoinToUsers')
+    createAllJoinToUsers(
         @Body() body1,
         @Body() body2,
         @Body() body3,
@@ -45,7 +50,7 @@ export class UsersController {
         @Body() body5,
         @Body() body6,
     ) {
-        return this.usersService.createUsersAndAllJoin(
+        return this.usersService.createAllJoinToUsers(
             body1,
             body2,
             body3,
@@ -60,8 +65,8 @@ export class UsersController {
         return this.usersService.updateUsers(params.id, body)
     }
 
-    @Put('updateUsersAndAllJoin/:id')
-    updateUsersAndAllJoin(
+    @Put('updateAllJoinToUsers/:id')
+    updateAllJoinToUsers(
         @Param() params,
         @Body() body1,
         @Body() body2,
@@ -70,7 +75,7 @@ export class UsersController {
         @Body() body5,
         @Body() body6,
     ) {
-        return this.usersService.updateUsersAndAllJoin(
+        return this.usersService.updateAllJoinToUsers(
             params.id,
             body1,
             body2,

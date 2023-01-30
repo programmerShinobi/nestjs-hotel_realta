@@ -7,7 +7,21 @@ export declare class UsersController {
     findAllJoinUsers(): Promise<any>;
     findOneUser(params: any): Promise<any>;
     createUsers(body: any): Promise<any>;
-    createUsersAndAllJoin(body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
+    createUserWithPassword(body1: any, body2: any): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
+    updateUserWithPassword(params: any, body1: any, body2: any): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
+    createAllJoinToUsers(body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
         message: string;
         allResults: {
             savedUser: any;
@@ -19,7 +33,7 @@ export declare class UsersController {
         };
     }>;
     updateUsers(params: any, body: bodyUpdateUsersDto): Promise<any>;
-    updateUsersAndAllJoin(params: any, body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
+    updateAllJoinToUsers(params: any, body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
         message: string;
         allResults: {
             updatedUser: any;
