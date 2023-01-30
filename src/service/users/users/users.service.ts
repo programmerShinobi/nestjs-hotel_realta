@@ -476,7 +476,8 @@ export class UsersService {
                         if (!result) {
                             throw new BadRequestException('Data users update failed');
                         }
-                        return result;
+                        let dataUserUpdated = this.usersRepository.findOneBy({ userId: id });
+                        return dataUserUpdated;
                     }).catch((err: any) => {
                         return {
                             message: err.message,

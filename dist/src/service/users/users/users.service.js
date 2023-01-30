@@ -410,7 +410,8 @@ let UsersService = class UsersService {
                     if (!result) {
                         throw new common_1.BadRequestException('Data users update failed');
                     }
-                    return result;
+                    let dataUserUpdated = this.usersRepository.findOneBy({ userId: id });
+                    return dataUserUpdated;
                 }).catch((err) => {
                     return {
                         message: err.message,
