@@ -32,6 +32,14 @@ __decorate([
     __metadata("design:type", String)
 ], UserProfiles.prototype, "usproBirth", void 0);
 __decorate([
+    (0, typeorm_1.Column)("text", {
+        name: "uspro_photo",
+        nullable: true,
+        default: () => "'user.png'",
+    }),
+    __metadata("design:type", String)
+], UserProfiles.prototype, "usproPhoto", void 0);
+__decorate([
     (0, typeorm_1.Column)("character varying", {
         name: "uspro_job_title",
         nullable: true,

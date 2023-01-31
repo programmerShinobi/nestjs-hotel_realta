@@ -25,6 +25,13 @@ export class UserProfiles {
   @Column("date", { name: "uspro_birth", nullable: true })
   usproBirth: string | null;
 
+  @Column("text", {
+    name: "uspro_photo",
+    nullable: true,
+    default: () => "'user.png'",
+  })
+  usproPhoto: string | null;
+
   @Column("character varying", {
     name: "uspro_job_title",
     nullable: true,

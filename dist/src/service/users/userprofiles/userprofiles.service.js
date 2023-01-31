@@ -39,6 +39,25 @@ let UserprofilesService = class UserprofilesService {
             };
         });
     }
+    async updateUserPhotoProfiles(id, data) {
+        return await this.userProfilesRepository.update(id, {
+            usproPhoto: data.usproPhoto
+        }).then(async (result) => {
+            if (!result.affected) {
+                throw new common_1.BadRequestException('Data update failed');
+            }
+            let dataUpdated = await this.userProfilesRepository.findOneBy({ usproId: id });
+            return {
+                message: 'Data updated successfully',
+                results: dataUpdated
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
 };
 UserprofilesService = __decorate([
     (0, common_1.Injectable)(),

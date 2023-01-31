@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserProfiles } from 'entities/UserProfiles';
 import { Repository } from 'typeorm';
@@ -26,6 +26,27 @@ export class UserprofilesService {
                 message: err.message,
                 error: err.name
             }
+        });
+    }
+
+    async updateUserPhotoProfiles(id:number, data:UserProfiles): Promise<any>{
+        return await this.userProfilesRepository.update(id, {
+            usproPhoto : data.usproPhoto
+        }).then(async (result: any) => {
+            if (!result.affected) {
+                throw new BadRequestException('Data update failed');
+            }
+
+            let dataUpdated = await this.userProfilesRepository.findOneBy({ usproId: id });
+            return {
+                message: 'Data updated successfully',
+                results: dataUpdated
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
         });
     }
 }
