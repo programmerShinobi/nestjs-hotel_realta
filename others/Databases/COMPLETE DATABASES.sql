@@ -146,6 +146,7 @@ CREATE TABLE users.user_profiles(
 	uspro_id SERIAL,
 	uspro_national_id VARCHAR(20),
 	uspro_birth DATE,
+	uspro_photo TEXT DEFAULT 'user.png',
 	uspro_job_title VARCHAR(50),
 	uspro_marital_status CHAR(1),
 	uspro_gender CHAR(1),
