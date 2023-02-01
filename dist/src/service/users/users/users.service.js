@@ -546,7 +546,7 @@ let UsersService = class UsersService {
             await manager.transaction(async (transactionalEntityManager) => {
                 deletedUser = await transactionalEntityManager.delete(Users_1.Users, { userId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data users update failed');
                     }
                     return {
@@ -560,7 +560,7 @@ let UsersService = class UsersService {
                 });
                 deletedUserRoles = await transactionalEntityManager.delete(UserRoles_1.UserRoles, { usroUserId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data userRoles update failed');
                     }
                     return {
@@ -574,7 +574,7 @@ let UsersService = class UsersService {
                 });
                 deletedUserPassword = await transactionalEntityManager.delete(UserPassword_1.UserPassword, { uspaUserId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data userPassword update failed');
                     }
                     return {
@@ -588,7 +588,7 @@ let UsersService = class UsersService {
                 });
                 deletedUserBonusPoints = await transactionalEntityManager.delete(UserBonusPoints_1.UserBonusPoints, { ubpoId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data userBonusPoints update failed');
                     }
                     return {
@@ -602,7 +602,7 @@ let UsersService = class UsersService {
                 });
                 deletedUserMembers = await transactionalEntityManager.delete(UserMembers_1.UserMembers, { usmeUserId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data userMembers update failed');
                     }
                     return {
@@ -616,7 +616,7 @@ let UsersService = class UsersService {
                 });
                 deletedUserProfiles = await transactionalEntityManager.delete(UserProfiles_1.UserProfiles, { usproId: id })
                     .then((result) => {
-                    if (!result) {
+                    if (!result.affected) {
                         throw new common_1.BadRequestException('Data userProfiles update failed');
                     }
                     return {

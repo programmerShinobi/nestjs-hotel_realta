@@ -595,7 +595,7 @@ export class UsersService {
             await manager.transaction(async (transactionalEntityManager) => {
                 deletedUser = await transactionalEntityManager.delete(Users, { userId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data users update failed');
                         }
                         return {
@@ -610,7 +610,7 @@ export class UsersService {
                 
                 deletedUserRoles = await transactionalEntityManager.delete(UserRoles, { usroUserId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data userRoles update failed');
                         }
                         return {
@@ -625,7 +625,7 @@ export class UsersService {
                 
                 deletedUserPassword = await transactionalEntityManager.delete(UserPassword, { uspaUserId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data userPassword update failed');
                         }
                         return {
@@ -640,7 +640,7 @@ export class UsersService {
                 
                 deletedUserBonusPoints = await transactionalEntityManager.delete(UserBonusPoints, { ubpoId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data userBonusPoints update failed');
                         }
                         return {
@@ -655,7 +655,7 @@ export class UsersService {
                 
                 deletedUserMembers = await transactionalEntityManager.delete(UserMembers, { usmeUserId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data userMembers update failed');
                         }
                         return {
@@ -670,7 +670,7 @@ export class UsersService {
                 
                 deletedUserProfiles = await transactionalEntityManager.delete(UserProfiles, { usproId: id })
                     .then((result: any) => {
-                        if (!result) {
+                        if (!result.affected) {
                             throw new BadRequestException('Data userProfiles update failed');
                         }
                         return {
