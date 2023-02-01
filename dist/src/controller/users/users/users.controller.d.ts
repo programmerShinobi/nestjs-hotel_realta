@@ -39,9 +39,9 @@ export declare class UsersController {
             updatedUser: any;
             updatedUserRoles: any;
             updatedUserPassword: any;
-            updatedUserProfiles: any;
-            updatedUserMembers: any;
             updatedUserBonusPoints: any;
+            updatedUserMembers: any;
+            updatedUserProfiles: any;
         };
     }>;
     deleteUsers(params: any): Promise<any>;

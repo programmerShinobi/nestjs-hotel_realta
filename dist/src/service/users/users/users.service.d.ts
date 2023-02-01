@@ -51,9 +51,9 @@ export declare class UsersService {
             updatedUser: any;
             updatedUserRoles: any;
             updatedUserPassword: any;
-            updatedUserProfiles: any;
-            updatedUserMembers: any;
             updatedUserBonusPoints: any;
+            updatedUserMembers: any;
+            updatedUserProfiles: any;
         };
     }>;
     deleteUsers(id: number): Promise<any>;

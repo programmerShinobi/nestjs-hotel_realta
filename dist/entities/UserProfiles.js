@@ -60,17 +60,23 @@ __decorate([
     __metadata("design:type", String)
 ], UserProfiles.prototype, "usproGender", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Address_1.Address, (address) => address.userProfiles),
+    (0, typeorm_1.ManyToOne)(() => Address_1.Address, (address) => address.userProfiles, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }),
     (0, typeorm_1.JoinColumn)([{ name: "uspro_addr_id", referencedColumnName: "addrId" }]),
     __metadata("design:type", Address_1.Address)
 ], UserProfiles.prototype, "usproAddr", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.userProfiles),
+    (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.userProfiles, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }),
     (0, typeorm_1.JoinColumn)([{ name: "uspro_user_id", referencedColumnName: "userId" }]),
     __metadata("design:type", Users_1.Users)
 ], UserProfiles.prototype, "usproUser", void 0);
 UserProfiles = __decorate([
-    (0, typeorm_1.Index)("pk_uspro_id", ["usproId"], { unique: true }),
+    (0, typeorm_1.Index)("user_profiles_pkey", ["usproId"], { unique: true }),
     (0, typeorm_1.Entity)("user_profiles", { schema: "users" })
 ], UserProfiles);
 exports.UserProfiles = UserProfiles;

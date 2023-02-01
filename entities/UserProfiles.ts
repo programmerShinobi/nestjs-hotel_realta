@@ -9,7 +9,7 @@ import {
 import { Address } from "./Address";
 import { Users } from "./Users";
 
-@Index("pk_uspro_id", ["usproId"], { unique: true })
+@Index("user_profiles_pkey", ["usproId"], { unique: true })
 @Entity("user_profiles", { schema: "users" })
 export class UserProfiles {
   @PrimaryGeneratedColumn({ type: "integer", name: "uspro_id" })
@@ -49,11 +49,17 @@ export class UserProfiles {
   @Column("character", { name: "uspro_gender", nullable: true, length: 1 })
   usproGender: string | null;
 
-  @ManyToOne(() => Address, (address) => address.userProfiles)
+  @ManyToOne(() => Address, (address) => address.userProfiles, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   @JoinColumn([{ name: "uspro_addr_id", referencedColumnName: "addrId" }])
   usproAddr: Address;
 
-  @ManyToOne(() => Users, (users) => users.userProfiles)
+  @ManyToOne(() => Users, (users) => users.userProfiles, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   @JoinColumn([{ name: "uspro_user_id", referencedColumnName: "userId" }])
   usproUser: Users;
 }

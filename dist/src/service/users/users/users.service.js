@@ -435,7 +435,7 @@ let UsersService = class UsersService {
                 });
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
-                updatedUserRoles = await transactionalEntityManager.update(UserPassword_1.UserPassword, { uspaUserId: id }, {
+                updatedUserPassword = await transactionalEntityManager.update(UserPassword_1.UserPassword, { uspaUserId: id }, {
                     uspaPasswordhash: hashedPassword,
                     uspaPasswordsalt: 'bcrypt'
                 })
@@ -508,8 +508,8 @@ let UsersService = class UsersService {
                 });
             });
             return {
-                message: 'Data inserted successfully',
-                allResults: { updatedUser, updatedUserRoles, updatedUserPassword, updatedUserProfiles, updatedUserMembers, updatedUserBonusPoints },
+                message: 'Data updated successfully',
+                allResults: { updatedUser, updatedUserRoles, updatedUserPassword, updatedUserBonusPoints, updatedUserMembers, updatedUserProfiles },
             };
         }
         catch (error) {
