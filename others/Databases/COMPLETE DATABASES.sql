@@ -143,7 +143,7 @@ CREATE TABLE users.user_members(
 
 -- CREATE TABLE user_profiles
 CREATE TABLE users.user_profiles(
-	uspro_id SERIAL,
+	uspro_id SERIAL PRIMARY KEY,
 	uspro_national_id VARCHAR(20),
 	uspro_birth DATE,
 	uspro_photo TEXT DEFAULT 'user.png',
@@ -152,11 +152,14 @@ CREATE TABLE users.user_profiles(
 	uspro_gender CHAR(1),
 	uspro_addr_id INT,
 	uspro_user_id INT,
-	CONSTRAINT pk_uspro_id PRIMARY KEY (uspro_id),
-	CONSTRAINT fk_uspro_addr_id FOREIGN KEY (uspro_addr_id)
-		REFERENCES master.address(addr_id),
-	CONSTRAINT fk_uspro_user_id FOREIGN KEY (uspro_user_id)
+	FOREIGN KEY (uspro_addr_id)
+		REFERENCES master.address(addr_id)
+			ON DELETE CASCADE
+			ON UPDATE CASCADE,
+	FOREIGN KEY (uspro_user_id)
 		REFERENCES users.users(user_id)
+			ON DELETE CASCADE
+			ON UPDATE CASCADE
 );
 
 -- CREATE TABLE user_roles
@@ -193,7 +196,7 @@ CREATE TABLE users.user_bonus_points(
 	ubpo_total_points INT,
 	ubpo_bonus_type CHAR(1),
 	ubpo_create_on TIMESTAMP,
-	CONSTRAINT fk_ubpo_user_id FOREIGN KEY (ubpo_user_id)
+	FOREIGN KEY (ubpo_user_id)
 		REFERENCES users.users(user_id)
 			ON DELETE CASCADE
 			ON UPDATE CASCADE
