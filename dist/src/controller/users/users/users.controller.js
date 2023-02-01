@@ -51,6 +51,9 @@ let UsersController = class UsersController {
     deleteUsers(params) {
         return this.usersService.deleteUsers(params.id);
     }
+    deleteAllJoinToUsers(params) {
+        return this.usersService.deleteAllJoinToUsers(params.id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -129,12 +132,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateAllJoinToUsers", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('deleteAllJoinToUsers/:id'),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUsers", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "deleteAllJoinToUsers", null);
 UsersController = __decorate([
     (0, common_1.UsePipes)(new common_2.ValidationPipe()),
     (0, common_1.Controller)('users'),

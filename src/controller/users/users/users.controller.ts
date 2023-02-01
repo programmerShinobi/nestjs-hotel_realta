@@ -86,9 +86,17 @@ export class UsersController {
         );
     }
 
-    @Delete(':id')
+    @Delete('deleteAllJoinToUsers/:id')
     deleteUsers(@Param() params) {
         return this.usersService.deleteUsers(params.id);
+    }
+
+    @Delete(':id')
+    deleteAllJoinToUsers(
+        @Param() params,
+        
+    ) {
+        return this.usersService.deleteAllJoinToUsers(params.id);
     }
 
 }

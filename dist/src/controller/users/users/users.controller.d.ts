@@ -45,4 +45,15 @@ export declare class UsersController {
         };
     }>;
     deleteUsers(params: any): Promise<any>;
+    deleteAllJoinToUsers(params: any): Promise<{
+        message: string;
+        allResults: {
+            deletedUser: any;
+            deletedUserRoles: any;
+            deletedUserPassword: any;
+            deletedUserProfiles: any;
+            deletedUserMembers: any;
+            deletedUserBonusPoints: any;
+        };
+    }>;
 }

@@ -57,5 +57,16 @@ export declare class UsersService {
         };
     }>;
     deleteUsers(id: number): Promise<any>;
+    deleteAllJoinToUsers(id: number): Promise<{
+        message: string;
+        allResults: {
+            deletedUser: any;
+            deletedUserRoles: any;
+            deletedUserPassword: any;
+            deletedUserProfiles: any;
+            deletedUserMembers: any;
+            deletedUserBonusPoints: any;
+        };
+    }>;
     findEmail(email: any): Promise<any>;
 }

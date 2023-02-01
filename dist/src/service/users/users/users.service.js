@@ -534,6 +534,110 @@ let UsersService = class UsersService {
             };
         });
     }
+    async deleteAllJoinToUsers(id) {
+        const manager = this.usersRepository.manager;
+        let deletedUser;
+        let deletedUserRoles;
+        let deletedUserPassword;
+        let deletedUserBonusPoints;
+        let deletedUserMembers;
+        let deletedUserProfiles;
+        try {
+            await manager.transaction(async (transactionalEntityManager) => {
+                deletedUser = await transactionalEntityManager.delete(Users_1.Users, { userId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data users update failed');
+                    }
+                    return {
+                        message: `Data users deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                deletedUserRoles = await transactionalEntityManager.delete(UserRoles_1.UserRoles, { usroUserId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userRoles update failed');
+                    }
+                    return {
+                        message: `Data userRoles deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                deletedUserPassword = await transactionalEntityManager.delete(UserPassword_1.UserPassword, { uspaUserId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userPassword update failed');
+                    }
+                    return {
+                        message: `Data userPassword deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                deletedUserBonusPoints = await transactionalEntityManager.delete(UserBonusPoints_1.UserBonusPoints, { ubpoId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userBonusPoints update failed');
+                    }
+                    return {
+                        message: `Data userBonusPoints deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                deletedUserMembers = await transactionalEntityManager.delete(UserMembers_1.UserMembers, { usmeUserId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userMembers update failed');
+                    }
+                    return {
+                        message: `Data userMembers deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                deletedUserProfiles = await transactionalEntityManager.delete(UserProfiles_1.UserProfiles, { usproId: id })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userProfiles update failed');
+                    }
+                    return {
+                        message: `Data userProfiles deleted with ID : ${id} successfully`
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+            });
+            return {
+                message: 'Data deleted successfully',
+                allResults: { deletedUser, deletedUserRoles, deletedUserPassword, deletedUserProfiles, deletedUserMembers, deletedUserBonusPoints },
+            };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     async findEmail(email) {
         return await this.usersRepository.findOneBy({ userEmail: email });
     }
