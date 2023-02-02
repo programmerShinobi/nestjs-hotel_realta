@@ -133,10 +133,7 @@ let AuthService = class AuthService {
                         throw new Error();
                     }
                     IDuser = result.userId;
-                    return {
-                        message: 'Success',
-                        results: result
-                    };
+                    return result;
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -154,10 +151,7 @@ let AuthService = class AuthService {
                     if (!result) {
                         throw new Error();
                     }
-                    return {
-                        message: 'Success',
-                        results: result
-                    };
+                    return result;
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -176,6 +170,7 @@ let AuthService = class AuthService {
             }
             else {
                 return {
+                    message: "Register Successfully",
                     savedUser, savedUserPassword
                 };
             }

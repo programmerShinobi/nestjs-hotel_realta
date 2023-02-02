@@ -142,10 +142,7 @@ export class AuthService implements CanActivate{
                         throw new Error();
                     }
                     IDuser = result.userId;
-                    return {
-                        message: 'Success',
-                        results: result
-                    }
+                    return result
                 }).catch((err: any) => {
                     return {
                         message: err.message,
@@ -164,10 +161,7 @@ export class AuthService implements CanActivate{
                     if (!result) {
                         throw new Error();
                     }
-                    return {
-                        message: 'Success',
-                        results: result
-                    }
+                    return result
                 }).catch((err: any) => {
                     return {
                         message: err.message,
@@ -226,6 +220,7 @@ export class AuthService implements CanActivate{
                 throw Error('Failed, email already exists and password is not strong enough')
             } else {
                 return {
+                    message: "Register Successfully",
                     savedUser, savedUserPassword
                 }
             }

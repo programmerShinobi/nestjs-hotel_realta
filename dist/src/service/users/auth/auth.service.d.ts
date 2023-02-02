@@ -10,10 +10,10 @@ export declare class AuthService implements CanActivate {
     login(data: any): Promise<any>;
     canActivate(context: ExecutionContext): Promise<boolean>;
     register(data1: Users, data2: UserPassword): Promise<{
+        message: string;
         savedUser: any;
         savedUserPassword: any;
         error?: undefined;
-        message?: undefined;
     } | {
         error: any;
         message: any;
