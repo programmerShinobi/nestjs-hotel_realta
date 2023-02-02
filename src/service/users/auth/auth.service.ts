@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, BadRequestException, CanActivate, ExecutionContext, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from 'entities/Users';
@@ -47,7 +47,10 @@ export class AuthService implements CanActivate{
     
                 const passwordUser = await this.userRepository.findOne({
                     where: { userId: IdUser },
-                    relations: { userPassword: true }
+                    relations: [
+                        "userRoles",
+                        "userPassword"
+                    ]
                 }).then((result: any) => {
                     return result.userPassword.uspaPasswordhash
                 }).catch((err: any) => {
@@ -56,19 +59,40 @@ export class AuthService implements CanActivate{
                         error: err.name
                     }
                 });
+
+
     
-                const payload = {
-                    userEmail: users.userEmail,
-                    userFullName: users.userFullName,
-                    userPhoneNumber: users.userPhoneNumber
-                }
+                let payload ={}
     
                 if (await bcrypt.compare(data.userPassword, passwordUser)) {
                     const token = await jwt.sign(
                         payload,
                         process.env.SECRET_KEY,
                         { expiresIn: '3m' }
-                    );           
+                    );
+                    
+                    payload = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword",
+                            "userBonusPoints",
+                            "userMembers",
+                            "userProfiles",
+                        ]
+                    }).then(async(result: any) => {
+                        if (!result) {
+                            throw new NotFoundException('Data not found');
+                        }
+
+                        return result;
+                        
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        };
+                    });
                     
                     return {
                         message: 'Login successfully',

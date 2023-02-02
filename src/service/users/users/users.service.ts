@@ -57,18 +57,44 @@ export class UsersService {
         });
     }
 
+    // async findAllJoinUsers(): Promise<any> {
+    //     return await this.usersRepository.query(`
+    //         SELECT * FROM users.users uuu
+    //         LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+    //         LEFT JOIN users.roles ur ON ur.role_id = uur.usro_role_id
+    //         LEFT JOIN users.user_bonus_points uubp ON uubp.ubpo_user_id = uuu.user_id
+    //         LEFT JOIN users.user_password uup ON uup.uspa_user_id = uuu.user_id
+    //         LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
+    //         LEFT JOIN master.members mm ON mm.memb_name = uum.usme_memb_name
+    //         LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+    //         ORDER BY user_id DESC
+    //     `).then((result: any) => {
+    //         if (!result) {
+    //             throw new NotFoundException('Data not found');
+    //         }
+    //         return {
+    //             message: 'Data displayed successfully',
+    //             results: result
+    //         }
+    //     }).catch((err: any) => {
+    //         return {
+    //             message: err.message,
+    //             error: err.name
+    //         };
+    //     });
+    // }
+
     async findAllJoinUsers(): Promise<any> {
-        return await this.usersRepository.query(`
-            SELECT * FROM users.users uuu
-            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
-            LEFT JOIN users.roles ur ON ur.role_id = uur.usro_role_id
-            LEFT JOIN users.user_bonus_points uubp ON uubp.ubpo_user_id = uuu.user_id
-            LEFT JOIN users.user_password uup ON uup.uspa_user_id = uuu.user_id
-            LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
-            LEFT JOIN master.members mm ON mm.memb_name = uum.usme_memb_name
-            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-            ORDER BY user_id DESC
-        `).then((result: any) => {
+        return await this.usersRepository.find({
+            order: { userId: -1 },
+            relations: [
+                "userRoles",
+                "userPassword",
+                "userBonusPoints",
+                "userMembers",
+                "userProfiles",
+            ]
+        }).then((result: any) => {
             if (!result) {
                 throw new NotFoundException('Data not found');
             }

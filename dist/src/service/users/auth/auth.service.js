@@ -49,7 +49,10 @@ let AuthService = class AuthService {
                 });
                 const passwordUser = await this.userRepository.findOne({
                     where: { userId: IdUser },
-                    relations: { userPassword: true }
+                    relations: [
+                        "userRoles",
+                        "userPassword"
+                    ]
                 }).then((result) => {
                     return result.userPassword.uspaPasswordhash;
                 }).catch((err) => {
@@ -58,13 +61,29 @@ let AuthService = class AuthService {
                         error: err.name
                     };
                 });
-                const payload = {
-                    userEmail: users.userEmail,
-                    userFullName: users.userFullName,
-                    userPhoneNumber: users.userPhoneNumber
-                };
+                let payload = {};
                 if (await bcrypt.compare(data.userPassword, passwordUser)) {
                     const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
+                    payload = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword",
+                            "userBonusPoints",
+                            "userMembers",
+                            "userProfiles",
+                        ]
+                    }).then(async (result) => {
+                        if (!result) {
+                            throw new common_1.NotFoundException('Data not found');
+                        }
+                        return result;
+                    }).catch((err) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        };
+                    });
                     return {
                         message: 'Login successfully',
                         userdata: payload,
