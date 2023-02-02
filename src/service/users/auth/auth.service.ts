@@ -60,8 +60,6 @@ export class AuthService implements CanActivate{
                     }
                 });
 
-
-    
                 let payload ={}
     
                 if (await bcrypt.compare(data.userPassword, passwordUser)) {
@@ -71,16 +69,11 @@ export class AuthService implements CanActivate{
                         { expiresIn: '3m' }
                     );
                     
-                    payload = await this.userRepository.findOne({
-                        where: { userId: IdUser },
-                        relations: [
-                            "userRoles",
-                            "userPassword",
-                            "userBonusPoints",
-                            "userMembers",
-                            "userProfiles",
-                        ]
-                    }).then(async(result: any) => {
+                    payload = await this.userRepository.query(`
+                        SELECT * FROM users.users uuu
+                        LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                        WHERE uuu.user_id = ${IdUser} 
+                    `).then(async(result: any) => {
                         if (!result) {
                             throw new NotFoundException('Data not found');
                         }

@@ -64,16 +64,11 @@ let AuthService = class AuthService {
                 let payload = {};
                 if (await bcrypt.compare(data.userPassword, passwordUser)) {
                     const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
-                    payload = await this.userRepository.findOne({
-                        where: { userId: IdUser },
-                        relations: [
-                            "userRoles",
-                            "userPassword",
-                            "userBonusPoints",
-                            "userMembers",
-                            "userProfiles",
-                        ]
-                    }).then(async (result) => {
+                    payload = await this.userRepository.query(`
+                        SELECT * FROM users.users uuu
+                        LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                        WHERE uuu.user_id = ${IdUser} 
+                    `).then(async (result) => {
                         if (!result) {
                             throw new common_1.NotFoundException('Data not found');
                         }
