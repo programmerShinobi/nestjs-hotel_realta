@@ -28,7 +28,7 @@ export class AuthController {
     }
 
     @Post('register')
-    register(@Body() body1:bodyRegister1Dto, @Body() body2:bodyRegister2Dto) {
-        return this.authService.register(body1, body2);
+    register(@Body() body1:bodyRegister1Dto, @Body() body2, @Body() body3:bodyRegister2Dto) {
+        return this.authService.register(body1, body2, body3);
     }
 }

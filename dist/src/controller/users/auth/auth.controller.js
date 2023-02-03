@@ -32,8 +32,8 @@ let AuthController = class AuthController {
     login(body) {
         return this.authService.login(body);
     }
-    register(body1, body2) {
-        return this.authService.register(body1, body2);
+    register(body1, body2, body3) {
+        return this.authService.register(body1, body2, body3);
     }
 };
 __decorate([
@@ -61,8 +61,9 @@ __decorate([
     (0, decorators_1.Post)('register'),
     __param(0, (0, decorators_1.Body)()),
     __param(1, (0, decorators_1.Body)()),
+    __param(2, (0, decorators_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [auth_dto_1.bodyRegister1Dto, auth_dto_1.bodyRegister2Dto]),
+    __metadata("design:paramtypes", [auth_dto_1.bodyRegister1Dto, Object, auth_dto_1.bodyRegister2Dto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 AuthController = __decorate([

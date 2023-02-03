@@ -26,10 +26,11 @@ export declare class UsersService {
             savedUserPassword: any;
         };
     }>;
-    updateUserWithPassword(id: number, data1: Users, data2: UserPassword): Promise<{
+    createUserPasswordRoles(dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword): Promise<{
         message: string;
         allResults: {
             savedUser: any;
+            savedUserRoles: any;
             savedUserPassword: any;
         };
     }>;
@@ -45,6 +46,13 @@ export declare class UsersService {
         };
     }>;
     updateUsers(id: any, data: Users): Promise<any>;
+    updateUserWithPassword(id: number, data1: Users, data2: UserPassword): Promise<{
+        message: string;
+        allResults: {
+            savedUser: any;
+            savedUserPassword: any;
+        };
+    }>;
     updateAllJoinToUsers(id: number, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {

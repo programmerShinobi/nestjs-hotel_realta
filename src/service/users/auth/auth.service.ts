@@ -9,12 +9,16 @@ import { UserPassword } from 'entities/UserPassword';
 
 import { throwError } from 'rxjs';
 import { ValidationError } from 'class-validator';
+import { UserRoles } from 'entities/UserRoles';
 
 @Injectable()
 export class AuthService implements CanActivate{
     constructor(
         @InjectRepository(Users)
         private userRepository: Repository<Users>,
+
+        @InjectRepository(UserRoles)
+        private userRolesRepository: Repository<UserRoles>,
 
         @InjectRepository(UserPassword)
         private userPasswordRepository: Repository<UserPassword>
@@ -118,11 +122,12 @@ export class AuthService implements CanActivate{
         }
     }
 
-       async register (data1: Users, data2: UserPassword) {
+       async register (data1: Users, data2:UserRoles, data3: UserPassword) {
         const manager = this.userPasswordRepository.manager;
         try {
             let savedUser;
             let savedUserPassword; 
+            let savedUserRoles;
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users();
@@ -132,7 +137,7 @@ export class AuthService implements CanActivate{
                 savedUser = await transactionalEntityManager.save(user)
                 .then((result: any) => {
                     if (!result) {
-                        throw new Error();
+                        throw new BadRequestException('Data users insert failed');;
                     }
                     IDuser = result.userId;
                     return result
@@ -143,8 +148,24 @@ export class AuthService implements CanActivate{
                     };
                 });
 
+                const userRoles:any = new UserRoles();
+                userRoles.usroUserId = IDuser;
+                userRoles.usroRole = 5;
+                savedUserRoles = await transactionalEntityManager.save(userRoles)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userRoles insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+
                 const salt = await bcrypt.genSalt();
-                const hashedPassword = await bcrypt.hash(data2.uspaPasswordhash,salt);
+                const hashedPassword = await bcrypt.hash(data3.uspaPasswordhash,salt);
                 const userPassword = new UserPassword();
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
@@ -206,15 +227,15 @@ export class AuthService implements CanActivate{
             // }
             
             if (!savedUser) {
-                throw Error('Failed, email already exists')
+                throw new Error('Failed, email already exists')
             } else if ( !savedUserPassword) {
-                throw Error('Failed, password is not strong enough')
+                throw new Error('Failed, password is not strong enough')
             } else if(!savedUser && !savedUserPassword) {
-                throw Error('Failed, email already exists and password is not strong enough')
+                throw new Error('Failed, email already exists and password is not strong enough')
             } else {
                 return {
                     message: "Register Successfully",
-                    savedUser, savedUserPassword
+                    savedUser, savedUserRoles, savedUserPassword
                 }
             }
         } catch (err) {

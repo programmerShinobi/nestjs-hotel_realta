@@ -8,15 +8,17 @@ export declare class AuthController {
     findPassword(params: any): Promise<any>;
     findEmail(params: any): Promise<any>;
     login(body: bodyLoginDto): Promise<any>;
-    register(body1: bodyRegister1Dto, body2: bodyRegister2Dto): Promise<{
+    register(body1: bodyRegister1Dto, body2: any, body3: bodyRegister2Dto): Promise<{
         message: string;
         savedUser: any;
+        savedUserRoles: any;
         savedUserPassword: any;
         error?: undefined;
     } | {
         error: any;
         message: any;
         savedUser?: undefined;
+        savedUserRoles?: undefined;
         savedUserPassword?: undefined;
     }>;
 }
