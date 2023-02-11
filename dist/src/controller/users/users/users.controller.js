@@ -30,6 +30,9 @@ let UsersController = class UsersController {
     findOneUser(params) {
         return this.usersService.findOneUser(params.id);
     }
+    findOneJoinAllUser(params) {
+        return this.usersService.findOneJoinAllUser(params.id);
+    }
     createUsers(body) {
         return this.usersService.createUsers(body);
     }
@@ -74,6 +77,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findOneUser", null);
+__decorate([
+    (0, common_1.Get)('/findOneJoinAllUser/:id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findOneJoinAllUser", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

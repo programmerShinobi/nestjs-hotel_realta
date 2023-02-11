@@ -18,6 +18,7 @@ export declare class UsersService {
     findAllUsers(): Promise<any>;
     findAllJoinUsers(): Promise<any>;
     findOneUser(id: number): Promise<any>;
+    findOneJoinAllUser(id: number): Promise<any>;
     createUsers(data: Users): Promise<any>;
     createUserWithPassword(data1: Users, data2: UserPassword): Promise<{
         message: string;

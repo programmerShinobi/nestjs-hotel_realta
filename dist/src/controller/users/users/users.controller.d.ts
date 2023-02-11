@@ -6,6 +6,7 @@ export declare class UsersController {
     findAllUsers(): Promise<any>;
     findAllJoinUsers(): Promise<any>;
     findOneUser(params: any): Promise<any>;
+    findOneJoinAllUser(params: any): Promise<any>;
     createUsers(body: any): Promise<any>;
     createUserWithPassword(body1: any, body2: any): Promise<{
         message: string;

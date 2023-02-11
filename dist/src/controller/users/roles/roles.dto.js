@@ -19,7 +19,7 @@ __decorate([
 ], bodyRolesDto.prototype, "roleName", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Number)
-], bodyRolesDto.prototype, "roleId", void 0);
+    __metadata("design:type", Object)
+], bodyRolesDto.prototype, "userRoles", void 0);
 exports.bodyRolesDto = bodyRolesDto;
 //# sourceMappingURL=roles.dto.js.map

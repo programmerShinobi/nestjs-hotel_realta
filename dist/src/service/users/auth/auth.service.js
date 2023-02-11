@@ -69,6 +69,7 @@ let AuthService = class AuthService {
                     payload = await this.userRepository.query(`
                         SELECT * FROM users.users uuu
                         LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                        LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
                         WHERE uuu.user_id = ${IdUser} 
                     `).then(async (result) => {
                         if (!result) {

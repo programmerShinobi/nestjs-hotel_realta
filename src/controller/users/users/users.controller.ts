@@ -25,6 +25,11 @@ export class UsersController {
         return this.usersService.findOneUser(params.id)
     }
 
+    @Get('/findOneJoinAllUser/:id')
+    findOneJoinAllUser(@Param() params) {
+        return this.usersService.findOneJoinAllUser(params.id)
+    }
+
     @Post()
     // createUsers(@Body() body: bodyUsersDto) {
     createUsers(@Body() body) {

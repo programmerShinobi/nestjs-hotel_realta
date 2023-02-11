@@ -112,8 +112,43 @@ export class UsersService {
 
     async findOneUser(id: number): Promise<any>{
         return await this.usersRepository.findOne({
-            where: { userId: id }
+            where: { userId: id },
+            relations: [
+                "userRoles",
+                "userPassword",
+                "userBonusPoints",
+                "userMembers",
+                "userProfiles",
+            ]
         }).then((result: any) => {
+            if (!result) {
+                throw new NotFoundException('Data not found');
+            }
+            return {
+                message: 'Data displayed successfully',
+                results: result
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+
+    async findOneJoinAllUser(id: number): Promise<any>{
+        return await this.usersRepository.query(`
+            SELECT * FROM users.users uuu
+            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+            LEFT JOIN users.roles ur ON ur.role_id = uur.usro_role_id
+            LEFT JOIN users.user_bonus_points uubp ON uubp.ubpo_user_id = uuu.user_id
+            LEFT JOIN users.user_password uup ON uup.uspa_user_id = uuu.user_id
+            LEFT JOIN users.user_members uum ON uum.usme_user_id = uuu.user_id
+            LEFT JOIN master.members mm ON mm.memb_name = uum.usme_memb_name
+            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+            WHERE uuu.user_id = ${id}
+        `)
+            .then((result: any) => {
             if (!result) {
                 throw new NotFoundException('Data not found');
             }
@@ -577,26 +612,27 @@ export class UsersService {
                             error: err.name
                         }
                     });
-                
-                const salt = await bcrypt.genSalt();
-                const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
-                updatedUserPassword = await transactionalEntityManager.update(UserPassword, { uspaUserId: id },
-                    {
-                        uspaPasswordhash :hashedPassword,
-                        uspaPasswordsalt : 'bcrypt'
-                    })
-                    .then((result: any) => {
-                        if (!result) {
-                            throw new BadRequestException('Data userPassword update failed');
-                        }
-                        let dataUserPasswordUpdated = this.userPasswordRepository.findOneBy({ uspaUserId: id });
-                        return dataUserPasswordUpdated;
-                    }).catch((err: any) => {
-                        return {
-                            message: err.message,
-                            error: err.name
-                        }
-                    });
+                if (dataUserPassword.uspaPasswordhash) {
+                    const salt = await bcrypt.genSalt();
+                    const hashedPassword = await bcrypt.hash(dataUserPassword.uspaPasswordhash, salt);
+                    updatedUserPassword = await transactionalEntityManager.update(UserPassword, { uspaUserId: id },
+                        {
+                            uspaPasswordhash :hashedPassword,
+                            uspaPasswordsalt : 'bcrypt'
+                        })
+                        .then((result: any) => {
+                            if (!result) {
+                                throw new BadRequestException('Data userPassword update failed');
+                            }
+                            let dataUserPasswordUpdated = this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                            return dataUserPasswordUpdated;
+                        }).catch((err: any) => {
+                            return {
+                                message: err.message,
+                                error: err.name
+                            }
+                        });
+                }
                 
                 updatedUserBonusPoints = await transactionalEntityManager.update(UserBonusPoints, { ubpoId: id },
                 {
