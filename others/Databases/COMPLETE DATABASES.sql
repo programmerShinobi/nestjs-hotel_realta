@@ -166,14 +166,14 @@ CREATE TABLE users.user_profiles(
 CREATE TABLE users.user_roles(
 	usro_user_id INT,
 	usro_role_id INT,
-	PRIMARY KEY (usro_user_id),
+	CONSTRAINT pk_usro_user_id PRIMARY KEY (usro_user_id),
 	CONSTRAINT fk_usro_user_id FOREIGN KEY (usro_user_id)
 		REFERENCES users.users(user_id)
 			ON DELETE CASCADE
 			ON UPDATE CASCADE,
 	CONSTRAINT fk_usro_role_id FOREIGN KEY (usro_role_id)
 		REFERENCES users.roles(role_id)
-			ON DELETE CASCADE
+			ON DELETE RESTRICT
 			ON UPDATE CASCADE
 );
 
@@ -272,7 +272,7 @@ create table hotel.facility_price_history(
 create table hotel.hotel_reviews(
 	hore_id serial,
 	hore_user_review varchar(125),
-	hore_rating bit,
+	hore_rating int,
 	hore_created_on timestamp,
 	hore_user_id int,
 	hore_hotel_id int,
@@ -350,14 +350,13 @@ CREATE TABLE resto.resto_menu_photos(
 CREATE SCHEMA humanresource;
 
 CREATE TABLE humanresource.job_role(
-	joro_id serial,
+	joro_id serial primary key,
 	joro_name varchar(55) unique,
-	joro_modified_date timestamp DEFAULT now(),
-	CONSTRAINT pk_joro_id PRIMARY KEY (joro_id)
+	joro_modified_date timestamp DEFAULT now()
 );
 
 CREATE TABLE humanresource.employee(
-	emp_id serial,
+	emp_id serial primary key,
 	emp_national_id varchar(25) unique,
 	emp_birth_date timestamp,
 	emp_marital_status char(1),
@@ -371,24 +370,21 @@ CREATE TABLE humanresource.employee(
 	emp_modified_date timestamp DEFAULT now(),
 	emp_emp_id integer,
 	emp_joro_id integer,
-	CONSTRAINT pk_emp_id PRIMARY KEY(emp_id),
-	CONSTRAINT fk_emp_emp_id FOREIGN KEY (emp_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
-	CONSTRAINT fk_emp_joro_id FOREIGN KEY (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade
+	foreign key (emp_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
+	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade
 );
 
 CREATE TABLE humanresource.shift(
-	shift_id serial,
+	shift_id serial primary key,
 	shift_name varchar(25) unique,
 	shift_start_time timestamp unique,
-	shift_end_time timestamp unique,
-	CONSTRAINT pk_shift_id PRIMARY KEY(shift_id)
+	shift_end_time timestamp unique
 );
 
 CREATE TABLE humanresource.department(
-	dept_id serial,
+	dept_id serial primary key,
 	dept_name varchar(50),
-	dept_modified_date timestamp DEFAULT now(),
-	CONSTRAINT pk_dept_id PRIMARY KEY(dept_id)
+	dept_modified_date timestamp	DEFAULT now()
 );
 
 CREATE TABLE humanresource.employee_department_history(
@@ -399,12 +395,12 @@ CREATE TABLE humanresource.employee_department_history(
 	edhi_modified_date timestamp DEFAULT now(),
 	edhi_dept_id integer,
 	edhi_shift_id integer,
-	CONSTRAINT pk_edhi_id PRIMARY KEY(edhi_id),
-	CONSTRAINT fk_edhi_emp_id FOREIGN KEY (edhi_emp_id) references humanresource.employee (emp_id)
+	primary key(edhi_id),
+	foreign key (edhi_emp_id) references humanresource.employee (emp_id)
 	on delete cascade on update cascade,
-	CONSTRAINT fk_edhi_dept_id FOREIGN KEY (edhi_dept_id) references humanresource.department (dept_id)
+	foreign key (edhi_dept_id) references humanresource.department (dept_id)
 	on delete cascade on update cascade,
-	CONSTRAINT fk_edhi_shift_id FOREIGN KEY (edhi_shift_id) references humanresource.shift (shift_id)
+	foreign key (edhi_shift_id) references humanresource.shift (shift_id)
 	on delete cascade on update cascade
 );
 
@@ -416,8 +412,8 @@ CREATE TABLE humanresource.employee_pay_history(
 	ephi_rate_salary money,
 	ephi_pay_frequence smallint,
 	ephi_modified_date timestamp	DEFAULT now(),
-	CONSTRAINT pk_ephi_rate_change_date PRIMARY KEY(ephi_rate_change_date),
-	CONSTRAINT fk_ephi_emp_id FOREIGN KEY (ephi_emp_id) references humanresource.employee(emp_id)
+	primary key(ephi_rate_change_date),
+	foreign key (ephi_emp_id) references humanresource.employee(emp_id)
 	on delete cascade on update cascade
 );
 
@@ -426,7 +422,7 @@ CREATE TABLE humanresource.work_orders(
 	woro_start_date timestamp,
 	woro_status varchar(15),
 	woro_user_id integer,
-	CONSTRAINT fk_woro_user_id FOREIGN KEY (woro_user_id) references users.users(user_id) on delete cascade on update cascade
+	foreign key (woro_user_id) references users.users(user_id) on delete cascade on update cascade
 );
 
 CREATE TABLE humanresource.work_order_detail(
@@ -440,10 +436,10 @@ CREATE TABLE humanresource.work_order_detail(
 	wode_seta_id integer,
 	wode_faci_id integer,
 	wode_woro_id integer,
-	CONSTRAINT fk_wode_emp_id FOREIGN KEY (wode_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
-	CONSTRAINT fk_wode_seta_id FOREIGN KEY (wode_seta_id) references master.service_task(seta_id) on delete cascade on update cascade,
-	CONSTRAINT fk_wode_faci_id FOREIGN KEY (wode_faci_id) references hotel.facilities(faci_id) on delete cascade on update cascade,
-	CONSTRAINT fk_wode_woro_id FOREIGN KEY (wode_woro_id) references humanresource.work_orders(woro_id) on delete cascade on update cascade
+	foreign key (wode_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
+	foreign key (wode_seta_id) references master.service_task(seta_id) on delete cascade on update cascade,
+	foreign key (wode_faci_id) references hotel.facilities(faci_id) on delete cascade on update cascade,
+	foreign key (wode_woro_id) references humanresource.work_orders(woro_id) on delete cascade on update cascade
 );
 
 -- ===========SCHEMA MODULE PURCHASING ==============
@@ -456,7 +452,8 @@ create table purchasing.vendor(
 	vendor_priority integer,
 	vendor_register_date timestamp,
 	vendor_weburi varchar(1024),
-	vendor_modified_date timestamp DEFAULT now(),	
+	vendor_modified_date timestamp DEFAULT now(),
+		
 	constraint vendor_id_pk primary key (vendor_id)
 );
 
@@ -523,6 +520,8 @@ create table purchasing.purchase_order_detail(
 	constraint pode_pohe_id_fk foreign key (pode_pohe_id) references purchasing.purchase_order_header(pohe_id) on delete cascade on update cascade
 
 );
+
+alter table purchasing.purchase_order_detail add column pode_stock_id integer;
 
 create table purchasing.stock_detail(
 	stod_stock_id integer,
@@ -639,7 +638,7 @@ CREATE TABLE payment.entities (
 );
 
 CREATE TABLE payment.bank (
-	bank_entity_id serial PRIMARY KEY,
+	bank_entity_id int PRIMARY KEY,
 	bank_code varchar(10) UNIQUE,
 	bank_name varchar(55) UNIQUE,
 	bank_modified_date timestamp DEFAULT now(),
@@ -647,7 +646,7 @@ CREATE TABLE payment.bank (
 );
 
 CREATE TABLE payment.payment_gateaway (
-	paga_entity_id serial PRIMARY KEY,
+	paga_entity_id int PRIMARY KEY,
 	paga_code varchar(10) UNIQUE,
 	paga_name varchar(55) UNIQUE,
 	paga_modified_date timestamp DEFAULT now(),
@@ -655,7 +654,7 @@ CREATE TABLE payment.payment_gateaway (
 );
 
 CREATE TABLE payment.user_accounts (
-	usac_entity_id serial,
+	usac_entity_id int,
 	usac_user_id int,
 	usac_account_number varchar(25) UNIQUE,
 	usac_saldo numeric,

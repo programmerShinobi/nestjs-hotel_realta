@@ -1,4 +1,5 @@
-truncate humanresource.job_role, humanresource.employee, humanresource.shift, humanresource.department, humanresource.employee_department_history, humanresource.work_orders restart identity cascade;
+truncate humanresource.job_role, humanresource.employee, humanresource.shift, humanresource.department, 
+humanresource.employee_department_history, humanresource.work_orders restart identity cascade;
 
 truncate master.regions, master.country, master.provinces, master.address, master.category_group, master.policy, master.policy_category_group, master.price_items, master.members, master.service_task restart identity cascade;
 
