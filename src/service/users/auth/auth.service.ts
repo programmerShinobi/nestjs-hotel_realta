@@ -134,6 +134,7 @@ export class AuthService implements CanActivate{
                 const user = new Users();
                 user.userFullName = data1.userFullName;
                 user.userEmail = data1.userEmail;
+                user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
                 savedUser = await transactionalEntityManager.save(user)
                 .then((result: any) => {

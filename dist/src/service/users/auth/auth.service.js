@@ -125,6 +125,7 @@ let AuthService = class AuthService {
                 const user = new Users_1.Users();
                 user.userFullName = data1.userFullName;
                 user.userEmail = data1.userEmail;
+                user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
                 savedUser = await transactionalEntityManager.save(user)
                     .then((result) => {

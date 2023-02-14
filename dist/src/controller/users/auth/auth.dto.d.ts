@@ -5,12 +5,12 @@ export declare class bodyLoginDto {
 export declare class bodyRegister1Dto {
     userFullName: string;
     userEmail: string;
+    userPhoneNumber: any;
     userId: number;
     userIsverified: number;
     userPassword: any;
     userType: any;
     userCompanyName: any;
-    userPhoneNumber: any;
     userModifiedDate: Date;
     bookingOrders: any;
     facilityPriceHistories: any;

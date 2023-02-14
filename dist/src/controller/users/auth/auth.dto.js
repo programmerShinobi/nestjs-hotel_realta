@@ -35,6 +35,11 @@ __decorate([
     __metadata("design:type", String)
 ], bodyRegister1Dto.prototype, "userEmail", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsPhoneNumber)(),
+    __metadata("design:type", Object)
+], bodyRegister1Dto.prototype, "userPhoneNumber", void 0);
+__decorate([
     (0, class_validator_1.IsEmpty)(),
     __metadata("design:type", Number)
 ], bodyRegister1Dto.prototype, "userId", void 0);

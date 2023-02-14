@@ -1,4 +1,4 @@
-import { IsEmail, IsEmpty, IsNotEmpty, IsStrongPassword } from "class-validator";
+import { IsEmail, IsEmpty, IsNotEmpty, IsPhoneNumber, IsStrongPassword } from "class-validator";
 
 export class bodyLoginDto{
     @IsNotEmpty()
@@ -18,13 +18,17 @@ export class bodyRegister1Dto{
     @IsEmail()
     userEmail: string;
     
+    @IsNotEmpty()
+    @IsPhoneNumber()
+    userPhoneNumber: any;
+        
+        
     @IsEmpty()
     userId: number; 
     userIsverified: number;
     userPassword: any; 
     userType: any; 
     userCompanyName: any;
-    userPhoneNumber: any;
     userModifiedDate: Date;
     bookingOrders: any;
     facilityPriceHistories: any;
